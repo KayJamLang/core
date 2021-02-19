@@ -12,10 +12,12 @@ public abstract class Expression {
         this.line = line;
     }
 
+    @Deprecated
     public Object execute(Container parent) throws Exception {
         return execute(parent, parent);
     }
 
+    @Deprecated
     public Object execute(Container parent, Container varParent) throws Exception {
         return null;
     }
