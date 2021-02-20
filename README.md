@@ -4,4 +4,4 @@
 Core of KayJam language
 
 Documentation:
-- [На русском](https://github.com/KayJamLang/core/docs/ru/docs.md)
+- [На русском](https://github.com/KayJamLang/blob/core/docs/ru/docs.md)
