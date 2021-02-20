@@ -24,6 +24,7 @@ public class MainContainer extends Container {
         addLibrary(LangLibrary.class);
     }
 
+    @Deprecated
     public void addLibrary(final Class<?> libraryClass){
         for(final Method method: libraryClass.getDeclaredMethods()){
             if(method.getAnnotation(KayJamFunction.class)!=null&&
@@ -37,7 +38,7 @@ public class MainContainer extends Container {
                 }
 
                 final int finalCount = count;
-                functions.add(new Function(method.getName(), new ArrayList<>(), AccessIdentifier.NONE,
+                /*functions.add(new Function(method.getName(), new ArrayList<>(), AccessIdentifier.NONE,
                         args, 0, null, new ArrayList<>()){
                     @Override
                     public Object onExecute(Container parent) throws Exception {
@@ -61,7 +62,7 @@ public class MainContainer extends Container {
                                         .getDeclaredMethod("invoke", Object.class, Object[].class);
                         return method1.invoke(method, libraryClass.newInstance(), parameters);
                     }
-                });
+                });*/
             }
         }
     }

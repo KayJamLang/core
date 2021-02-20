@@ -5,7 +5,7 @@ public class ParserTest {
 
     public static void main(String[] args) throws Exception {
         KayJamLexer lexer = new KayJamLexer("@JS(\"test\")\n" +
-                "public function test(){\n" +
+                "public function test(string test){\n" +
                 "   test(\"test\");\n"+
                 "   var test = \"test\";\n" +
                 "   test(test);test(test, test);\n" +
@@ -19,7 +19,7 @@ public class ParserTest {
                 "      companion object {" +
                 "          public var test = 0;" +
                 "                              " +
-                "          public function test(output){" +
+                "          public function test(any output){" +
                 "              this.test = output;" +
                 "          }" +
                 "      }" +

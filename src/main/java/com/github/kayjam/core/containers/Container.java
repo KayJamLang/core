@@ -18,8 +18,11 @@ public class Container extends Expression {
 
     public final List<Expression> children = new ArrayList<>();
     public final List<Function> functions = new ArrayList<>();
+
+    @Deprecated
     public final Map<String, ClassContainer> classes = new HashMap<>();
 
+    @Deprecated
     public final Map<String, Object> variables = new HashMap<>();
 
     public boolean globalVariables = true;
@@ -31,12 +34,11 @@ public class Container extends Expression {
         for(Expression expression: children){
             if(expression instanceof Function)
                 functions.add((Function) expression);
-            else if(expression instanceof ClassContainer){
-                classes.put(((ClassContainer) expression).name, (ClassContainer) expression);
-            }else this.children.add(expression);
+            else this.children.add(expression);
         }
     }
 
+    @Deprecated
     public Function findFunction(String name, List<Object> arguments) throws Exception {
         for(Function function: functions)
             if(function.accept(name, arguments))

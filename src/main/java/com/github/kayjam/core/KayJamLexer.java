@@ -7,6 +7,7 @@ public class KayJamLexer {
     public StringBuilder input;
     private Token token;
     private int line = 1;
+    private int position = 0;
     private boolean exausthed = false;
     private String errorMessage = "";
     private final Set<Character> blankChars = new HashSet<>();
@@ -71,6 +72,10 @@ public class KayJamLexer {
 
     public int getLine(){
         return line;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     private boolean findNextToken() {

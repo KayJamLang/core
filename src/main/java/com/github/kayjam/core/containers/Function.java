@@ -1,21 +1,21 @@
 package com.github.kayjam.core.containers;
 
 import com.github.kayjam.core.Expression;
+import com.github.kayjam.core.Type;
 import com.github.kayjam.core.expressions.Annotation;
 import com.github.kayjam.core.opcodes.AccessIdentifier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Function extends Container {
     public final String name;
-    public final String returnType;
-    public final List<String> arguments;
+    public final Type returnType;
+    public final List<Argument> arguments;
     public final List<Annotation> annotations;
 
     public Function(String name, List<Expression> children,
-                    AccessIdentifier identifier, List<String> arguments,
-                    int line, String returnType, List<Annotation> annotations) {
+                    AccessIdentifier identifier, List<Argument> arguments,
+                    int line, Type returnType, List<Annotation> annotations) {
         super(children, identifier, line);
 
         this.name = name;
@@ -43,8 +43,9 @@ public class Function extends Container {
         return null;
     }
 
+    @Deprecated
     public Object call(Container parent, Container argsParent, List<Object> arguments) throws Exception {
-        classes.putAll(argsParent.classes);
+        /*classes.putAll(argsParent.classes);
         mainContainer = argsParent.mainContainer;
 
         if (parent instanceof ObjectContainer) {
@@ -53,7 +54,7 @@ public class Function extends Container {
         }
 
         for (int i = 0; i < arguments.size(); i++)
-            variables.put(this.arguments.get(i), arguments.get(i));
+            variables.put(this.arguments.get(i), arguments.get(i));*/
 
         return call(this);
     }
@@ -74,6 +75,16 @@ public class Function extends Container {
                 ", identifier=" + identifier +
                 ", line=" + line +
                 '}';
+    }
+
+    public static class Argument {
+        public final Type type;
+        public final String name;
+
+        public Argument(Type type, String name) {
+            this.type = type;
+            this.name = name;
+        }
     }
 }
 

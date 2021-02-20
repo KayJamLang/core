@@ -1,8 +1,10 @@
 package com.github.kayjam.core.expressions;
 
 import com.github.kayjam.core.Expression;
+import com.github.kayjam.core.Type;
 import com.github.kayjam.core.containers.Container;
 import com.github.kayjam.core.opcodes.AccessIdentifier;
+import com.github.kayjam.core.provider.Context;
 
 public class Variable extends Expression {
     public final String name;
@@ -12,16 +14,6 @@ public class Variable extends Expression {
         super(identifier, line);
         this.name = name;
         this.expression = expression;
-    }
-
-    @Override
-    public Object execute(Container parent, Container argsParent) throws Exception {
-        if(parent.variables.containsKey(name))
-            throw new Exception();
-
-        Object value = expression.execute(parent, argsParent);
-        parent.variables.put(name, value);
-        return value;
     }
 
     @Override

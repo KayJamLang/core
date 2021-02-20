@@ -129,20 +129,19 @@ public class KayJamParser {
                 return new VariableLink(name, lexer.getLine());
             }
         }else if(type == Token.Type.TK_FUNCTION){
-
-            requireToken(Token.Type.IDENTIFIER);
-
-            String name = lexer.currentToken().value;
+            String name = requireToken(Token.Type.IDENTIFIER).value;
 
             requireToken(Token.Type.TK_OPEN);
 
-            List<String> arguments = new ArrayList<>();
+            List<Function.Argument> arguments = new ArrayList<>();
             while (true) {
                 lexer.moveAhead();
                 if (lexer.currentToken().type == Token.Type.TK_CLOSE)
                     break;
 
-                arguments.add(lexer.currentToken().value);
+                Type argType = Type.getType(lexer.currentToken().value);
+                arguments.add(new Function.Argument(argType,
+                        requireToken(Token.Type.IDENTIFIER).value));
 
                 Token token = moveAhead();
                 if (token.type == Token.Type.TK_CLOSE)
@@ -151,11 +150,11 @@ public class KayJamParser {
                     throw new CompileException(lexer, "expected comma \",\"");
             }
 
-            String returnType = "void";
+            Type returnType = Type.VOID;
             if(moveAhead().type==Token.Type.TK_COLON){
                 requireToken(Token.Type.IDENTIFIER);
 
-                returnType = lexer.currentToken().value;
+                returnType = Type.getType(lexer.currentToken().value, true);
                 lexer.moveAhead();
             }
 
