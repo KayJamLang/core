@@ -124,3 +124,14 @@ fun test(string str): int {
     return str; //Выведет ошибку
 }
 ```
+
+Чтобы вызвать функцию, вы должны написать имя функции и, открыв скобку,
+написать аргументы:
+
+```
+var test = test("test");
+
+fun test(string str): any {
+    return str;
+}
+```
