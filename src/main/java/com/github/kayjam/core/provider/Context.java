@@ -13,12 +13,17 @@ public class Context {
     public final Context parentContext;
     public final Map<String, Object> variables = new HashMap<>();
 
-    public Context(Container parent, Context parentContext) {
+    public Context(Container parent, Context parentContext, boolean importVars) {
         this.parent = parent;
         this.parentContext = parentContext;
 
-        if(parentContext!=null)
+        if(parentContext!=null&&importVars)
             variables.putAll(parentContext.variables);
+    }
+
+    public Context(Container parent, Context parentContext) {
+        this.parent = parent;
+        this.parentContext = parentContext;
     }
 
     public List<Function> findFunctions(String name){

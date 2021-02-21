@@ -2,7 +2,6 @@ package com.github.kayjam.core;
 
 import com.github.kayjam.core.containers.Container;
 import com.github.kayjam.core.opcodes.AccessIdentifier;
-import com.github.kayjam.core.provider.Context;
 
 public abstract class Expression {
     public final AccessIdentifier identifier;
