@@ -3,5 +3,4 @@
 
 Core of KayJam language
 
-Documentation:
-- [На русском](https://github.com/KayJamLang/blob/main/core/docs/ru/docs.md)
+- [Документация на русском](https://github.com/KayJamLang/blob/main/core/docs/ru/docs.md)

@@ -4,6 +4,7 @@ import com.github.kayjam.core.containers.ObjectContainer;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
 public class Type {
     //Types
@@ -11,6 +12,7 @@ public class Type {
     public static final Type INTEGER = new Type("int", Integer.class, false);
     public static final Type BOOLEAN = new Type("bool", Boolean.class, false);
     public static final Type OBJECT = new Type("obj", Object.class, false);
+    public static final Type ARRAY = new Type("array", List.class, false);
     public static final Type VOID = new Type("void", Void.class, true);
 
     //Class
