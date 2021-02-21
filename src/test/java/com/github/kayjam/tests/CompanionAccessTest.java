@@ -33,6 +33,6 @@ public class CompanionAccessTest {
         assertSame(VariableLink.class, companionAccess.child.getClass());
 
         VariableLink variableLink = (VariableLink) companionAccess.child;
-        assertEquals("testl", variableLink.name);
+        assertEquals("test", variableLink.name);
     }
 }
