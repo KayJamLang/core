@@ -59,7 +59,7 @@ public class KayJamLexer {
 
         while (blankChars.contains(input.charAt(charsToDelete))) {
             charsToDelete++;
-            if(input.toString().length()>=charsToDelete)
+            if(input.toString().length()==charsToDelete)
                 break;
         }
 
