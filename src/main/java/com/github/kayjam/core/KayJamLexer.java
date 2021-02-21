@@ -7,8 +7,7 @@ public class KayJamLexer {
     public StringBuilder input;
     private Token token;
     private int line = 1;
-    private int position = 0;
-    private boolean exausthed = false;
+    private boolean finished = false;
     private String errorMessage = "";
     private final Set<Character> blankChars = new HashSet<>();
 
@@ -25,12 +24,12 @@ public class KayJamLexer {
     }
 
     public void moveAhead() {
-        if (exausthed) {
+        if (finished) {
             return;
         }
 
         if (input.length() == 0) {
-            exausthed = true;
+            finished = true;
             return;
         }
 
@@ -47,7 +46,7 @@ public class KayJamLexer {
             return;
         }
 
-        exausthed = true;
+        finished = true;
 
         if (input.length() > 0) {
             errorMessage = "Unexpected symbol: '" + input.charAt(0) + "'";
@@ -76,9 +75,6 @@ public class KayJamLexer {
         return line;
     }
 
-    public int getPosition() {
-        return position;
-    }
 
     private boolean findNextToken() {
         for (Token.Type t : Token.Type.values()) {
@@ -104,11 +100,11 @@ public class KayJamLexer {
         return errorMessage.isEmpty();
     }
 
-    public String errorMessage() {
-        return errorMessage;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public boolean isExausthed() {
-        return exausthed;
+    public String errorMessage() {
+        return errorMessage;
     }
 }

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class FunctionTest {
+public class FunctionOneArgsTest {
 
     private static KayJamParser parser;
 
