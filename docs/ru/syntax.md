@@ -250,8 +250,23 @@ var lambdaFun = -> (test) {
     return test;
 };
 
-return lambdaFun(123);
+lambdaFun = -> (test) test; //Упращённая запись
+
+
+return lambdaFun(123); // вернёт 123
 ```
+
+Также есть упрощённая запись лямбды без параметров:
+
+```
+var lambdaFun = -> {
+    return 123;
+};
+
+lambdaFun = -> 123; //Упращённая запись
+
+return lambdaFun(); // вернёт 123
+``` 
 
 #### Списки (array) 
 > Пока что в разработке.
@@ -277,5 +292,6 @@ var helloWorld = test[3];
 #### На этом всё!
 Теперь вы знаете основы синтаксиса KayJam.
 Также вы можете посмотреть встроенные функции KayJam на 
-[этой](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md) странице.
+[этой](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md)
+странице.
 

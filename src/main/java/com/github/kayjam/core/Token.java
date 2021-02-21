@@ -31,19 +31,6 @@ public class Token {
         TK_USE ("use "),
         TK_COMPANION_ACCESS ("::"),
         TK_COLON (":"),
-        TK_MINUS ("-"),
-        TK_PLUS ("\\+"),
-        TK_MUL ("\\*"),
-        TK_DIV ("/"),
-        TK_AND ("&&"),
-        TK_OR ("\\|\\|"),
-        TK_LESS ("<"),
-        TK_LEG ("<="),
-        TK_GT (">"),
-        TK_GEQ (">="),
-        TK_EQ ("=="),
-        TK_NOT_EQ ("!="),
-        TK_ASSIGN ("="),
         TK_OPEN ("\\("),
         TK_CLOSE ("\\)"),
         TK_SEMI (";"),
@@ -63,9 +50,24 @@ public class Token {
 
         BOOL ("(true|false)"),
         STRING ("(\"[^\"]+\"|\"\")"),
-        INTEGER ("\\d+"),
+        INTEGER ("(\\d+|-\\d+)"),
         REAL ("(\\d*)\\.\\d+"),
-        IDENTIFIER ("\\w+");
+        IDENTIFIER ("\\w+"),
+
+        //Binary operations
+        TK_MINUS ("-"),
+        TK_PLUS ("\\+"),
+        TK_MUL ("\\*"),
+        TK_DIV ("/"),
+        TK_AND ("&&"),
+        TK_OR ("\\|\\|"),
+        TK_LESS ("<"),
+        TK_LEG ("<="),
+        TK_GT (">"),
+        TK_GEQ (">="),
+        TK_EQ ("=="),
+        TK_NOT_EQ ("!="),
+        TK_ASSIGN ("=");
 
         private final Pattern pattern;
 
