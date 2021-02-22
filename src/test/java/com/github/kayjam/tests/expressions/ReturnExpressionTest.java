@@ -31,6 +31,6 @@ public class ReturnExpressionTest {
         assertSame(Const.class, returnExpression.expression.getClass());
 
         Const constant = (Const) returnExpression.expression;
-        assertEquals(2005, constant.value);
+        assertEquals(2005L, constant.value);
     }
 }

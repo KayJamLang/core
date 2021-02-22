@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Type {
     //Types
-    public static final Type INTEGER = new Type("int", Integer.class, false);
+    public static final Type INTEGER = new Type("int", Long.class, false);
     public static final Type STRING = new Type("string", String.class, false);
     public static final Type BOOLEAN = new Type("bool", Boolean.class, false);
     public static final Type OBJECT = new Type("obj", ObjectContainer.class, false);

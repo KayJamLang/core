@@ -279,7 +279,7 @@ public class KayJamParser {
         }else if(type == Token.Type.STRING){
             return new Const(lexer.currentToken().value.substring(1, lexer.currentToken().value.length()-1), lexer.getLine());
         }else if(type == Token.Type.INTEGER){
-            return new Const(Integer.parseInt(lexer.currentToken().value), lexer.getLine());
+            return new Const(Long.parseLong(lexer.currentToken().value), lexer.getLine());
         }else if(type == Token.Type.REAL){
             return new Const(Double.parseDouble(lexer.currentToken().value), lexer.getLine());
         }else if(type == Token.Type.BOOL){

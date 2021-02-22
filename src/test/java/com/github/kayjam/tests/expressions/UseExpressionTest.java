@@ -32,6 +32,6 @@ public class UseExpressionTest {
         assertSame(Const.class, useExpression.expression.getClass());
 
         Const ifTrue = (Const) useExpression.expression;
-        assertEquals(12345, ifTrue.value);
+        assertEquals(12345L, ifTrue.value);
     }
 }

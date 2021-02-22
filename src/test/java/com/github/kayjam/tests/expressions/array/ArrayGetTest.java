@@ -36,6 +36,6 @@ public class ArrayGetTest {
         assertEquals("test", variableLink.name);
 
         Const constant = (Const) arrayGet.value;
-        assertEquals(2005, constant.value);
+        assertEquals(2005L, constant.value);
     }
 }

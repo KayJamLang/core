@@ -34,6 +34,6 @@ public class CallCreateOneArgsTest {
         assertSame(Const.class, firstArgument.getClass());
 
         Const firstArgumentConstant = (Const) firstArgument;
-        assertEquals(2021, firstArgumentConstant.value);
+        assertEquals(2021L, firstArgumentConstant.value);
     }
 }

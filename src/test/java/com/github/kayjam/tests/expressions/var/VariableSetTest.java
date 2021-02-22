@@ -32,6 +32,6 @@ public class VariableSetTest {
         assertSame(Const.class, variable.expression.getClass());
 
         Const constant = (Const) variable.expression;
-        assertEquals(123, constant.value);
+        assertEquals(123L, constant.value);
     }
 }

@@ -26,6 +26,6 @@ public class ConstIntegerTest {
         assertSame(Const.class, expression.getClass());
 
         Const constant = (Const) expression;
-        assertEquals(12345, constant.value);
+        assertEquals(12345L, constant.value);
     }
 }
