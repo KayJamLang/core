@@ -3,8 +3,12 @@ package com.github.kayjam.core;
 import com.github.kayjam.core.containers.Container;
 import com.github.kayjam.core.opcodes.AccessIdentifier;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Expression {
     public final AccessIdentifier identifier;
+    public final Map<String, Object> data = new HashMap<>();
     public final int line;
 
     public Expression(AccessIdentifier identifier, int line) {

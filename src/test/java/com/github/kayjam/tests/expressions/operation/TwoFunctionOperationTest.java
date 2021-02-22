@@ -1,8 +1,10 @@
-package com.github.kayjam.tests.expressions.constExpr;
+package com.github.kayjam.tests.expressions.operation;
 
 import com.github.kayjam.core.Expression;
 import com.github.kayjam.core.KayJamLexer;
 import com.github.kayjam.core.KayJamParser;
+import com.github.kayjam.core.Operation;
+import com.github.kayjam.core.expressions.CallCreate;
 import com.github.kayjam.core.expressions.Const;
 import com.github.kayjam.core.expressions.OperationExpression;
 import org.junit.BeforeClass;
@@ -10,13 +12,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ConstNegativeIntegerTest {
+public class TwoFunctionOperationTest {
 
     private static KayJamParser parser;
 
     @BeforeClass
     public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("-12345"));
+        parser = new KayJamParser(new KayJamLexer("equals(2)+equals(1)"));
     }
 
     @Test
@@ -27,13 +29,8 @@ public class ConstNegativeIntegerTest {
         assertSame(OperationExpression.class, expression.getClass());
 
         OperationExpression operationExpression = (OperationExpression) expression;
-        assertSame(Const.class, operationExpression.left.getClass());
-        assertSame(Const.class, operationExpression.right.getClass());
-
-        Const constant = (Const) operationExpression.right;
-        assertEquals(12345, constant.value);
-
-        constant = (Const) operationExpression.left;
-        assertEquals(-1, constant.value);
+        assertEquals(Operation.PLUS, operationExpression.operation);
+        assertSame(CallCreate.class, operationExpression.left.getClass());
+        assertSame(CallCreate.class, operationExpression.right.getClass());
     }
 }

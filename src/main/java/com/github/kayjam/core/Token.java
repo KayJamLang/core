@@ -50,7 +50,7 @@ public class Token {
 
         BOOL ("(true|false)"),
         STRING ("(\"[^\"]+\"|\"\")"),
-        INTEGER ("(\\d+|-\\d+)"),
+        INTEGER ("\\d+"),
         REAL ("(\\d*)\\.\\d+"),
         IDENTIFIER ("\\w+"),
 
@@ -59,14 +59,18 @@ public class Token {
         TK_PLUS ("\\+"),
         TK_MUL ("\\*"),
         TK_DIV ("/"),
+
         TK_AND ("&&"),
         TK_OR ("\\|\\|"),
-        TK_LESS ("<"),
-        TK_LEG ("<="),
-        TK_GT (">"),
-        TK_GEQ (">="),
-        TK_EQ ("=="),
-        TK_NOT_EQ ("!="),
+        TK_EQUALS ("=="),
+        TK_NOT_EQUALS ("!="),
+
+        TK_LESS_SIGN ("<"),
+        TK_LESS_EQUALS_SIGN ("<="),
+        TK_GREATER_SIGN (">"),
+        TK_GREATER_EQUALS_SIGN (">="),
+
+
         TK_ASSIGN ("=");
 
         private final Pattern pattern;

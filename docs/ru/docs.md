@@ -1,4 +1,5 @@
 ## Документация KayJam core
+Здесь вы найдёте основную информацию о языке программирования KayJam
 
 - [Типы значений](https://github.com/KayJamLang/core/blob/main/docs/ru/types.md)
 - [Синтаксис](https://github.com/KayJamLang/core/blob/main/docs/ru/syntax.md)

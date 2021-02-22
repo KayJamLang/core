@@ -1,5 +1,6 @@
 package com.github.kayjam.core;
 
+
 import com.github.kayjam.core.containers.ObjectContainer;
 
 import java.lang.reflect.Field;
@@ -8,13 +9,14 @@ import java.util.List;
 
 public class Type {
     //Types
-    public static final Type INTEGER = new Type("int", Integer.class, false);
+    public static final Type INTEGER = new Type("int", Long.class, false);
     public static final Type STRING = new Type("string", String.class, false);
     public static final Type BOOLEAN = new Type("bool", Boolean.class, false);
-    public static final Type ANY = new Type("any", Object.class, false);
-    public static final Type OBJECT = new Type("obj", Object.class, false);
+    public static final Type OBJECT = new Type("obj", ObjectContainer.class, false);
     public static final Type ARRAY = new Type("array", List.class, false);
     public static final Type VOID = new Type("void", Void.class, true);
+
+    public static final Type ANY = new Type("any", Object.class, false);
 
     //Class
     public final String name;
@@ -40,7 +42,7 @@ public class Type {
                         return type;
                 } catch (IllegalAccessException ignored) {}
 
-        return ANY;
+        return new Type(clazz.getName(), clazz, false);
     }
 
     public static Type getType(String name, boolean isFunction){
