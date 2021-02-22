@@ -1,11 +1,10 @@
 package com.github.kayjamlang.core.expressions;
 
 import com.github.kayjamlang.core.Expression;
-import com.github.kayjam.core.containers.*;
+import com.github.kayjamlang.core.containers.ClassContainer;
 import com.github.kayjamlang.core.containers.Container;
 import com.github.kayjamlang.core.containers.Function;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
-import com.github.kayjamlang.core.containers.ClassContainer;
 
 import java.util.ArrayList;
 import java.util.List;

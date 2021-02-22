@@ -1,10 +1,8 @@
 package com.github.kayjamlang.core;
 
-import com.github.kayjam.core.containers.*;
 import com.github.kayjamlang.core.containers.*;
-import com.github.kayjamlang.core.exceptions.LexerException;
-import com.github.kayjam.core.expressions.*;
 import com.github.kayjamlang.core.exceptions.CompileException;
+import com.github.kayjamlang.core.exceptions.LexerException;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
