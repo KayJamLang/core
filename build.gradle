@@ -62,6 +62,15 @@ publishing {
                 password sonatypePassword
             }
         }
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/KayJamLang/core")
+            credentials {
+                username = githubUsername
+                password = githubKey
+            }
+        }
     }
 }
 
