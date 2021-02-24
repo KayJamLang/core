@@ -17,9 +17,6 @@ public class Container extends Expression {
     public final List<Expression> children = new ArrayList<>();
     public final List<Function> functions = new ArrayList<>();
 
-    @Deprecated
-    public final Map<String, ClassContainer> classes = new HashMap<>();
-
     public Container(List<Expression> children, AccessIdentifier identifier, int line) {
         super(identifier, line);
 

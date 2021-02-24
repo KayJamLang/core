@@ -1,7 +1,6 @@
 package com.github.kayjamlang.core.provider;
 
 import com.github.kayjamlang.core.Expression;
-import com.github.kayjamlang.core.containers.MainContainer;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -12,7 +11,7 @@ public class MainExpressionProvider<ReturnObject> {
             ExpressionProvider<? extends Expression, ReturnObject>> compilers = new HashMap<>();
     private final ReturnObject defaultObject;
 
-    public final MainContext mainContext = new MainContext(new MainContainer(), null);
+    public MainContext mainContext = new MainContext(null, null);
 
     public MainExpressionProvider(ReturnObject defaultObject){
         this.defaultObject = defaultObject;
