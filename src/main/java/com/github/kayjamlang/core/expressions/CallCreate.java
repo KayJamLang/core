@@ -21,34 +21,6 @@ public class CallCreate extends Expression {
     }
 
     @Override
-    public Object execute(Container parent, Container argsParent) throws Exception {
-        List<Object> arguments = new ArrayList<>();
-        for (Expression argument : this.arguments)
-            arguments.add(argument.execute(parent, argsParent));
-
-        if(parent.variables.containsKey(functionName)){
-            Object value = parent.variables.get(functionName);
-            if(value instanceof FunctionRef){
-                FunctionRef function = (FunctionRef) value;
-                if(function.accept(arguments)) {
-                    return function.call(arguments);
-                }
-            }
-        }
-
-        if(parent.classes.containsKey(functionName)){
-            ClassContainer container = parent.classes.get(functionName);
-
-            ClassContainer.Class clazz = new ClassContainer.Class(container, line);
-            clazz.mainContainer = argsParent.mainContainer;
-            return clazz.execute(container, argsParent);
-        }else{
-            Function function = parent.findFunction(functionName, arguments);
-            return function.call(parent, argsParent, arguments);
-        }
-    }
-
-    @Override
     public String toString() {
         return "FunctionCall{" +
                 "functionName='" + functionName + '\'' +

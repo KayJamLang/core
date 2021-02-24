@@ -14,9 +14,4 @@ public class Array extends Expression {
         super(AccessIdentifier.NONE, line);
         this.values = values;
     }
-
-    @Override
-    public Object execute(Container parent, Container varParent) throws Exception {
-        return super.execute(parent, varParent);
-    }
 }
