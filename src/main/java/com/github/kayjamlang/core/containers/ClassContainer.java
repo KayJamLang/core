@@ -7,7 +7,7 @@ import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassContainer extends ObjectContainer {
+public class ClassContainer extends ObjectContainer implements Cloneable {
 
     public final String name;
     public final String extendsClass;
@@ -33,5 +33,10 @@ public class ClassContainer extends ObjectContainer {
                 constructors.add((ConstructorContainer) expression);
             }
         }
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
