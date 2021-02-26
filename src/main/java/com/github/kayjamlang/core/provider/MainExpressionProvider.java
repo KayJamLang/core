@@ -2,6 +2,7 @@ package com.github.kayjamlang.core.provider;
 
 import com.github.kayjamlang.core.Expression;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,9 +35,15 @@ public class MainExpressionProvider<ReturnObject> {
                             Context.class,
                             Object.class);
 
-            return (ReturnObject)
-                    method.invoke(expressionCompiler,
-                            this, context, argsContext, expression);
+            try {
+                return (ReturnObject)
+                        method.invoke(expressionCompiler,
+                                this, context, argsContext, expression);
+            } catch (InvocationTargetException ite) {
+                if(ite.getCause() instanceof Exception)
+                    throw (Exception) ite.getCause();
+                else ite.getCause().printStackTrace();
+            }
         }
 
         return defaultObject;
