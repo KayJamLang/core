@@ -66,7 +66,7 @@ if конструкция работает так:
 
 ```
 var code = false;
-if (code) {
+if(code) {
     return 1; //Этот код никогда не выполнится
 } else {
     return 2; //А этот код выполнится
@@ -76,7 +76,7 @@ if (code) {
 Также этот код может проверить и создать переменную, если она не равна false:
 
 ```
-if (var code = true) {
+if(var code = true) {
     return code; //Выведет true
 }
 ```
@@ -84,7 +84,7 @@ if (var code = true) {
 С помощью этой конструкции можно присвоить (создать) выражение:
 
 ```
-var boolVar = if (true) 
+var boolVar = if(true) 
     return "Hello World"
 else return false;
 ```
