@@ -7,7 +7,7 @@
 
 ```
 var test = 123;
-if (test)
+if(test)
     return test //Писать ; перед else не нужно
 else return false;
 ```
