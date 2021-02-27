@@ -41,7 +41,7 @@ var test = true;
 var test = "Hello world!";
 var test = 123; //Выведет ошибку
 
-fun test(){
+fun test() {
     var test = 123; //Ошибки не будет, но значение не поменяется, оно останется в функции
 }
 ```
@@ -54,7 +54,7 @@ fun test(){
 var test = "Hello world!";
 test = 123; // Ошибки не будет
 
-fun test(){
+fun test() {
     test = 123; //Выведет ошибку
 }
 ```
@@ -66,9 +66,9 @@ if конструкция работает так:
 
 ```
 var code = false;
-if(code){
+if(code) {
     return 1; //Этот код никогда не выполнится
-}else{
+} else {
     return 2; //А этот код выполнится
 }
 ```
@@ -76,7 +76,7 @@ if(code){
 Также этот код может проверить и создать переменную, если она не равна false:
 
 ```
-if(var code = true){
+if(var code = true) {
     return code; //Выведет true
 }
 ```
@@ -148,7 +148,7 @@ fun test(string str): any {
 var testObj = object {
     var test = 100;
 
-    fun test(int test): int{
+    fun test(int test): int {
         return test;
     }
 };
@@ -169,7 +169,7 @@ testObj.test(testObj.test);
 class A {
     var testVar = 123;
 
-    fun test(): int{
+    fun test(): int {
         return this.testVar;
     }
 }
@@ -205,7 +205,7 @@ class B {
 class A {
     var testVar = 0;
 
-    constructor(int testVar){
+    constructor(int testVar) {
         this.testVar = testVar;
         //Еще какие-то действия
     }
@@ -223,7 +223,7 @@ class A {
 class A {
     var testVar = 0;
 
-    constructor(int testVar){
+    constructor(int testVar) {
         this.testVar = testVar;
     }
 
@@ -296,7 +296,7 @@ var helloWorld = test[3];
 
 ```
 // Файл func.kj
-fun helloWorld(){
+fun helloWorld() {
     println("Hello world!");
 }
 
