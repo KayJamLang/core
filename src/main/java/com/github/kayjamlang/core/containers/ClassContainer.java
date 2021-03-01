@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.Expression;
-import com.github.kayjamlang.core.exceptions.CompileException;
+import com.github.kayjamlang.core.exceptions.ParserException;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class ClassContainer extends ObjectContainer implements Cloneable {
             if (expression instanceof ObjectContainer
                     && expression.identifier == AccessIdentifier.COMPANION) {
                 if (companion != null)
-                    throw new CompileException(expression.line, "companion already exists");
+                    throw new ParserException(expression.line, "companion already exists");
 
                 companion = (ObjectContainer) expression;
             }else if(expression instanceof ConstructorContainer){
