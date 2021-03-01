@@ -36,7 +36,6 @@ public class Token {
         TK_CLOSE ("\\)"),
         TK_SEMI (";"),
         TK_COMMA (","),
-        TK_ACCESS ("\\."),
         TK_VAR ("var"),
         TK_KEY_AS (" as "),
         TK_KEY_IS (" is "),
@@ -71,10 +70,11 @@ public class Token {
         TK_GREATER_SIGN (">"),
         TK_GREATER_EQUALS_SIGN (">="),
 
-        TK_RANGE (".."),
+        TK_RANGE ("\\.\\."),
 
 
-        TK_ASSIGN ("=");
+        TK_ASSIGN ("="),
+        TK_ACCESS ("\\.");
 
         private final Pattern pattern;
 
