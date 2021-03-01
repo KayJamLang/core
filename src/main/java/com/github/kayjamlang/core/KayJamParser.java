@@ -178,6 +178,23 @@ public class KayJamParser {
 
             moveAhead();
             return new WhileExpression(condition, readExpression(), line);
+        }else if(type == Token.Type.TK_FOR){
+            int line = lexer.getLine();
+
+            requireToken(Token.Type.TK_OPEN);
+
+            String name = requireToken(Token.Type.IDENTIFIER).value;
+            requireToken(Token.Type.TK_KEY_IN);
+
+            moveAhead();
+            Expression range = readExpression();
+
+            if(currentTokenType()!= Token.Type.TK_CLOSE)
+                throw new ParserException(lexer, "expected close \")\"");
+            else moveAhead();
+
+            moveAhead();
+            return new ForExpression(name, range, readExpression(), line);
         }else if(type == Token.Type.TK_THREAD){
             moveAhead();
             return new ThreadContainer(parseAST(), lexer.getLine());
