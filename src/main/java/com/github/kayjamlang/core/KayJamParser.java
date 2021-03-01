@@ -161,6 +161,20 @@ public class KayJamParser {
             List<Expression> body = parseAST();
 
             return new Function(name, body, identifier, arguments, lexer.getLine(), returnType, annotations);
+        }else if(type == Token.Type.TK_WHILE){
+            int line = lexer.getLine();
+
+            requireToken(Token.Type.TK_OPEN);
+
+            moveAhead();
+            Expression condition = readExpression();
+
+            if(currentTokenType()!= Token.Type.TK_CLOSE)
+                throw new CompileException(lexer, "expected close \")\"");
+            else moveAhead();
+
+            moveAhead();
+            return new WhileExpression(condition, readExpression(), line);
         }else if(type == Token.Type.TK_THREAD){
             moveAhead();
             return new ThreadContainer(parseAST(), lexer.getLine());

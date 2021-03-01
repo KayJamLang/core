@@ -29,6 +29,7 @@ public class Token {
         TK_CLASS ("class"),
         TK_OBJECT ("object"),
         TK_USE ("use "),
+        TK_WHILE ("while"),
         TK_COMPANION_ACCESS ("::"),
         TK_COLON (":"),
         TK_OPEN ("\\("),
@@ -69,6 +70,8 @@ public class Token {
         TK_LESS_EQUALS_SIGN ("<="),
         TK_GREATER_SIGN (">"),
         TK_GREATER_EQUALS_SIGN (">="),
+
+        TK_RANGE (".."),
 
 
         TK_ASSIGN ("=");

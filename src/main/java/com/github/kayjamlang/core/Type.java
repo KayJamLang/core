@@ -15,6 +15,7 @@ public class Type {
     public static final Type OBJECT = new Type("obj", ObjectContainer.class, false);
     public static final Type ARRAY = new Type("array", List.class, false);
     public static final Type VOID = new Type("void", Void.class, true);
+    public static final Type RANGE = new Type("void", Void.class, true);
 
     public static final Type ANY = new Type("any", Object.class, false);
 

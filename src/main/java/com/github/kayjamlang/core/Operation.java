@@ -15,7 +15,9 @@ public enum Operation {
     LESS_SIGN(Token.Type.TK_LESS_SIGN),
     LESS_EQUALS_SIGN(Token.Type.TK_LESS_EQUALS_SIGN),
     GREATER_SIGN(Token.Type.TK_GREATER_SIGN),
-    GREATER_EQUALS_SIGN(Token.Type.TK_GREATER_EQUALS_SIGN);
+    GREATER_EQUALS_SIGN(Token.Type.TK_GREATER_EQUALS_SIGN),
+
+    RANGE(Token.Type.TK_RANGE);
 
     public final Token.Type tkType;
 
