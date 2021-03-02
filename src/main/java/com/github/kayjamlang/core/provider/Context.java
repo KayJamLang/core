@@ -11,7 +11,7 @@ import java.util.Map;
 public class Context {
     public final Container parent;
     public final Context parentContext;
-    public final Map<String, Object> variables = new HashMap<>();
+    private final Map<String, Object> variables = new HashMap<>();
 
     public Context(Container parent, Context parentContext, boolean importVars) {
         this.parent = parent;
