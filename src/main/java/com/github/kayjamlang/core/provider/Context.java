@@ -37,4 +37,34 @@ public class Context {
 
         return functionsFound;
     }
+
+    public boolean createVariable(String name, Object value){
+        if(variables.containsKey(name)||parentContext!=null&&
+                parentContext.variables.containsKey(name))
+            return false;
+
+        variables.put(name, value);
+        return true;
+    }
+
+    public boolean setVariable(String name, Object value){
+        if(!variables.containsKey(name)&&parentContext!=null&&
+                !parentContext.variables.containsKey(name))
+            return false;
+
+        if(parentContext!=null&&parentContext.variables.containsKey(name))
+            parentContext.variables.put(name, value);
+        else variables.put(name, value);
+
+        return true;
+    }
+
+    public Object getVariable(String name){
+        if(parentContext!=null&&parentContext.variables.containsKey(name))
+            return parentContext.variables.get(name);
+        else if(variables.containsKey(name))
+            return variables.get(name);
+
+        return false;
+    }
 }
