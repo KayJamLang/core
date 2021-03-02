@@ -6,7 +6,7 @@ import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Container extends Expression {
+public class Container extends Expression implements Cloneable {
     public final List<Expression> children = new ArrayList<>();
     public final List<Function> functions = new ArrayList<>();
 
@@ -28,5 +28,10 @@ public class Container extends Expression {
                 ", identifier=" + identifier +
                 ", line=" + line +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
