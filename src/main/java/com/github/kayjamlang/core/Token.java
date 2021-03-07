@@ -23,6 +23,7 @@ public class Token {
         TK_PRIVATE ("private"),
         TK_COMPANION ("companion"),
         TK_THREAD ("thread"),
+        TK_ASYNC ("async"),
         TK_RETURN ("return "),
         TK_CONSTRUCTOR ("constructor"),
         TK_FUNCTION ("(function|fun)"),
