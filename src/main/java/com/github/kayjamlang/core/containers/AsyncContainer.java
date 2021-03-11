@@ -5,8 +5,8 @@ import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
 import java.util.List;
 
-public class ThreadContainer extends Container {
-    public ThreadContainer(List<Expression> children, int line) {
+public class AsyncContainer extends Container {
+    public AsyncContainer(List<Expression> children, int line) {
         super(children, AccessIdentifier.NONE, line);
     }
 }
