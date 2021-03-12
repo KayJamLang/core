@@ -4,8 +4,6 @@ import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.containers.NamedExpressionFunction;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.Not;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
