@@ -1,7 +1,9 @@
 package com.github.kayjamlang.core;
 
 
+import com.github.kayjamlang.core.containers.Function;
 import com.github.kayjamlang.core.containers.ObjectContainer;
+import com.github.kayjamlang.core.expressions.FunctionRef;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -15,6 +17,7 @@ public class Type {
     public static final Type OBJECT = new Type("obj", ObjectContainer.class, false);
     public static final Type ARRAY = new Type("array", List.class, false);
     public static final Type VOID = new Type("void", Void.class, true);
+    public static final Type FUNCTION_REF = new Type("func", FunctionRef.class, true);
     public static final Type RANGE = new Type("range", Range.class, true);
 
     public static final Type ANY = new Type("any", Object.class, false);

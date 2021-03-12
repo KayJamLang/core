@@ -4,6 +4,7 @@ import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.expressions.Access;
+import com.github.kayjamlang.core.expressions.CallCreate;
 import com.github.kayjamlang.core.expressions.VariableLink;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class AccessTest {
 
     @BeforeClass
     public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("root.child"));
+        parser = new KayJamParser(new KayJamLexer("getRoot().child"));
     }
 
     @Test
@@ -27,11 +28,12 @@ public class AccessTest {
         assertSame(Access.class, expression.getClass());
 
         Access access = (Access) expression;
-        assertSame(VariableLink.class, access.root.getClass());
+        assertSame(CallCreate.class, access.root.getClass());
         assertSame(VariableLink.class, access.child.getClass());
 
-        VariableLink root = (VariableLink) access.root;
-        assertEquals("root", root.name);
+        CallCreate root = (CallCreate) access.root;
+        assertEquals("getRoot", root.functionName);
+        assertEquals(0, root.arguments.size());
 
         VariableLink child = (VariableLink) access.child;
         assertEquals("child", child.name);

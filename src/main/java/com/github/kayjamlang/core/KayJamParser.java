@@ -19,6 +19,7 @@ public class KayJamParser {
 
     static {
         binOperationPrecedence = new HashMap<>();
+        binOperationPrecedence.put(".", 0);
         binOperationPrecedence.put("<", 10);
         binOperationPrecedence.put("=<", 10);
         binOperationPrecedence.put(">", 10);
@@ -129,11 +130,17 @@ public class KayJamParser {
                 moveAhead();
                 return new CompanionAccess(name, readExpression(), line);
             }else if(type==Token.Type.OPEN_BRACKET){
-                return new NamedContainer(name, parseAST(), line);
+                return new NamedExpression(name, readExpression(), line);
             }else{
                 lexer.input = new StringBuilder(lexer.currentToken().value+lexer.input);
                 return new VariableLink(name, line);
             }
+        }else if(type == Token.Type.TK_NAMED){
+            requireToken(Token.Type.TK_FUNCTION);
+            String name = requireToken(Token.Type.IDENTIFIER).value;
+
+            moveAhead();
+            return new NamedExpressionFunction(name, parseAST(), identifier, line);
         }else if(type == Token.Type.TK_FUNCTION){
             String name = requireToken(Token.Type.IDENTIFIER).value;
 
@@ -384,7 +391,9 @@ public class KayJamParser {
                 rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs);
             }//else moveAhead();
 
-            lhs = new OperationExpression(lhs, rhs, binOp, line);
+            if(binOp.type==Token.Type.TK_ACCESS)
+                lhs = new Access(lhs, rhs, line);
+            else lhs = new OperationExpression(lhs, rhs, binOp, line);
         }
     }
 

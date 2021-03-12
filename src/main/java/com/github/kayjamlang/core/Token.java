@@ -31,6 +31,7 @@ public class Token {
         TK_OBJECT ("object"),
         TK_USE ("use "),
         TK_WHILE ("while"),
+        TK_NAMED ("named"),
         TK_FOR ("for"),
         TK_COMPANION_ACCESS ("::"),
         TK_COLON (":"),
