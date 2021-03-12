@@ -18,7 +18,7 @@ public class Token {
 
         TK_REF ("->"),
         TK_ANNOTATION ("\\@"),
-        TK_NEW_LINE ("\\n"),
+        TK_NEW_LINE ("\\R"),
         TK_PUBLIC ("public"),
         TK_PRIVATE ("private"),
         TK_COMPANION ("companion"),
@@ -82,7 +82,7 @@ public class Token {
         private final Pattern pattern;
 
         Type(String regex) {
-            pattern = Pattern.compile("^" + regex);
+            pattern = Pattern.compile("^" + regex, Pattern.UNICODE_CHARACTER_CLASS);
         }
 
         int endOfMatch(String s) {

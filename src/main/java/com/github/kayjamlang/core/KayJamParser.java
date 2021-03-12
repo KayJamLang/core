@@ -195,12 +195,6 @@ public class KayJamParser {
 
             moveAhead();
             return new ForExpression(name, range, readExpression(), line);
-        }else if(type == Token.Type.TK_THREAD) {
-            moveAhead();
-            return new ThreadContainer(parseAST(), lexer.getLine());
-        }else if(type == Token.Type.TK_ASYNC) {
-            moveAhead();
-            return new AsyncContainer(parseAST(), lexer.getLine());
         }else if(type == Token.Type.TK_OBJECT){
             moveAhead();
             return new ObjectContainer(parseAST(), identifier, lexer.getLine());
