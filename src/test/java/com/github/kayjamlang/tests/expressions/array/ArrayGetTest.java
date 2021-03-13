@@ -3,7 +3,7 @@ package com.github.kayjamlang.tests.expressions.array;
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.ArrayGet;
+import com.github.kayjamlang.core.expressions.GetExpression;
 import com.github.kayjamlang.core.expressions.Const;
 import com.github.kayjamlang.core.expressions.VariableLink;
 import org.junit.BeforeClass;
@@ -25,9 +25,9 @@ public class ArrayGetTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(ArrayGet.class, expression.getClass());
+        assertSame(GetExpression.class, expression.getClass());
 
-        ArrayGet arrayGet = (ArrayGet) expression;
+        GetExpression arrayGet = (GetExpression) expression;
         assertSame(VariableLink.class, arrayGet.root.getClass());
         assertSame(Const.class, arrayGet.value.getClass());
 

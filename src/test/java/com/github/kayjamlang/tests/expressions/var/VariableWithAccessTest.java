@@ -27,9 +27,9 @@ public class VariableWithAccessTest {
 
         Variable variable = (Variable) expression;
         assertEquals("test", variable.name);
-        assertSame(ArrayGet.class, variable.expression.getClass());
+        assertSame(GetExpression.class, variable.expression.getClass());
 
-        ArrayGet access = (ArrayGet) variable.expression;
+        GetExpression getExpression = (GetExpression) variable.expression;
         assertSame(Access.class, access.root.getClass());
     }
 }

@@ -57,13 +57,13 @@ public class KayJamParser {
             moveAhead();
 
         while(currentTokenType() == Token.Type.TK_OPEN_SQUARE_BRACKET){
-            if(expression instanceof ArrayGet)
+            if(expression instanceof GetExpression)
                 moveAhead();
 
             int line = lexer.getLine();
 
             moveAhead();
-            expression = new ArrayGet(expression, readExpression(), line);
+            expression = new GetExpression(expression, readExpression(), line);
             requireToken(Token.Type.TK_CLOSE_SQUARE_BRACKET);
         }
 
