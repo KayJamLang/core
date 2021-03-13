@@ -50,6 +50,9 @@ public class KayJamParser {
         if(currentTokenType() == Token.Type.CLOSE_BRACKET)
             return expression;
 
+        moveAhead();
+        expression = parseBinOpRHS(identifier, annotations, 0, expression);
+
         if (currentTokenType() == Token.Type.TK_OPEN_SQUARE_BRACKET)
             moveAhead();
 
@@ -64,8 +67,6 @@ public class KayJamParser {
             requireToken(Token.Type.TK_CLOSE_SQUARE_BRACKET);
         }
 
-        moveAhead();
-        expression = parseBinOpRHS(identifier, annotations, 0, expression);
         return expression;
     }
 
@@ -331,7 +332,7 @@ public class KayJamParser {
             return readPrimary(identifier, annotations);
         }else if(type == Token.Type.TK_MINUS){
             moveAhead();
-            return new OperationExpression(new Const(-1, line), readPrimary(identifier, annotations),
+            return new OperationExpression(new Const(-1, line), readExpression(identifier, annotations),
                     Operation.MULTIPLY, line);
         }
 
