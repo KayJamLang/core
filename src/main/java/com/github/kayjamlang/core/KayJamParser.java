@@ -104,8 +104,7 @@ public class KayJamParser {
         }else if(type == Token.Type.IDENTIFIER){
             String name = lexer.currentToken().value;
 
-            moveAhead();
-            type = lexer.currentToken().type;
+            type = moveAhead().type;
             if(type==Token.Type.TK_ASSIGN) {
                 moveAhead();
                 Expression expression = readExpression();
@@ -129,7 +128,10 @@ public class KayJamParser {
             }else if(type==Token.Type.TK_COMPANION_ACCESS){
                 moveAhead();
                 return new CompanionAccess(name, readExpression(), line);
-            }else if(type!=Token.Type.TK_SEMI){
+            }else if(type==Token.Type.OPEN_BRACKET||type==Token.Type.TK_REF){
+                if(type==Token.Type.TK_REF)
+                    moveAhead();
+
                 return new NamedExpression(name, readExpression(), line);
             }else{
                 lexer.input = new StringBuilder(lexer.currentToken().value+lexer.input);
