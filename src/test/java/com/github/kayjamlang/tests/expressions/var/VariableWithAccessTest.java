@@ -30,6 +30,6 @@ public class VariableWithAccessTest {
         assertSame(GetExpression.class, variable.expression.getClass());
 
         GetExpression getExpression = (GetExpression) variable.expression;
-        assertSame(Access.class, access.root.getClass());
+        assertSame(Access.class, getExpression.root.getClass());
     }
 }
