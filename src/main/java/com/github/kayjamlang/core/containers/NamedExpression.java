@@ -7,6 +7,7 @@ import java.util.Collections;
 
 public class NamedExpression extends FunctionRef {
     public final String name;
+
     public NamedExpression(String name, Expression expression, int line) {
         super(Collections.emptyList(), expression, line);
         this.name = name;

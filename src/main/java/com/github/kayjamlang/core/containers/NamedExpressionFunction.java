@@ -1,5 +1,6 @@
 package com.github.kayjamlang.core.containers;
 
+import com.github.kayjamlang.core.Argument;
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;

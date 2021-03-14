@@ -1,5 +1,6 @@
 package com.github.kayjamlang.core.containers;
 
+import com.github.kayjamlang.core.Argument;
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.Annotation;
@@ -38,14 +39,6 @@ public class Function extends Container {
                 '}';
     }
 
-    public static class Argument {
-        public final Type type;
-        public final String name;
 
-        public Argument(Type type, String name) {
-            this.type = type;
-            this.name = name;
-        }
-    }
 }
 

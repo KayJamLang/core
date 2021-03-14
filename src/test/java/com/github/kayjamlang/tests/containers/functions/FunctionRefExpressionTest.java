@@ -3,6 +3,7 @@ package com.github.kayjamlang.tests.containers.functions;
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.Const;
 import com.github.kayjamlang.core.expressions.FunctionRef;
 import org.junit.BeforeClass;
@@ -28,7 +29,8 @@ public class FunctionRefExpressionTest {
 
         FunctionRef functionRefExpression = (FunctionRef) expression;
         assertEquals(1, functionRefExpression.arguments.size());
-        assertEquals("test", functionRefExpression.arguments.get(0));
+        assertEquals("test", functionRefExpression.arguments.get(0).name);
+        assertEquals(Type.ANY, functionRefExpression.arguments.get(0).type);
         assertSame(Const.class, functionRefExpression.expression.getClass());
 
         Const constant = (Const) functionRefExpression.expression;

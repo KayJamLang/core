@@ -19,7 +19,6 @@ public class KayJamParser {
 
     static {
         binOperationPrecedence = new HashMap<>();
-        binOperationPrecedence.put(".", 0);
         binOperationPrecedence.put("<", 10);
         binOperationPrecedence.put("=<", 10);
         binOperationPrecedence.put(">", 10);
@@ -33,6 +32,7 @@ public class KayJamParser {
         binOperationPrecedence.put("*", 40);
         binOperationPrecedence.put("/", 40);
         binOperationPrecedence.put("..", 50);
+        binOperationPrecedence.put(".", 60);
     }
 
     public KayJamParser(KayJamLexer lexer) {
@@ -149,22 +149,7 @@ public class KayJamParser {
 
             requireToken(Token.Type.TK_OPEN);
 
-            List<Function.Argument> arguments = new ArrayList<>();
-            while (true) {
-                moveAhead();
-                if (lexer.currentToken().type == Token.Type.TK_CLOSE)
-                    break;
-
-                Type argType = Type.getType(lexer.currentToken().value);
-                arguments.add(new Function.Argument(argType,
-                        requireToken(Token.Type.IDENTIFIER).value));
-
-                Token token = moveAhead();
-                if (token.type == Token.Type.TK_CLOSE)
-                    break;
-                else if (token.type != Token.Type.TK_COMMA)
-                    throw new ParserException(lexer, "expected comma \",\"");
-            }
+            List<Argument> arguments = parseArguments();
 
             Type returnType = Type.VOID;
             if(moveAhead().type==Token.Type.TK_COLON){
@@ -276,7 +261,7 @@ public class KayJamParser {
 
             return expression;
         }else if(type == Token.Type.TK_REF){
-            List<String> arguments = new ArrayList<>();
+            List<Argument> arguments = new ArrayList<>();
             if(moveAhead().type==Token.Type.TK_OPEN) {
                 arguments = parseArguments();
                 moveAhead();
@@ -288,7 +273,7 @@ public class KayJamParser {
             return new Not(readExpression(identifier, annotations), line);
         }else if(type == Token.Type.TK_CONSTRUCTOR){
             requireToken(Token.Type.TK_OPEN);
-            List<String> arguments = parseArguments();
+            List<Argument> arguments = parseArguments();
 
             moveAhead();
             return new ConstructorContainer(arguments, parseAST(), identifier, line);
@@ -352,19 +337,27 @@ public class KayJamParser {
         return tokPrec;
     }
 
-    public List<String> parseArguments() throws LexerException, ParserException {
-        List<String> arguments = new ArrayList<>();
+    public List<Argument> parseArguments() throws LexerException, ParserException {
+        List<Argument> arguments = new ArrayList<>();
         while (true) {
             moveAhead();
             if (lexer.currentToken().type == Token.Type.TK_CLOSE)
                 break;
 
-            arguments.add(lexer.currentToken().value);
+            String name = lexer.currentToken().value;
+            Token t = moveAhead();
 
-            Token token = moveAhead();
-            if (token.type == Token.Type.TK_CLOSE)
+            if(t.type == Token.Type.IDENTIFIER) {
+                Type argType = Type.getType(name);
+                arguments.add(new Argument(argType, t.value));
+
+                t = moveAhead();
+            }else if(t.type == Token.Type.TK_COMMA||t.type == Token.Type.TK_CLOSE)
+                arguments.add(new Argument(Type.ANY, name));
+
+            if (t.type == Token.Type.TK_CLOSE)
                 break;
-            else if (token.type != Token.Type.TK_COMMA)
+            else if (t.type != Token.Type.TK_COMMA)
                 throw new ParserException(lexer, "expected comma \",\"");
         }
 
