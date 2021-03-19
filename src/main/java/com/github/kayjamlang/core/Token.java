@@ -54,7 +54,7 @@ public class Token {
         STRING ("(\"[^\"]+\"|\"\")"),
         INTEGER ("\\d+"),
         REAL ("(\\d*)\\.\\d+"),
-        IDENTIFIER ("\\p{L}+"),
+        IDENTIFIER ("\\w+"),
 
         //Binary operations
         TK_MINUS ("-"),
@@ -81,8 +81,7 @@ public class Token {
         private final Pattern pattern;
 
         Type(String regex) {
-            pattern = Pattern.compile("^" + regex,
-                   Pattern.UNICODE_CHARACTER_CLASS);
+            pattern = Pattern.compile("^" + regex);
         }
 
         int endOfMatch(String s) {

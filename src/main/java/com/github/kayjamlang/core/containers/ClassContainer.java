@@ -12,7 +12,7 @@ public class ClassContainer extends ObjectContainer {
     public final String name;
     public final String extendsClass;
     public final List<String> implementsClass;
-    public final List<ConstructorContainer> constructors = new ArrayList<>();
+    public ArrayList<ConstructorContainer> constructors = new ArrayList<>();
     public ObjectContainer companion;
 
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
@@ -33,5 +33,14 @@ public class ClassContainer extends ObjectContainer {
                 constructors.add((ConstructorContainer) expression);
             }
         }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ClassContainer clone() throws CloneNotSupportedException {
+        ClassContainer classContainer = (ClassContainer) super.clone();
+        classContainer.constructors = (ArrayList<ConstructorContainer>)
+                constructors.clone();
+        return classContainer;
     }
 }
