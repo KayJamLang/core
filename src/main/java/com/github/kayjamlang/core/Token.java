@@ -52,8 +52,8 @@ public class Token {
 
         BOOL ("(true|false)"),
         STRING ("(\"[^\"]+\"|\"\")"),
-        INTEGER ("\\d+"),
         REAL ("(\\d*)\\.\\d+"),
+        INTEGER ("\\d+"),
         IDENTIFIER ("\\w+"),
 
         //Binary operations
