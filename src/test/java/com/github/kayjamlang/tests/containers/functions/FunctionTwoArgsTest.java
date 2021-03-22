@@ -1,9 +1,6 @@
 package com.github.kayjamlang.tests.containers.functions;
 
-import com.github.kayjamlang.core.Expression;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.Type;
+import com.github.kayjamlang.core.*;
 import com.github.kayjamlang.core.containers.Function;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,7 +27,7 @@ public class FunctionTwoArgsTest {
         assertEquals(2, function.arguments.size());
         assertEquals(2, function.children.size());
 
-        Function.Argument argument = function.arguments.get(0);
+        Argument argument = function.arguments.get(0);
         assertEquals(Type.STRING, argument.type);
         assertEquals("value", argument.name);
 
