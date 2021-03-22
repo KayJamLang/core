@@ -1,14 +1,15 @@
 # Встроенные функции KayJam
-> Примичание
+> Примечание
 
 Перечисленные здесь функции могут быть не везде реализованы,
-так как для каждого интерпретатора/исполнителя свой набор функций.
+так как для каждого интерпретатора/исполнителя/компилятора свой компонентов и библиотек.
 
 Смотрите реализованные функции у используемого интерпретатора.
 
 - [Функции для работы с консолью](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BA%D0%BE%D0%BD%D1%81%D0%BE%D0%BB%D1%8C%D1%8E)
 - [Функции для работы с типом string](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D1%82%D0%B8%D0%BF%D0%BE%D0%BC-string)
 - [Функции для работы с потоками](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B-%D1%81-%D0%BF%D0%BE%D1%82%D0%BE%D0%BA%D0%B0%D0%BC%D0%B8)
+- [Прочее](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#%D0%9F%D1%80%D0%BE%D1%87%D0%B5%D0%B5)
 
 ## Функции для работы с консолью
 
@@ -61,6 +62,8 @@ Can you use KayJam?
 - [String::charAt](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#stringcharat)
 - [String::replace](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#stringreplace)
 - [String::join](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#stringjoin)
+- [match](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#match)
+- [matchAll](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#matchAll)
 
 ### String::charAt
 > ``String::charAt(string source, int position): string``
@@ -126,6 +129,50 @@ println(String::join(array, " "));
 Can you buy?
 ```
 
+### match
+> ``match(string pattern, string string): array|bool``
+
+#### Описание
+Выполняет проверку на соответствие регулярному выражению и возвращает и возвращает результаты поиска
+
+#### Параметры
+`pattern` - Искомый шаблон в виде строки
+`string` - Входная строка
+
+#### Пример использования
+```
+if (var result = match("123", "12454353123")) 
+    println("Вхождение найдено: "+result)
+else println("Вхождение не найдено.");
+```
+
+Выведет:
+```
+Вхождение найдено: [123, 123]
+```
+
+### match
+> ``match(string pattern, string string): array|bool``
+
+#### Описание
+Выполняет проверку на соответствие регулярному выражению и возвращает все возможные результаты поиска
+
+#### Параметры
+`pattern` - Искомый шаблон в виде строки
+`string` - Входная строка
+
+#### Пример использования
+```
+if (var result = matchAll("123", "12412354353123")) 
+    println(result)
+else println("Вхождение не найдено.");
+```
+
+Выведет:
+```
+[[123, 123], [123, 123]]
+```
+
 ## Функции для работы с потоками
 
 - [Threads::sleep](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#threadssleep)
@@ -138,5 +185,15 @@ Can you buy?
 
 #### Параметры 
 `ms` - время в миллисекундах, на которое нужно остановить текущий поток
+
+## Прочее
+- [getKayJamVersion](https://github.com/KayJamLang/core/blob/main/docs/ru/functions.md#getKayJamVersion)
+
+### getKayJamVersion
+> ``getKayJamVersion(): int``
+
+#### Описание
+Возвращает код версии KayJam
+
 
 
