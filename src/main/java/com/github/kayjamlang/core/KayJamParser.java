@@ -53,21 +53,17 @@ public class KayJamParser {
         moveAhead();
         expression = parseBinOpRHS(identifier, annotations, 0, expression);
 
-        if (currentTokenType() == Token.Type.TK_OPEN_SQUARE_BRACKET)
-            moveAhead();
-
+        moveAhead();
         while(currentTokenType() == Token.Type.TK_OPEN_SQUARE_BRACKET){
-            if(expression instanceof GetExpression)
-                moveAhead();
-
             int line = lexer.getLine();
 
             moveAhead();
             expression = new GetExpression(expression, readExpression(), line);
             requireToken(Token.Type.TK_CLOSE_SQUARE_BRACKET);
+
+            moveAhead();
         }
 
-        moveAhead();
         expression = parseBinOpRHS(identifier, annotations, 0, expression);
         return expression;
     }
