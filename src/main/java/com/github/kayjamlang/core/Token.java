@@ -43,7 +43,6 @@ public class Token {
         TK_KEY_IN ("in "),
         TK_KEY_IF ("if"),
         TK_KEY_ELSE ("else"),
-        TK_NOT ("!"),
         TK_OPEN_SQUARE_BRACKET("\\["),
         TK_CLOSE_SQUARE_BRACKET("\\]"),
         OPEN_BRACKET ("\\{"),
@@ -75,6 +74,7 @@ public class Token {
         TK_RANGE ("\\.\\."),
 
 
+        TK_NOT ("!"),
         TK_ASSIGN ("="),
         TK_ACCESS ("\\.");
 
