@@ -67,6 +67,8 @@ public class KayJamParser {
             requireToken(Token.Type.TK_CLOSE_SQUARE_BRACKET);
         }
 
+        moveAhead();
+        expression = parseBinOpRHS(identifier, annotations, 0, expression);
         return expression;
     }
 
