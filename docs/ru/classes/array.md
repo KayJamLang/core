@@ -4,9 +4,9 @@
 Отсутствуют
 
 ## Функции
-- [add(any value): array](https://github.com/KayJamLang/core/blob/main/docs/ru/classes/array.md#put)
-- [get(int key): any](https://github.com/KayJamLang/core/blob/main/docs/ru/classes/array.md#get)
-- [get(int key, any defaultValue): any](https://github.com/KayJamLang/core/blob/main/docs/ru/classes/array.md#get)
+- [add(any value): array](https://github.com/KayJamLang/core/blob/main/docs/ru/classes/array.md#addany-value-array)
+- [get(int key): any](https://github.com/KayJamLang/core/blob/main/docs/ru/classes/array.md#getint-key-any)
+- [get(int key, any defaultValue): any](https://github.com/KayJamLang/core/blob/main/docs/ru/classes/array.md#getint-key-any-defaultvalue-any)
 
 ### add(any value): array
 Добавляет элемент в список последним
