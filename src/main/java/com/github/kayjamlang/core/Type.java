@@ -27,6 +27,7 @@ public class Type {
     public final String name;
     public final Class<?> typeClass;
     public final boolean onlyForFunction;
+    public boolean nullable = false;
 
     public Type(String name, Class<?> typeClass, boolean onlyForFunction){
         this.name = name;
@@ -35,7 +36,11 @@ public class Type {
     }
 
     public static Type getType(String name){
-        return getType(name, false);
+        return getType(name, false, false);
+    }
+
+    public static Type getType(String name, boolean isFunction){
+        return getType(name, isFunction, false);
     }
 
     public static Type getType(Class<?> clazz){
@@ -50,16 +55,20 @@ public class Type {
         return new Type(clazz.getName(), clazz, false);
     }
 
-    public static Type getType(String name, boolean isFunction){
+    public static Type getType(String name, boolean isFunction, boolean nullable){
         for (Field f : Type.class.getDeclaredFields())
             if (Modifier.isStatic(f.getModifiers())&&f.getType().equals(Type.class))
                 try {
                     Type type = (Type) f.get(Type.class);
+                    type.nullable = nullable;
                     if(type.name.equals(name))
                         if(!type.onlyForFunction || isFunction)
                             return type;
                 } catch (IllegalAccessException ignored) {}
 
-        return new Type(name, Object.class, false);
+        Type type = new Type(name, Object.class, false);
+        type.nullable = nullable;
+
+        return type;
     }
 }

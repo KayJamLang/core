@@ -43,6 +43,7 @@ public class Token {
         TK_KEY_IN ("in "),
         TK_KEY_IF ("if"),
         TK_KEY_ELSE ("else"),
+        TK_NULLABLE ("\\?"),
         TK_OPEN_SQUARE_BRACKET("\\["),
         TK_CLOSE_SQUARE_BRACKET("\\]"),
         OPEN_BRACKET ("\\{"),
@@ -50,6 +51,7 @@ public class Token {
         DIFFERENT ("<>"),
 
         BOOL ("(true|false)"),
+        NULL ("null"),
         STRING ("(\"[^\"]+\"|\"\")"),
         REAL ("(\\d*)\\.\\d+"),
         INTEGER ("\\d+"),

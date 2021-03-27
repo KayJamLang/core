@@ -153,8 +153,7 @@ public class KayJamParser {
             if(moveAhead().type==Token.Type.TK_COLON){
                 requireToken(Token.Type.IDENTIFIER);
 
-                returnType = Type.getType(lexer.currentToken().value, true);
-                moveAhead();
+                returnType = parseType(true);
             }
 
             List<Expression> body = parseAST();
@@ -295,6 +294,8 @@ public class KayJamParser {
             return new Use(readExpression(), line);
         }else if(type == Token.Type.STRING){
             return new Const(lexer.currentToken().value.substring(1, lexer.currentToken().value.length()-1), line);
+        }else if(type == Token.Type.NULL){
+            return new Const(null, line);
         }else if(type == Token.Type.INTEGER){
             return new Const(Long.parseLong(lexer.currentToken().value), line);
         }else if(type == Token.Type.REAL){
@@ -335,6 +336,19 @@ public class KayJamParser {
         return tokPrec;
     }
 
+    public Type parseType(boolean isFunc) throws LexerException, ParserException {
+        if(lexer.currentToken().type != Token.Type.IDENTIFIER)
+            throw new ParserException(lexer, "expected type identifier");
+
+        Type type = Type.getType(lexer.currentToken().value, isFunc);
+        if(moveAhead().type==Token.Type.TK_NULLABLE){
+            type.nullable = true;
+            moveAhead();
+        }
+
+        return type;
+    }
+
     public List<Argument> parseArguments() throws LexerException, ParserException {
         List<Argument> arguments = new ArrayList<>();
         while (true) {
@@ -343,12 +357,11 @@ public class KayJamParser {
                 break;
 
             String name = lexer.currentToken().value;
-            Token t = moveAhead();
+            Type argType = parseType(false);
 
+            Token t = lexer.currentToken();
             if(t.type == Token.Type.IDENTIFIER) {
-                Type argType = Type.getType(name);
                 arguments.add(new Argument(argType, t.value));
-
                 t = moveAhead();
             }else if(t.type == Token.Type.TK_COMMA||t.type == Token.Type.TK_CLOSE)
                 arguments.add(new Argument(Type.ANY, name));
