@@ -8,8 +8,9 @@ import com.github.kayjamlang.core.expressions.FunctionRef;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.Objects;
 
-public class Type {
+public class Type implements Cloneable {
     //Types
     public static final Type INTEGER = new Type("int", Long.class, false);
     public static final Type DOUBLE = new Type("double", Double.class, false);
@@ -33,6 +34,27 @@ public class Type {
         this.name = name;
         this.typeClass = typeClass;
         this.onlyForFunction = onlyForFunction;
+    }
+
+    @Override
+    public Type clone() throws CloneNotSupportedException {
+        return (Type) super.clone();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Type type = (Type) o;
+        return onlyForFunction == type.onlyForFunction &&
+                Objects.equals(name, type.name) &&
+                Objects.equals(typeClass, type.typeClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, typeClass, onlyForFunction, nullable);
     }
 
     public static Type getType(String name){
@@ -63,8 +85,8 @@ public class Type {
                     type.nullable = nullable;
                     if(type.name.equals(name))
                         if(!type.onlyForFunction || isFunction)
-                            return type;
-                } catch (IllegalAccessException ignored) {}
+                            return type.clone();
+                } catch (IllegalAccessException | CloneNotSupportedException ignored) {}
 
         Type type = new Type(name, Object.class, false);
         type.nullable = nullable;
