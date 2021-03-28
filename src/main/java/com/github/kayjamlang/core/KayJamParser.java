@@ -28,11 +28,13 @@ public class KayJamParser {
         binOperationPrecedence.put("==", 20);
         binOperationPrecedence.put("!=", 20);
         binOperationPrecedence.put("&&", 30);
-        binOperationPrecedence.put("||", 30);
         binOperationPrecedence.put("*", 40);
         binOperationPrecedence.put("/", 40);
         binOperationPrecedence.put("..", 50);
         binOperationPrecedence.put(".", 60);
+        binOperationPrecedence.put("as", 60);
+        binOperationPrecedence.put("is", 60);
+        binOperationPrecedence.put("||", 70);
     }
 
     public KayJamParser(KayJamLexer lexer) {
@@ -389,18 +391,26 @@ public class KayJamParser {
             Token binOp = lexer.currentToken();
             int line = lexer.getLine();
 
-            moveAhead();
-            Expression rhs = readPrimary(identifier, annotations);
+            if(binOp.type==Token.Type.TK_AS) {
+                moveAhead();
+                lhs = new CastExpression(lhs, parseType(false), line);
+            }else if(binOp.type==Token.Type.TK_IS) {
+                moveAhead();
+                lhs = new IsExpression(lhs, parseType(false), line);
+            }else{
+                moveAhead();
+                Expression rhs = readPrimary(identifier, annotations);
 
-            moveAhead();
-            int nextPrec = getTokPrecedence();
-            if(tokPrec<nextPrec){
-                rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs);
-            }//else moveAhead();
+                moveAhead();
+                int nextPrec = getTokPrecedence();
+                if (tokPrec < nextPrec) {
+                    rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs);
+                }//else moveAhead();
 
-            if(binOp.type==Token.Type.TK_ACCESS)
-                lhs = new Access(lhs, rhs, line);
-            else lhs = new OperationExpression(lhs, rhs, binOp, line);
+                if (binOp.type == Token.Type.TK_ACCESS)
+                    lhs = new Access(lhs, rhs, line);
+                else lhs = new OperationExpression(lhs, rhs, binOp, line);
+            }
         }
     }
 
