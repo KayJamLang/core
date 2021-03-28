@@ -54,6 +54,7 @@ public class Token {
         NULL ("null"),
         STRING ("(\"[^\"]+\"|\"\")"),
         REAL ("(\\d*)\\.\\d+"),
+        LONG ("\\d+[lL]"),
         INTEGER ("\\d+"),
         IDENTIFIER ("\\w+"),
 

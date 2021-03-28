@@ -8,7 +8,7 @@ public abstract class ExpressionProvider<ExpressionType, ReturnObject, ContextOb
                                         MainContextObject> mainProvider,
                                 ContextObject context,
                                 ContextObject argsContext,
-                                ExpressionType expression) {
+                                ExpressionType expression) throws Exception {
         return mainProvider.defaultObject;
     }
 
