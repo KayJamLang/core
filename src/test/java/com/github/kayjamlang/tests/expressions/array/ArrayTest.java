@@ -35,7 +35,7 @@ public class ArrayTest {
             assertSame(Const.class, value.getClass());
 
             Const constantValue = (Const) value;
-            assertEquals(i+1L, constantValue.value);
+            assertEquals(i+1, constantValue.value);
         }
     }
 }

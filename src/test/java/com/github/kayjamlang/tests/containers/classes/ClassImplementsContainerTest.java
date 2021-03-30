@@ -29,7 +29,7 @@ public class ClassImplementsContainerTest {
         assertEquals("Test", classContainer.name);
         assertEquals(1, classContainer.implementsClass.size());
         assertEquals("ABC", classContainer.implementsClass.get(0));
-        assertEquals(1, classContainer.children.size());
+        assertEquals(1, classContainer.variables.size());
         assertEquals(1, classContainer.functions.size());
     }
 }

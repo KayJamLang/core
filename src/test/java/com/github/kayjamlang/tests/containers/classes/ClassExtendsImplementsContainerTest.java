@@ -30,7 +30,7 @@ public class ClassExtendsImplementsContainerTest {
         assertEquals("ABC", classContainer.extendsClass);
         assertEquals(1, classContainer.implementsClass.size());
         assertEquals("AAA", classContainer.implementsClass.get(0));
-        assertEquals(1, classContainer.children.size());
+        assertEquals(1, classContainer.variables.size());
         assertEquals(1, classContainer.functions.size());
     }
 }

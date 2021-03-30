@@ -31,7 +31,7 @@ public class ConstNegativeIntegerTest {
         assertSame(Const.class, operationExpression.right.getClass());
 
         Const constant = (Const) operationExpression.right;
-        assertEquals(12345L, constant.value);
+        assertEquals(12345, constant.value);
 
         constant = (Const) operationExpression.left;
         assertEquals(-1, constant.value);

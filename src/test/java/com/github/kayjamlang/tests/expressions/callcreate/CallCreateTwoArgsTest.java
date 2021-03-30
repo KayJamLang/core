@@ -34,7 +34,7 @@ public class CallCreateTwoArgsTest {
         assertSame(Const.class, firstArgument.getClass());
 
         Const firstArgumentConstant = (Const) firstArgument;
-        assertEquals(2021L, firstArgumentConstant.value);
+        assertEquals(2021, firstArgumentConstant.value);
 
         Expression secondaryArgument = callCreate.arguments.get(1);
         assertSame(Const.class, secondaryArgument.getClass());

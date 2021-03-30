@@ -299,7 +299,8 @@ public class KayJamParser {
         }else if(type == Token.Type.NULL){
             return new Const(null, line);
         }else if(type == Token.Type.LONG){
-            return new Const(Long.parseLong(lexer.currentToken().value), line);
+            return new Const(Long.parseLong(lexer.currentToken()
+                    .value.substring(0, lexer.currentToken().value.length()-1)), line);
         }else if(type == Token.Type.INTEGER){
             return new Const(Integer.parseInt(lexer.currentToken().value), line);
         }else if(type == Token.Type.REAL){

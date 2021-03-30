@@ -2,6 +2,7 @@ package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.exceptions.ParserException;
+import com.github.kayjamlang.core.expressions.Variable;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
 import java.util.ArrayList;
@@ -13,11 +14,12 @@ public class ClassContainer extends ObjectContainer {
     public final String extendsClass;
     public final List<String> implementsClass;
     public ArrayList<ConstructorContainer> constructors = new ArrayList<>();
+    public ArrayList<Variable> variables = new ArrayList<>();
     public ObjectContainer companion;
 
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
                           List<Expression> children, AccessIdentifier identifier, int line) throws Exception {
-        super(children, identifier, line);
+        super(new ArrayList<>(), identifier, line);
         this.name = name;
         this.extendsClass = extendsClass;
         this.implementsClass = implementsClass;
@@ -29,9 +31,16 @@ public class ClassContainer extends ObjectContainer {
                     throw new ParserException(expression.line, "companion already exists");
 
                 companion = (ObjectContainer) expression;
+                this.children.remove(expression);
             }else if(expression instanceof ConstructorContainer){
                 constructors.add((ConstructorContainer) expression);
-            }
+                this.children.remove(expression);
+            }else if(expression instanceof Variable)
+                variables.add((Variable) expression);
+            else if(expression instanceof Function){
+                functions.add((Function) expression);
+            }else throw new ParserException(line,
+                        "The class can only contain variables and functions");
         }
     }
 

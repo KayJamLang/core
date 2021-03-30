@@ -33,7 +33,8 @@ public class MainExpressionProvider<ReturnObject, ContextObject, MainContextObje
             ExpressionProvider<? extends Expression, ReturnObject, ContextObject, MainContextObject> expressionCompiler =
                     providers.get(expression.getClass());
             Method method = expressionCompiler.getClass()
-                    .getDeclaredMethod("provide", MainExpressionProvider.class,
+                    .getMethod("provide",
+                            MainExpressionProvider.class,
                             Object.class,
                             Object.class,
                             Object.class);
@@ -58,7 +59,7 @@ public class MainExpressionProvider<ReturnObject, ContextObject, MainContextObje
             ExpressionProvider<? extends Expression, ReturnObject, ContextObject, MainContextObject> expressionCompiler =
                     providers.get(expression.getClass());
             Method method = expressionCompiler.getClass()
-                    .getDeclaredMethod("getType",
+                    .getMethod("getType",
                             MainExpressionProvider.class,
                             Object.class, Object.class, Object.class);
 

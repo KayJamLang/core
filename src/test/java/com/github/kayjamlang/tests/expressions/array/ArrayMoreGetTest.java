@@ -36,6 +36,6 @@ public class ArrayMoreGetTest {
         assertSame(Const.class, getExpression.value.getClass());
 
         Const constant = (Const) arrayGet.value;
-        assertEquals(2006L, constant.value);
+        assertEquals(2006, constant.value);
     }
 }
