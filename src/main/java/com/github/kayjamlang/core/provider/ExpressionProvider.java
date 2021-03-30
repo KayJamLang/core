@@ -1,6 +1,7 @@
 package com.github.kayjamlang.core.provider;
 
 import com.github.kayjamlang.core.Type;
+import com.github.kayjamlang.core.exceptions.TypeException;
 
 public abstract class ExpressionProvider<ExpressionType, ReturnObject, ContextObject, MainContextObject> {
 
@@ -16,7 +17,7 @@ public abstract class ExpressionProvider<ExpressionType, ReturnObject, ContextOb
             MainContextObject> mainProvider,
                         ContextObject context,
                         ContextObject argsContext,
-                        ExpressionType expression) throws Exception {
+                        ExpressionType expression) throws TypeException {
         return Type.ANY;
     }
 }
