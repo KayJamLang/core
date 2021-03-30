@@ -3,6 +3,7 @@ package com.github.kayjamlang.tests.containers;
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.core.containers.AnonymousObjectContainer;
 import com.github.kayjamlang.core.containers.ObjectContainer;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,10 +24,10 @@ public class ObjectContainerTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(ObjectContainer.class, expression.getClass());
+        assertSame(AnonymousObjectContainer.class, expression.getClass());
 
-        ObjectContainer objectContainer = (ObjectContainer) expression;
-        assertEquals(1, objectContainer.children.size());
+        AnonymousObjectContainer objectContainer = (AnonymousObjectContainer) expression;
+        assertEquals(1, objectContainer.variables.size());
         assertEquals(1, objectContainer.functions.size());
     }
 }

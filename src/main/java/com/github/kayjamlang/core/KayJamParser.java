@@ -189,8 +189,14 @@ public class KayJamParser {
             moveAhead();
             return new ForExpression(name, range, readExpression(), line);
         }else if(type == Token.Type.TK_OBJECT){
-            moveAhead();
-            return new ObjectContainer(parseAST(), identifier, line);
+            Token t = moveAhead();
+            if(t.type==Token.Type.OPEN_BRACKET)
+                return new AnonymousObjectContainer(parseAST(), identifier, line);
+            else if(t.type==Token.Type.IDENTIFIER){
+                moveAhead();
+                return new ObjectContainer(t.value,
+                        parseAST(), identifier, line);
+            }else throw new ParserException(lexer, "expected name of object or open bracket");
         }else if(type == Token.Type.TK_CLASS){
             moveAhead();
             type = lexer.currentToken().type;

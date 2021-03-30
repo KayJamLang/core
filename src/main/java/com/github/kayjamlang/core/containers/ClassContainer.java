@@ -8,14 +8,15 @@ import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassContainer extends ObjectContainer {
+public class ClassContainer extends Container {
 
     public final String name;
     public final String extendsClass;
     public final List<String> implementsClass;
+    public ObjectContainer companion;
+
     public ArrayList<ConstructorContainer> constructors = new ArrayList<>();
     public ArrayList<Variable> variables = new ArrayList<>();
-    public ObjectContainer companion;
 
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
                           List<Expression> children, AccessIdentifier identifier, int line) throws Exception {
@@ -50,6 +51,12 @@ public class ClassContainer extends ObjectContainer {
         ClassContainer classContainer = (ClassContainer) super.clone();
         classContainer.constructors = (ArrayList<ConstructorContainer>)
                 constructors.clone();
+        classContainer.variables = (ArrayList<Variable>) variables.clone();
         return classContainer;
+    }
+
+    @Override
+    public String toString() {
+        return name+"@class";
     }
 }
