@@ -191,7 +191,7 @@ public class KayJamParser {
         }else if(type == Token.Type.TK_OBJECT){
             Token t = moveAhead();
             if(t.type==Token.Type.OPEN_BRACKET)
-                return new AnonymousObjectContainer(parseAST(), identifier, line);
+                return new ObjectContainer(parseAST(), identifier, line);
             else if(t.type==Token.Type.IDENTIFIER){
                 moveAhead();
                 return new ObjectContainer(t.value,

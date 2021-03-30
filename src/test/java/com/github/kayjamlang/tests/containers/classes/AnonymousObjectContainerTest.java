@@ -1,16 +1,15 @@
-package com.github.kayjamlang.tests.containers;
+package com.github.kayjamlang.tests.containers.classes;
 
 import com.github.kayjamlang.core.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.containers.AnonymousObjectContainer;
 import com.github.kayjamlang.core.containers.ObjectContainer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ObjectContainerTest {
+public class AnonymousObjectContainerTest {
 
     private static KayJamParser parser;
 
@@ -24,9 +23,9 @@ public class ObjectContainerTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(AnonymousObjectContainer.class, expression.getClass());
+        assertSame(ObjectContainer.class, expression.getClass());
 
-        AnonymousObjectContainer objectContainer = (AnonymousObjectContainer) expression;
+        ObjectContainer objectContainer = (ObjectContainer) expression;
         assertEquals(1, objectContainer.variables.size());
         assertEquals(1, objectContainer.functions.size());
     }
