@@ -1,13 +1,11 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.Operation;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.ForExpression;
+import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.expressions.loops.ForExpression;
 import com.github.kayjamlang.core.expressions.OperationExpression;
-import com.github.kayjamlang.core.expressions.WhileExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,9 +30,9 @@ public class ForExpressionTest {
         ForExpression forExpression = (ForExpression) expression;
         assertEquals("test", forExpression.variableName);
         assertSame(OperationExpression.class, forExpression.range.getClass());
-        assertSame(Const.class, forExpression.body.getClass());
+        assertSame(ValueExpression.class, forExpression.body.getClass());
 
-        Const condition = (Const) forExpression.body;
+        ValueExpression condition = (ValueExpression) forExpression.body;
         assertEquals(true, condition.value);
     }
 }

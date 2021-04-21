@@ -1,11 +1,10 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.Return;
-import com.github.kayjamlang.core.expressions.WhileExpression;
+import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.expressions.loops.WhileExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,13 +27,13 @@ public class WhileExpressionTest {
         assertSame(WhileExpression.class, expression.getClass());
 
         WhileExpression whileExpression = (WhileExpression) expression;
-        assertSame(Const.class, whileExpression.condition.getClass());
-        assertSame(Const.class, whileExpression.expression.getClass());
+        assertSame(ValueExpression.class, whileExpression.condition.getClass());
+        assertSame(ValueExpression.class, whileExpression.expression.getClass());
 
-        Const condition = (Const) whileExpression.condition;
+        ValueExpression condition = (ValueExpression) whileExpression.condition;
         assertEquals(false, condition.value);
 
-        Const cValue = (Const) whileExpression.expression;
+        ValueExpression cValue = (ValueExpression) whileExpression.expression;
         assertEquals(true, cValue.value);
     }
 }

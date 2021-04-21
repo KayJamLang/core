@@ -1,10 +1,10 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.Not;
+import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.expressions.NegationExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,12 +24,12 @@ public class NotExpressionTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(Not.class, expression.getClass());
+        assertSame(NegationExpression.class, expression.getClass());
 
-        Not notExpression = (Not) expression;
-        assertSame(Const.class, notExpression.expression.getClass());
+        NegationExpression notExpression = (NegationExpression) expression;
+        assertSame(ValueExpression.class, notExpression.expression.getClass());
 
-        Const constant = (Const) notExpression.expression;
+        ValueExpression constant = (ValueExpression) notExpression.expression;
         assertEquals(true, constant.value);
     }
 }

@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.containers;
 
-import com.github.kayjamlang.core.Argument;
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.data.Argument;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
 import java.util.List;

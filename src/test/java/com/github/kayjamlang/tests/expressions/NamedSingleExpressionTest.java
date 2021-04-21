@@ -1,11 +1,10 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.containers.Container;
-import com.github.kayjamlang.core.containers.NamedExpression;
-import com.github.kayjamlang.core.expressions.CallCreate;
+import com.github.kayjamlang.core.expressions.NamedExpression;
+import com.github.kayjamlang.core.expressions.CallOrCreateExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,6 +28,6 @@ public class NamedSingleExpressionTest {
         assertSame(NamedExpression.class, expression.getClass());
 
         NamedExpression namedContainer = (NamedExpression) expression;
-        assertSame(CallCreate.class, namedContainer.expression.getClass());
+        assertSame(CallOrCreateExpression.class, namedContainer.expression.getClass());
     }
 }

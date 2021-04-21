@@ -1,10 +1,10 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.Use;
+import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.expressions.UseExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,12 +24,12 @@ public class UseExpressionTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(Use.class, expression.getClass());
+        assertSame(UseExpression.class, expression.getClass());
 
-        Use useExpression = (Use) expression;
-        assertSame(Const.class, useExpression.expression.getClass());
+        UseExpression useExpression = (UseExpression) expression;
+        assertSame(ValueExpression.class, useExpression.expression.getClass());
 
-        Const ifTrue = (Const) useExpression.expression;
+        ValueExpression ifTrue = (ValueExpression) useExpression.expression;
         assertEquals(12345, ifTrue.value);
     }
 }

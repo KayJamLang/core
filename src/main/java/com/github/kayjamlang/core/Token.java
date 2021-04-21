@@ -58,6 +58,10 @@ public class Token {
         INTEGER ("\\d+"),
         IDENTIFIER ("\\w+"),
 
+        //Short operations
+        TK_PLUS_ONE ("\\+\\+"),
+        TK_MINUS_ONE ("\\-\\-"),
+
         //Binary operations
         TK_MINUS ("-"),
         TK_PLUS ("\\+"),
@@ -75,7 +79,6 @@ public class Token {
         TK_GREATER_EQUALS_SIGN (">="),
 
         TK_RANGE ("\\.\\."),
-
 
         TK_NOT ("!"),
         TK_ASSIGN ("="),

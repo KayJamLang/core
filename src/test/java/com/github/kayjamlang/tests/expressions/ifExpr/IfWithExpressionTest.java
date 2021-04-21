@@ -1,11 +1,11 @@
 package com.github.kayjamlang.tests.expressions.ifExpr;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.If;
-import com.github.kayjamlang.core.expressions.VariableLink;
+import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.expressions.IfExpression;
+import com.github.kayjamlang.core.expressions.VariableLinkExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,24 +25,24 @@ public class IfWithExpressionTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(If.class, expression.getClass());
+        assertSame(IfExpression.class, expression.getClass());
 
-        If ifExpression = (If) expression;
-        assertSame(VariableLink.class, ifExpression.condition.getClass());
+        IfExpression ifExpression = (IfExpression) expression;
+        assertSame(VariableLinkExpression.class, ifExpression.condition.getClass());
 
         assertNotNull(ifExpression.ifTrue);
         assertNotNull(ifExpression.ifFalse);
 
-        assertSame(Const.class, ifExpression.ifTrue.getClass());
-        assertSame(Const.class, ifExpression.ifFalse.getClass());
+        assertSame(ValueExpression.class, ifExpression.ifTrue.getClass());
+        assertSame(ValueExpression.class, ifExpression.ifFalse.getClass());
 
-        VariableLink root = (VariableLink) ifExpression.condition;
+        VariableLinkExpression root = (VariableLinkExpression) ifExpression.condition;
         assertEquals("putin", root.name);
 
-        Const ifTrue = (Const) ifExpression.ifTrue;
+        ValueExpression ifTrue = (ValueExpression) ifExpression.ifTrue;
         assertEquals(true, ifTrue.value);
 
-        Const ifFalse = (Const) ifExpression.ifFalse;
+        ValueExpression ifFalse = (ValueExpression) ifExpression.ifFalse;
         assertEquals(false, ifFalse.value);
     }
 }

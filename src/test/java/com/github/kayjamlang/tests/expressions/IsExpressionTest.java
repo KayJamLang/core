@@ -1,11 +1,10 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.Type;
-import com.github.kayjamlang.core.expressions.CastExpression;
-import com.github.kayjamlang.core.expressions.Const;
+import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.IsExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,7 +27,7 @@ public class IsExpressionTest {
         assertEquals(IsExpression.class, expression.getClass());
 
         IsExpression isExpression = (IsExpression) expression;
-        assertEquals(Const.class, isExpression.expression.getClass());
+        assertEquals(ValueExpression.class, isExpression.expression.getClass());
         assertEquals(Type.INTEGER, isExpression.verifyType);
     }
 }

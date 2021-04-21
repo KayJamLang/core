@@ -1,10 +1,10 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.containers.Container;
-import com.github.kayjamlang.core.containers.NamedExpression;
+import com.github.kayjamlang.core.expressions.NamedExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

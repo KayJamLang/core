@@ -4,6 +4,11 @@ import com.github.kayjamlang.core.containers.*;
 import com.github.kayjamlang.core.exceptions.ParserException;
 import com.github.kayjamlang.core.exceptions.LexerException;
 import com.github.kayjamlang.core.expressions.*;
+import com.github.kayjamlang.core.expressions.data.Annotation;
+import com.github.kayjamlang.core.expressions.data.Argument;
+import com.github.kayjamlang.core.expressions.loops.ForExpression;
+import com.github.kayjamlang.core.expressions.loops.Operation;
+import com.github.kayjamlang.core.expressions.loops.WhileExpression;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
 import java.util.ArrayList;
@@ -41,18 +46,19 @@ public class KayJamParser {
         this.lexer = lexer;
     }
 
-    public Expression readExpression() throws Exception {
+    public Expression readExpression() throws LexerException, ParserException {
         return readExpression(AccessIdentifier.NONE, new ArrayList<>());
     }
 
-    public Expression readExpression(AccessIdentifier identifier, List<Annotation> annotations)
-            throws Exception {
+    public Expression readExpression(AccessIdentifier identifier, List<Annotation> annotations) throws LexerException, ParserException {
 
         Expression expression = readPrimary(identifier, annotations);
         if(currentTokenType() == Token.Type.CLOSE_BRACKET)
             return expression;
 
+
         moveAhead();
+        expression = readEndExpression(expression);
         expression = parseBinOpRHS(identifier, annotations, 0, expression);
 
         moveAhead();
@@ -64,10 +70,25 @@ public class KayJamParser {
             requireToken(Token.Type.TK_CLOSE_SQUARE_BRACKET);
 
             moveAhead();
+            expression = readEndExpression(expression);
         }
 
         expression = parseBinOpRHS(identifier, annotations, 0, expression);
         return expression;
+    }
+
+    public Expression readEndExpression(Expression root) {
+        if(currentTokenType()==Token.Type.TK_NOT)
+            return new AssertNullExpression(root, lexer.getLine());
+        else if(currentTokenType()==Token.Type.TK_PLUS_ONE){
+            return new OperationExpression(root,
+                    new ValueExpression(1), Operation.PLUS, lexer.getLine());
+        }else if(currentTokenType()==Token.Type.TK_MINUS_ONE){
+            return new OperationExpression(root,
+                    new ValueExpression(1), Operation.MINUS, lexer.getLine());
+        }
+
+        return root;
     }
 
     public Token.Type currentTokenType(){
@@ -90,7 +111,8 @@ public class KayJamParser {
         return lexer.currentToken();
     }
 
-    public Expression readPrimary(AccessIdentifier identifier, List<Annotation> annotations) throws Exception {
+    public Expression readPrimary(AccessIdentifier identifier, List<Annotation> annotations) throws LexerException,
+            ParserException {
         Token.Type type = currentTokenType();
         int line = lexer.getLine();
 
@@ -101,7 +123,7 @@ public class KayJamParser {
             moveAhead();
             Expression expression = readExpression();
 
-            return new Variable(name, expression, identifier, line);
+            return new VariableExpression(name, expression, identifier, line);
         }else if(type == Token.Type.IDENTIFIER){
             String name = lexer.currentToken().value;
 
@@ -109,7 +131,7 @@ public class KayJamParser {
             if(type==Token.Type.TK_ASSIGN) {
                 moveAhead();
                 Expression expression = readExpression();
-                return new VariableSet(name, expression, line);
+                return new VariableSetExpression(name, expression, line);
             }else if(type==Token.Type.TK_OPEN){
                 List<Expression> arguments = new ArrayList<>();
                 while (moveAhead().type!=Token.Type.TK_CLOSE){
@@ -122,13 +144,13 @@ public class KayJamParser {
                         throw new ParserException(lexer, "expected comma \",\"");
                 }
 
-                return new CallCreate(name, arguments, line);
+                return new CallOrCreateExpression(name, arguments, line);
             }else if(type==Token.Type.TK_ACCESS){
                 moveAhead();
-                return new Access(new VariableLink(name, line), readExpression(), line);
+                return new AccessExpression(new VariableLinkExpression(name, line), readExpression(), line);
             }else if(type==Token.Type.TK_COMPANION_ACCESS){
                 moveAhead();
-                return new CompanionAccess(name, readExpression(), line);
+                return new CompanionAccessExpression(name, readExpression(), line);
             }else if(type==Token.Type.OPEN_BRACKET||type==Token.Type.TK_REF){
                 if(type==Token.Type.TK_REF)
                     moveAhead();
@@ -136,14 +158,14 @@ public class KayJamParser {
                 return new NamedExpression(name, readExpression(), line);
             }else{
                 lexer.input = new StringBuilder(lexer.currentToken().value+lexer.input);
-                return new VariableLink(name, line);
+                return new VariableLinkExpression(name, line);
             }
         }else if(type == Token.Type.TK_NAMED){
             requireToken(Token.Type.TK_FUNCTION);
             String name = requireToken(Token.Type.IDENTIFIER).value;
 
             moveAhead();
-            return new NamedExpressionFunction(name, parseAST(), identifier, line);
+            return new NamedExpressionFunctionContainer(name, parseAST(), identifier, line);
         }else if(type == Token.Type.TK_FUNCTION){
             String name = requireToken(Token.Type.IDENTIFIER).value;
 
@@ -160,7 +182,7 @@ public class KayJamParser {
 
             List<Expression> body = parseAST();
 
-            return new Function(name, body, identifier, arguments, line, returnType, annotations);
+            return new FunctionContainer(name, body, identifier, arguments, line, returnType, annotations);
         }else if(type == Token.Type.TK_WHILE){
             requireToken(Token.Type.TK_OPEN);
 
@@ -218,7 +240,7 @@ public class KayJamParser {
             }else throw new ParserException(lexer, "expected identifier of class");
         }else if(type == Token.Type.TK_RETURN){
             moveAhead();
-            return new Return(readExpression(), line);
+            return new ReturnExpression(readExpression(), line);
         }else if(type == Token.Type.TK_KEY_IF){
             requireToken(Token.Type.TK_OPEN);
 
@@ -239,7 +261,7 @@ public class KayJamParser {
                 moveAhead();
             }
 
-            return new If(condition, ifTrue, ifFalse, line);
+            return new IfExpression(condition, ifTrue, ifFalse, line);
         }else if(type == Token.Type.TK_ANNOTATION){
             String name = requireToken(Token.Type.IDENTIFIER).value;
 
@@ -248,10 +270,10 @@ public class KayJamParser {
 
                 moveAhead();
                 Expression value = readExpression();
-                if(!(value instanceof Const))
+                if(!(value instanceof ValueExpression))
                     throw new ParserException(lexer, "Invalid value of annotation");
 
-                annotations.add(new Annotation(name, (Const) value));
+                annotations.add(new Annotation(name, (ValueExpression) value));
                 requireToken(Token.Type.TK_CLOSE);
 
                 moveAhead();
@@ -272,10 +294,17 @@ public class KayJamParser {
                 moveAhead();
             }
 
-            return new FunctionRef(arguments, readExpression(), line);
+            Type returnType = Type.VOID;
+            if(moveAhead().type==Token.Type.TK_COLON){
+                requireToken(Token.Type.IDENTIFIER);
+
+                returnType = parseType(true);
+            }
+
+            return new FunctionRefExpression(arguments, readExpression(), returnType, line);
         }else if(type == Token.Type.TK_NOT){
             moveAhead();
-            return new Not(readExpression(identifier, annotations), line);
+            return new NegationExpression(readExpression(identifier, annotations), line);
         }else if(type == Token.Type.TK_CONSTRUCTOR){
             requireToken(Token.Type.TK_OPEN);
             List<Argument> arguments = parseArguments();
@@ -296,23 +325,23 @@ public class KayJamParser {
                     throw new ParserException(line, "expected comma");
             }
 
-            return new Array(values, line);
+            return new ArrayExpression(values, line);
         }else if(type == Token.Type.TK_USE){
             moveAhead();
-            return new Use(readExpression(), line);
+            return new UseExpression(readExpression(), line);
         }else if(type == Token.Type.STRING){
-            return new Const(lexer.currentToken().value.substring(1, lexer.currentToken().value.length()-1), line);
+            return new ValueExpression(lexer.currentToken().value.substring(1, lexer.currentToken().value.length()-1));
         }else if(type == Token.Type.NULL){
-            return new Const(null, line);
+            return new ValueExpression(null);
         }else if(type == Token.Type.LONG){
-            return new Const(Long.parseLong(lexer.currentToken()
-                    .value.substring(0, lexer.currentToken().value.length()-1)), line);
+            return new ValueExpression(Long.parseLong(lexer.currentToken()
+                    .value.substring(0, lexer.currentToken().value.length()-1)));
         }else if(type == Token.Type.INTEGER){
-            return new Const(Integer.parseInt(lexer.currentToken().value), line);
+            return new ValueExpression(Integer.parseInt(lexer.currentToken().value));
         }else if(type == Token.Type.REAL){
-            return new Const(Double.parseDouble(lexer.currentToken().value), line);
+            return new ValueExpression(Double.parseDouble(lexer.currentToken().value));
         }else if(type == Token.Type.BOOL){
-            return new Const(lexer.currentToken().value.equals("true"), line);
+            return new ValueExpression(lexer.currentToken().value.equals("true"));
         }else if(type == Token.Type.TK_PRIVATE) {
             moveAhead();
             return readExpression(AccessIdentifier.PRIVATE, annotations);
@@ -327,7 +356,7 @@ public class KayJamParser {
             return readPrimary(identifier, annotations);
         }else if(type == Token.Type.TK_MINUS){
             moveAhead();
-            return new OperationExpression(new Const(-1, line), readExpression(identifier, annotations),
+            return new OperationExpression(new ValueExpression(-1), readExpression(identifier, annotations),
                     Operation.MULTIPLY, line);
         }
 
@@ -352,7 +381,12 @@ public class KayJamParser {
             throw new ParserException(lexer, "expected type identifier");
 
         Type type = Type.getType(lexer.currentToken().value, isFunc);
-        if(moveAhead().type==Token.Type.TK_NULLABLE){
+
+        Token.Type token = moveAhead().type;
+        if(token==Token.Type.TK_NULLABLE){
+            if(type.equals(Type.VOID))
+                throw new ParserException(lexer, "Void cannot be nullable");
+
             type.nullable = true;
             moveAhead();
         }
@@ -387,8 +421,8 @@ public class KayJamParser {
     }
 
     public Expression parseBinOpRHS(AccessIdentifier identifier, List<Annotation> annotations,
-                                    int exprPrec, Expression lhs) throws Exception {
-
+                                    int exprPrec, Expression lhs) throws LexerException,
+                                        ParserException {
         while (true) {
             int tokPrec = getTokPrecedence();
 
@@ -417,13 +451,13 @@ public class KayJamParser {
                 }//else moveAhead();
 
                 if (binOp.type == Token.Type.TK_ACCESS)
-                    lhs = new Access(lhs, rhs, line);
+                    lhs = new AccessExpression(lhs, rhs, line);
                 else lhs = new OperationExpression(lhs, rhs, binOp, line);
             }
         }
     }
 
-    public List<Expression> parseAST() throws Exception {
+    public List<Expression> parseAST() throws ParserException, LexerException {
         if(lexer.currentToken().type!=Token.Type.OPEN_BRACKET)
             throw new ParserException(lexer, "Expected open bracket");
 

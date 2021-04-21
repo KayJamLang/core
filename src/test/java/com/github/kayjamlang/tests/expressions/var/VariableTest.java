@@ -1,10 +1,10 @@
 package com.github.kayjamlang.tests.expressions.var;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.Const;
-import com.github.kayjamlang.core.expressions.Variable;
+import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.expressions.VariableExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,13 +24,13 @@ public class VariableTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(Variable.class, expression.getClass());
+        assertSame(VariableExpression.class, expression.getClass());
 
-        Variable variable = (Variable) expression;
+        VariableExpression variable = (VariableExpression) expression;
         assertEquals("test", variable.name);
-        assertSame(Const.class, variable.expression.getClass());
+        assertSame(ValueExpression.class, variable.expression.getClass());
 
-        Const constant = (Const) variable.expression;
+        ValueExpression constant = (ValueExpression) variable.expression;
         assertEquals(123, constant.value);
     }
 }

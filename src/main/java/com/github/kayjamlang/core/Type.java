@@ -1,9 +1,9 @@
 package com.github.kayjamlang.core;
 
 
-import com.github.kayjamlang.core.containers.Function;
 import com.github.kayjamlang.core.containers.ObjectContainer;
-import com.github.kayjamlang.core.expressions.FunctionRef;
+import com.github.kayjamlang.core.expressions.FunctionRefExpression;
+import com.github.kayjamlang.core.expressions.data.Range;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -20,7 +20,7 @@ public class Type implements Cloneable {
     public static final Type OBJECT = new Type("obj", ObjectContainer.class, false);
     public static final Type ARRAY = new Type("array", List.class, false);
     public static final Type VOID = new Type("void", Void.class, true);
-    public static final Type FUNCTION_REF = new Type("func", FunctionRef.class, true);
+    public static final Type FUNCTION_REF = new Type("func", FunctionRefExpression.class, true);
     public static final Type RANGE = new Type("range", Range.class, true);
 
     public static final Type ANY = new Type("any", Object.class, false);
@@ -28,18 +28,41 @@ public class Type implements Cloneable {
     //Class
     public final String name;
     public final Class<?> typeClass;
+    public final boolean primitive;
     public final boolean onlyForFunction;
     public boolean nullable = false;
 
-    public Type(String name, Class<?> typeClass, boolean onlyForFunction){
+    private Type(String name, Class<?> typeClass, boolean onlyForFunction){
         this.name = name;
         this.typeClass = typeClass;
         this.onlyForFunction = onlyForFunction;
+        this.primitive = true;
+    }
+
+    private Type(String name, Class<?> typeClass, boolean onlyForFunction, boolean primitive){
+        this.name = name;
+        this.typeClass = typeClass;
+        this.onlyForFunction = onlyForFunction;
+        this.primitive = primitive;
+    }
+
+    public Type(String name, Class<?> typeClass){
+        this.name = name;
+        this.typeClass = typeClass;
+        this.onlyForFunction = false;
+        this.primitive = false;
     }
 
     @Override
-    public Type clone() throws CloneNotSupportedException {
-        return (Type) super.clone();
+    public Type clone() {
+        try {
+            return (Type) super.clone();
+        } catch (CloneNotSupportedException e) {
+            Type type = new Type(name, typeClass, onlyForFunction, primitive);
+            type.nullable = nullable;
+
+            return type;
+        }
     }
 
     @Override
@@ -75,7 +98,7 @@ public class Type implements Cloneable {
                         return type;
                 } catch (IllegalAccessException ignored) {}
 
-        return new Type(clazz.getName(), clazz, false);
+        return new Type(clazz.getName(), clazz);
     }
 
     public static Type getType(String name, boolean isFunction, boolean nullable){
@@ -87,11 +110,21 @@ public class Type implements Cloneable {
                     if(type.name.equals(name))
                         if(!type.onlyForFunction || isFunction)
                             return type.clone();
-                } catch (IllegalAccessException | CloneNotSupportedException ignored) {}
+                } catch (IllegalAccessException ignored) {}
 
-        Type type = new Type(name, Object.class, false);
+        Type type = new Type(name, Object.class);
         type.nullable = nullable;
 
         return type;
+    }
+
+    public static Type of(String name, boolean nullable){
+        Type type = new Type(name, Object.class);
+        type.nullable = nullable;
+        return type.clone();
+    }
+
+    public static Type of(String name){
+        return new Type(name, Object.class);
     }
 }

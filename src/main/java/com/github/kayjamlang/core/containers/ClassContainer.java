@@ -1,8 +1,8 @@
 package com.github.kayjamlang.core.containers;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.exceptions.ParserException;
-import com.github.kayjamlang.core.expressions.Variable;
+import com.github.kayjamlang.core.expressions.VariableExpression;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class ClassContainer extends Container {
     public ObjectContainer companion;
 
     public ArrayList<ConstructorContainer> constructors = new ArrayList<>();
-    public ArrayList<Variable> variables = new ArrayList<>();
+    public ArrayList<VariableExpression> variables = new ArrayList<>();
 
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
-                          List<Expression> children, AccessIdentifier identifier, int line) throws Exception {
+                          List<Expression> children, AccessIdentifier identifier, int line) throws ParserException {
         super(new ArrayList<>(), identifier, line);
         this.name = name;
         this.extendsClass = extendsClass;
@@ -36,10 +36,10 @@ public class ClassContainer extends Container {
             }else if(expression instanceof ConstructorContainer){
                 constructors.add((ConstructorContainer) expression);
                 this.children.remove(expression);
-            }else if(expression instanceof Variable)
-                variables.add((Variable) expression);
-            else if(expression instanceof Function){
-                functions.add((Function) expression);
+            }else if(expression instanceof VariableExpression)
+                variables.add((VariableExpression) expression);
+            else if(expression instanceof FunctionContainer){
+                functions.add((FunctionContainer) expression);
             }else throw new ParserException(line,
                         "The class can only contain variables and functions");
         }
@@ -51,7 +51,7 @@ public class ClassContainer extends Container {
         ClassContainer classContainer = (ClassContainer) super.clone();
         classContainer.constructors = (ArrayList<ConstructorContainer>)
                 constructors.clone();
-        classContainer.variables = (ArrayList<Variable>) variables.clone();
+        classContainer.variables = (ArrayList<VariableExpression>) variables.clone();
         return classContainer;
     }
 

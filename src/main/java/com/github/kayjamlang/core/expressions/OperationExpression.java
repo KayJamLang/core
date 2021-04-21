@@ -1,7 +1,6 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.Expression;
-import com.github.kayjamlang.core.Operation;
+import com.github.kayjamlang.core.expressions.loops.Operation;
 import com.github.kayjamlang.core.Token;
 import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 

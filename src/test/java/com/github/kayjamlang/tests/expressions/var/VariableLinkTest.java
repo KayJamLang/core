@@ -1,9 +1,9 @@
 package com.github.kayjamlang.tests.expressions.var;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.VariableLink;
+import com.github.kayjamlang.core.expressions.VariableLinkExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,9 +23,9 @@ public class VariableLinkTest {
         Expression expression = parser.readExpression();
 
         assertNotNull(expression);
-        assertSame(VariableLink.class, expression.getClass());
+        assertSame(VariableLinkExpression.class, expression.getClass());
 
-        VariableLink variableLink = (VariableLink) expression;
-        assertEquals("test", variableLink.name);
+        VariableLinkExpression variableLinkExpression = (VariableLinkExpression) expression;
+        assertEquals("test", variableLinkExpression.name);
     }
 }

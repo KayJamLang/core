@@ -1,12 +1,11 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.Expression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.Type;
-import com.github.kayjamlang.core.exceptions.LexerException;
 import com.github.kayjamlang.core.expressions.CastExpression;
-import com.github.kayjamlang.core.expressions.Const;
+import com.github.kayjamlang.core.expressions.ValueExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public class CastExpressionTest {
         assertEquals(CastExpression.class, expression.getClass());
 
         CastExpression castExpression = (CastExpression) expression;
-        assertEquals(Const.class, castExpression.expression.getClass());
+        assertEquals(ValueExpression.class, castExpression.expression.getClass());
         assertEquals(Type.INTEGER, castExpression.castType);
     }
 }
