@@ -66,6 +66,13 @@ public class Type implements Cloneable {
         }
     }
 
+    public boolean isAccept(Type type){
+        if(type.equals(NULL) && (type.nullable || nullable))
+            return true;
+
+        return this.equals(type);
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -73,13 +80,10 @@ public class Type implements Cloneable {
         if (o == null || getClass() != o.getClass()) return false;
 
         Type type = (Type) o;
-        if(type.equals(NULL)&&type.nullable==nullable)
-            return true;
 
         return onlyForFunction == type.onlyForFunction &&
                 Objects.equals(name, type.name) &&
-                Objects.equals(typeClass, type.typeClass) &&
-                (nullable || type.nullable);
+                Objects.equals(typeClass, type.typeClass);
     }
 
     @Override
