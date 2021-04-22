@@ -24,6 +24,7 @@ public class Type implements Cloneable {
     public static final Type RANGE = new Type("range", Range.class, true);
 
     public static final Type ANY = new Type("any", Object.class, false);
+    public static final Type NULL = new Type("null", Object.class, true);
 
     //Class
     public final String name;
@@ -67,13 +68,18 @@ public class Type implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Type type = (Type) o;
+        if(type.equals(NULL)&&type.nullable==nullable)
+            return true;
+
         return onlyForFunction == type.onlyForFunction &&
                 Objects.equals(name, type.name) &&
-                Objects.equals(typeClass, type.typeClass);
+                Objects.equals(typeClass, type.typeClass) &&
+                (nullable || type.nullable);
     }
 
     @Override

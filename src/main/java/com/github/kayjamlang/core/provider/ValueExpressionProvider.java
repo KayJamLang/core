@@ -13,7 +13,7 @@ public class ValueExpressionProvider<ReturnObject, ContextObject, MainContextObj
                         ContextObject argsContext,
                         ValueExpression expression) throws TypeException {
         if(expression.value == null) {
-            Type any = Type.ANY.clone();
+            Type any = Type.NULL.clone();
             any.nullable = true;
 
             return any;
