@@ -1,22 +1,23 @@
-package com.github.kayjamlang.tests.expressions.callcreate;
+package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.core.expressions.AssertNullExpression;
 import com.github.kayjamlang.core.expressions.CallOrCreateExpression;
+import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class CallOrCreateExpressionOneArgsTest {
+public class AssertNullExpressionInFunctionTest {
 
     private static KayJamParser parser;
 
     @BeforeClass
     public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("concat(2021)"));
+        parser = new KayJamParser(new KayJamLexer("test(123!)"));
     }
 
     @Test
@@ -27,13 +28,10 @@ public class CallOrCreateExpressionOneArgsTest {
         assertSame(CallOrCreateExpression.class, expression.getClass());
 
         CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) expression;
-        assertEquals("concat", callOrCreateExpression.name);
         assertEquals(1, callOrCreateExpression.arguments.size());
+        assertSame(AssertNullExpression.class, callOrCreateExpression.arguments.get(0).getClass());
 
-        Expression firstArgument = callOrCreateExpression.arguments.get(0);
-        assertSame(ValueExpression.class, firstArgument.getClass());
-
-        ValueExpression firstArgumentConstant = (ValueExpression) firstArgument;
-        assertEquals(2021, firstArgumentConstant.value);
+        AssertNullExpression assertNull = (AssertNullExpression) callOrCreateExpression.arguments.get(0);
+        assertSame(ValueExpression.class, assertNull.expression.getClass());
     }
 }

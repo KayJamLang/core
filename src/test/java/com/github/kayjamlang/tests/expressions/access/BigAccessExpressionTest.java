@@ -29,7 +29,7 @@ public class BigAccessExpressionTest {
         assertSame(CallOrCreateExpression.class, expression.getClass());
 
         CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) expression;
-        assertEquals("print", callOrCreateExpression.functionName);
+        assertEquals("print", callOrCreateExpression.name);
         assertEquals(1, callOrCreateExpression.arguments.size());
         assertSame(AccessExpression.class, callOrCreateExpression.arguments.get(0).getClass());
 
@@ -38,7 +38,7 @@ public class BigAccessExpressionTest {
         assertSame(CallOrCreateExpression.class, accessExpression.child.getClass());
 
         callOrCreateExpression = (CallOrCreateExpression) accessExpression.child;
-        assertEquals("e", callOrCreateExpression.functionName);
+        assertEquals("e", callOrCreateExpression.name);
         assertEquals(0, callOrCreateExpression.arguments.size());
 
         accessExpression = (AccessExpression) accessExpression.root;
@@ -46,11 +46,11 @@ public class BigAccessExpressionTest {
         assertSame(CallOrCreateExpression.class, accessExpression.child.getClass());
 
         callOrCreateExpression = (CallOrCreateExpression) accessExpression.root;
-        assertEquals("a", callOrCreateExpression.functionName);
+        assertEquals("a", callOrCreateExpression.name);
         assertEquals(0, callOrCreateExpression.arguments.size());
 
         callOrCreateExpression = (CallOrCreateExpression) accessExpression.child;
-        assertEquals("b", callOrCreateExpression.functionName);
+        assertEquals("b", callOrCreateExpression.name);
         assertEquals(1, callOrCreateExpression.arguments.size());
         assertSame(AccessExpression.class, callOrCreateExpression.arguments.get(0).getClass());
 
@@ -59,11 +59,11 @@ public class BigAccessExpressionTest {
         assertSame(CallOrCreateExpression.class, accessExpression.child.getClass());
 
         callOrCreateExpression = (CallOrCreateExpression) accessExpression.root;
-        assertEquals("c", callOrCreateExpression.functionName);
+        assertEquals("c", callOrCreateExpression.name);
         assertEquals(0, callOrCreateExpression.arguments.size());
 
         callOrCreateExpression = (CallOrCreateExpression) accessExpression.child;
-        assertEquals("d", callOrCreateExpression.functionName);
+        assertEquals("d", callOrCreateExpression.name);
         assertEquals(1, callOrCreateExpression.arguments.size());
         assertSame(ValueExpression.class, callOrCreateExpression.arguments.get(0).getClass());
     }

@@ -27,7 +27,7 @@ public class CallOrCreateExpressionTwoArgsTest {
         assertSame(CallOrCreateExpression.class, expression.getClass());
 
         CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) expression;
-        assertEquals("concat", callOrCreateExpression.functionName);
+        assertEquals("concat", callOrCreateExpression.name);
         assertEquals(2, callOrCreateExpression.arguments.size());
 
         Expression firstArgument = callOrCreateExpression.arguments.get(0);

@@ -6,19 +6,22 @@ import java.util.List;
 
 public class CallOrCreateExpression extends Expression {
 
-    public final String functionName;
+    @Deprecated
+    public final String functionName = null;
+
+    public final String name;
     public final List<Expression> arguments;
 
-    public CallOrCreateExpression(String functionName, List<Expression> arguments, int line){
+    public CallOrCreateExpression(String name, List<Expression> arguments, int line){
         super(AccessIdentifier.NONE, line);
-        this.functionName = functionName;
+        this.name = name;
         this.arguments = arguments;
     }
 
     @Override
     public String toString() {
         return "FunctionCall{" +
-                "functionName='" + functionName + '\'' +
+                "functionName='" + name + '\'' +
                 ", arguments=" + arguments +
                 ", identifier=" + identifier +
                 ", line=" + line +

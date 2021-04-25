@@ -26,7 +26,7 @@ public class CallOrCreateExpressionZeroArgsTest {
         assertSame(CallOrCreateExpression.class, expression.getClass());
 
         CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) expression;
-        assertEquals("concat", callOrCreateExpression.functionName);
+        assertEquals("concat", callOrCreateExpression.name);
         assertEquals(0, callOrCreateExpression.arguments.size());
     }
 }

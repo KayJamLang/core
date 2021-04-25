@@ -32,7 +32,7 @@ public class AccessExpressionTest {
         assertSame(VariableLinkExpression.class, accessExpression.child.getClass());
 
         CallOrCreateExpression root = (CallOrCreateExpression) accessExpression.root;
-        assertEquals("getRoot", root.functionName);
+        assertEquals("getRoot", root.name);
         assertEquals(0, root.arguments.size());
 
         VariableLinkExpression child = (VariableLinkExpression) accessExpression.child;

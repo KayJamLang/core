@@ -77,13 +77,16 @@ public class KayJamParser {
         return expression;
     }
 
-    public Expression readEndExpression(Expression root) {
-        if(currentTokenType()==Token.Type.TK_NOT)
+    public Expression readEndExpression(Expression root) throws LexerException {
+        if(currentTokenType()==Token.Type.TK_NOT) {
+            moveAhead();
             return new AssertNullExpression(root, lexer.getLine());
-        else if(currentTokenType()==Token.Type.TK_PLUS_ONE){
+        }else if(currentTokenType()==Token.Type.TK_PLUS_ONE){
+            moveAhead();
             return new OperationExpression(root,
                     new ValueExpression(1), Operation.PLUS, lexer.getLine());
         }else if(currentTokenType()==Token.Type.TK_MINUS_ONE){
+            moveAhead();
             return new OperationExpression(root,
                     new ValueExpression(1), Operation.MINUS, lexer.getLine());
         }
