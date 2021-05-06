@@ -15,6 +15,7 @@ public enum KayJamIdentifier {
     RETURN("return"),
     CONSTRUCTOR("constructor"),
     COMPANION("companion"),
+    NAMESPACE("namespace"),
     USE("use"),
     CAST("as"),
     IS("is"),

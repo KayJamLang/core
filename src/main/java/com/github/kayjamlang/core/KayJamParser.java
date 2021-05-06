@@ -20,10 +20,15 @@ public class KayJamParser {
 
     private final KayJamLexer lexer;
 
+    private String namespace;
     private static final Map<String, Integer> binOperationPrecedence;
 
     static {
         binOperationPrecedence = new HashMap<>();
+        binOperationPrecedence.put("..", 0);
+        binOperationPrecedence.put(".", 0);
+        binOperationPrecedence.put("as", 0);
+        binOperationPrecedence.put("is", 0);
         binOperationPrecedence.put("<", 10);
         binOperationPrecedence.put("=<", 10);
         binOperationPrecedence.put(">", 10);
@@ -35,10 +40,6 @@ public class KayJamParser {
         binOperationPrecedence.put("&&", 30);
         binOperationPrecedence.put("*", 40);
         binOperationPrecedence.put("/", 40);
-        binOperationPrecedence.put("..", 50);
-        binOperationPrecedence.put(".", 60);
-        binOperationPrecedence.put("as", 60);
-        binOperationPrecedence.put("is", 60);
         binOperationPrecedence.put("||", 70);
     }
 
@@ -490,14 +491,16 @@ public class KayJamParser {
         List<Expression> children = new ArrayList<>();
 
         while (moveAhead().type != Token.Type.CLOSE_BRACKET) {
-            children.add(readTopExpression());
+            if(namespace.isEmpty()&&lexer.currentToken().value.equals("namespace")){
+                namespace = requireToken(Token.Type.IDENTIFIER).value;
+            }else children.add(readTopExpression());
 
             if (!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
                 throw new ParserException(lexer,
                         "A semicolon was expected, but it wasn't there. Please put it on!");
         }
 
-        return new Script(new Container(children, 0));
+        return new Script(namespace, new Container(children, 0));
     }
 
     public List<Expression> parseAST() throws ParserException, LexerException {

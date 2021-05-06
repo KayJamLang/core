@@ -16,6 +16,7 @@ public class Token {
     public enum Type {
         COMMENT ("//(.+)"),
 
+        TK_NAMESPACE_DELIMITER("\\\\"),
         TK_REF ("->"),
         TK_ANNOTATION ("\\@"),
         TK_NEW_LINE ("\\R"),
