@@ -21,7 +21,7 @@ public class UseExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = parser.readTopExpression();
 
         assertNotNull(expression);
         assertSame(UseExpression.class, expression.getClass());

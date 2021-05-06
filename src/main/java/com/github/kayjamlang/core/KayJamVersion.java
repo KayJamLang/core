@@ -1,5 +1,5 @@
 package com.github.kayjamlang.core;
 
 public class KayJamVersion {
-    public static final Integer VERSION_CODE = 4;
+    public static final int VERSION_CODE = 5;
 }

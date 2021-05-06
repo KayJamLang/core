@@ -19,30 +19,12 @@ public class Token {
         TK_REF ("->"),
         TK_ANNOTATION ("\\@"),
         TK_NEW_LINE ("\\R"),
-        TK_PUBLIC ("public "),
-        TK_PRIVATE ("private "),
-        TK_COMPANION ("companion "),
-        TK_RETURN ("return "),
-        TK_CONSTRUCTOR ("constructor"),
-        TK_FUNCTION ("(function|fun)"),
-        TK_CLASS ("class"),
-        TK_OBJECT ("object"),
-        TK_USE ("use "),
-        TK_WHILE ("while"),
-        TK_NAMED ("named "),
-        TK_FOR ("for"),
         TK_COMPANION_ACCESS ("::"),
         TK_COLON (":"),
         TK_OPEN ("\\("),
         TK_CLOSE ("\\)"),
         TK_SEMI (";"),
         TK_COMMA (","),
-        TK_VAR ("var"),
-        TK_AS("as"),
-        TK_IS("is"),
-        TK_KEY_IN ("in "),
-        TK_KEY_IF ("if"),
-        TK_KEY_ELSE ("else"),
         TK_NULLABLE ("\\?"),
         TK_OPEN_SQUARE_BRACKET("\\["),
         TK_CLOSE_SQUARE_BRACKET("\\]"),
@@ -90,7 +72,7 @@ public class Token {
             pattern = Pattern.compile("^" + regex);
         }
 
-        int endOfMatch(String s) {
+        public int endOfMatch(String s) {
             Matcher m = pattern.matcher(s);
 
             if (m.find()) {

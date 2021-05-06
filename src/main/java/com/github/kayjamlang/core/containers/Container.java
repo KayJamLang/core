@@ -20,6 +20,10 @@ public class Container extends Expression implements Cloneable {
         }
     }
 
+    public Container(List<Expression> children, int line) {
+        this(children, AccessIdentifier.NONE, line);
+    }
+
     @Override
     public String toString() {
         return "Container{" +

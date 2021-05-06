@@ -20,7 +20,7 @@ public class ObjectContainerTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = parser.readTopExpression();
 
         assertNotNull(expression);
         assertSame(ObjectContainer.class, expression.getClass());
