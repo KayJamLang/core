@@ -25,8 +25,6 @@ public class KayJamParser {
 
     static {
         binOperationPrecedence = new HashMap<>();
-        binOperationPrecedence.put("..", 0);
-        binOperationPrecedence.put(".", 0);
         binOperationPrecedence.put("as", 0);
         binOperationPrecedence.put("is", 0);
         binOperationPrecedence.put("<", 10);
@@ -37,9 +35,11 @@ public class KayJamParser {
         binOperationPrecedence.put("-", 20);
         binOperationPrecedence.put("==", 20);
         binOperationPrecedence.put("!=", 20);
-        binOperationPrecedence.put("&&", 30);
         binOperationPrecedence.put("*", 40);
         binOperationPrecedence.put("/", 40);
+        binOperationPrecedence.put("..", 50);
+        binOperationPrecedence.put(".", 50);
+        binOperationPrecedence.put("&&", 70);
         binOperationPrecedence.put("||", 70);
     }
 
