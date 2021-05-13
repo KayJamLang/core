@@ -482,7 +482,7 @@ public class KayJamParser {
 
                 if (binOp.type == Token.Type.TK_ACCESS)
                     lhs = new AccessExpression(lhs, rhs, line);
-                else lhs = new OperationExpression(lhs, rhs, binOp, line);
+                else lhs = new OperationExpression(lhs, rhs, Operation.get(binOp.type), line);
             }
         }
     }
