@@ -1,13 +1,13 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class ValueExpression extends Expression {
 
     public final Object value;
 
     public ValueExpression(Object value) {
-        super(AccessIdentifier.NONE, -1);
+        super(AccessType.NONE, -1);
         this.value = value;
     }
 

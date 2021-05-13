@@ -1,12 +1,12 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class VariableExpression extends Expression {
     public final String name;
     public final Expression expression;
 
-    public VariableExpression(String name, Expression expression, AccessIdentifier identifier, int line) {
+    public VariableExpression(String name, Expression expression, AccessType identifier, int line) {
         super(identifier, line);
         this.name = name;
         this.expression = expression;
@@ -17,7 +17,7 @@ public class VariableExpression extends Expression {
         return "Variable{" +
                 "name='" + name + '\'' +
                 ", expression=" + expression +
-                ", identifier=" + identifier +
+                ", identifier=" + accessType +
                 ", line=" + line +
                 '}';
     }

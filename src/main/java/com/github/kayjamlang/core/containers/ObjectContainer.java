@@ -2,7 +2,7 @@ package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.exceptions.ParserException;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ObjectContainer extends ClassContainer {
      * @throws ParserException Unknown expression in code
      */
     public ObjectContainer(List<Expression> children,
-                           AccessIdentifier accessType,
+                           AccessType accessType,
                            int line) throws ParserException {
         super("anonymous@class", null,
                 Collections.emptyList(),
@@ -41,7 +41,7 @@ public class ObjectContainer extends ClassContainer {
      */
     public ObjectContainer(String name,
                            List<Expression> children,
-                           AccessIdentifier accessType,
+                           AccessType accessType,
                            int line) throws ParserException {
         super(name, null, Collections.emptyList(),
                 children, accessType, line);

@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Container extends Expression implements Cloneable {
      * @param identifier Type of container
      * @param line Line of container
      */
-    public Container(List<Expression> children, AccessIdentifier identifier, int line) {
+    public Container(List<Expression> children, AccessType identifier, int line) {
         super(identifier, line);
 
         for(Expression expression: children){
@@ -44,7 +44,7 @@ public class Container extends Expression implements Cloneable {
      * @param line Line of container
      */
     public Container(List<Expression> children, int line) {
-        this(children, AccessIdentifier.NONE, line);
+        this(children, AccessType.NONE, line);
     }
 
     @Override

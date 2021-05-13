@@ -1,12 +1,12 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class VariableLinkExpression extends Expression {
     public final String name;
 
     public VariableLinkExpression(String name, int line) {
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.name = name;
     }
 
@@ -14,7 +14,7 @@ public class VariableLinkExpression extends Expression {
     public String toString() {
         return "VariableLink{" +
                 "name='" + name + '\'' +
-                ", identifier=" + identifier +
+                ", identifier=" + accessType +
                 ", line=" + line +
                 '}';
     }

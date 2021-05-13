@@ -2,7 +2,7 @@ package com.github.kayjamlang.core.expressions;
 
 import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.Type;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class FunctionRefExpression extends Expression {
     
     public FunctionRefExpression(List<Argument> arguments, Expression expression, Type typeOfReturn,
                                  int line) {
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.expression = expression;
         this.typeOfReturn = typeOfReturn;
         this.arguments = arguments;

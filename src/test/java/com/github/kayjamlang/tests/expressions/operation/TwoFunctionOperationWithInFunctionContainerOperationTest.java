@@ -3,7 +3,7 @@ package com.github.kayjamlang.tests.expressions.operation;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.loops.Operation;
+import com.github.kayjamlang.core.expressions.data.Operation;
 import com.github.kayjamlang.core.expressions.CallOrCreateExpression;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.OperationExpression;

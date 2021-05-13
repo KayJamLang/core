@@ -1,12 +1,12 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class ReturnExpression extends Expression {
     public final Expression expression;
 
     public ReturnExpression(Expression expression, int line) {
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.expression = expression;
     }
 
@@ -14,7 +14,7 @@ public class ReturnExpression extends Expression {
     public String toString() {
         return "Return{" +
                 "expression=" + expression +
-                ", identifier=" + identifier +
+                ", identifier=" + accessType +
                 ", line=" + line +
                 '}';
     }

@@ -1,6 +1,6 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class IfExpression extends Expression {
     public final Expression condition;
@@ -8,7 +8,7 @@ public class IfExpression extends Expression {
     public final Expression ifFalse;
 
     public IfExpression(Expression condition, Expression ifTrue, Expression ifFalse, int line) {
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
 
         this.condition = condition;
         this.ifTrue = ifTrue;
@@ -21,7 +21,7 @@ public class IfExpression extends Expression {
                 "condition=" + condition +
                 ", ifTrue=" + ifTrue +
                 ", ifFalse=" + ifFalse +
-                ", identifier=" + identifier +
+                ", identifier=" + accessType +
                 ", line=" + line +
                 '}';
     }

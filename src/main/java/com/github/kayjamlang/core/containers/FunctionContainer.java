@@ -4,7 +4,7 @@ import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.data.Annotation;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class FunctionContainer extends Container {
      * @param line Function line
      */
     public FunctionContainer(String name, List<Expression> children,
-                             AccessIdentifier accessType, List<Argument> arguments,
+                             AccessType accessType, List<Argument> arguments,
                              Type returnType, List<Annotation> annotations, int line) {
         super(children, accessType, line);
 

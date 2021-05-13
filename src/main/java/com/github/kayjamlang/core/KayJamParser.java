@@ -7,9 +7,9 @@ import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.expressions.data.Annotation;
 import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.expressions.loops.ForExpression;
-import com.github.kayjamlang.core.expressions.loops.Operation;
+import com.github.kayjamlang.core.expressions.data.Operation;
 import com.github.kayjamlang.core.expressions.loops.WhileExpression;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,14 +48,14 @@ public class KayJamParser {
     }
 
     public Expression readExpression() throws LexerException, ParserException {
-        return readExpression(AccessIdentifier.NONE, new ArrayList<>());
+        return readExpression(AccessType.NONE, new ArrayList<>());
     }
 
     public Expression readTopExpression() throws LexerException, ParserException {
-        return readTopExpression(AccessIdentifier.NONE, new ArrayList<>());
+        return readTopExpression(AccessType.NONE, new ArrayList<>());
     }
 
-    public Expression readTopExpression(AccessIdentifier identifier, List<Annotation> annotations) throws LexerException, ParserException {
+    public Expression readTopExpression(AccessType identifier, List<Annotation> annotations) throws LexerException, ParserException {
         Expression expression = readPrimary(identifier, annotations);
         if(currentTokenType() == Token.Type.CLOSE_BRACKET)
             return expression;
@@ -81,7 +81,7 @@ public class KayJamParser {
         return expression;
     }
 
-    public Expression readExpression(AccessIdentifier identifier, List<Annotation> annotations) throws LexerException, ParserException {
+    public Expression readExpression(AccessType identifier, List<Annotation> annotations) throws LexerException, ParserException {
         Expression expression = readTopExpression(identifier, annotations);
         if(expression instanceof ClassContainer||
                 expression instanceof UseExpression)
@@ -134,7 +134,7 @@ public class KayJamParser {
 
     }
 
-    public Expression readPrimary(AccessIdentifier identifier, List<Annotation> annotations) throws LexerException,
+    public Expression readPrimary(AccessType identifier, List<Annotation> annotations) throws LexerException,
             ParserException {
         Token.Type type = currentTokenType();
         int line = lexer.getLine();
@@ -175,10 +175,10 @@ public class KayJamParser {
                     return new NamedExpressionFunctionContainer(name, parseAST(), identifier, line);
                 }else if(keyword==KayJamIdentifier.PRIVATE) {
                     moveAhead();
-                    return readExpression(AccessIdentifier.PRIVATE, annotations);
+                    return readExpression(AccessType.PRIVATE, annotations);
                 }else if(keyword==KayJamIdentifier.PUBLIC) {
                     moveAhead();
-                    return readExpression(AccessIdentifier.PUBLIC, annotations);
+                    return readExpression(AccessType.PUBLIC, annotations);
                 }else if(keyword==KayJamIdentifier.WHILE){
                     requireToken(Token.Type.TK_OPEN);
 
@@ -248,7 +248,7 @@ public class KayJamParser {
                     return new UseExpression(readExpression(), line);
                 }else if(keyword==KayJamIdentifier.COMPANION) {
                     moveAhead();
-                    return readExpression(AccessIdentifier.COMPANION, annotations);
+                    return readExpression(AccessType.COMPANION, annotations);
                 }else if(keyword==KayJamIdentifier.IF){
                     requireToken(Token.Type.TK_OPEN);
 
@@ -352,7 +352,7 @@ public class KayJamParser {
             moveAhead();
             return new NegationExpression(readExpression(identifier, annotations), line);
         }else if(type == Token.Type.OPEN_BRACKET){
-            return new Container(parseAST(), AccessIdentifier.PUBLIC, line);
+            return new Container(parseAST(), AccessType.PUBLIC, line);
         }else if(type == Token.Type.TK_OPEN_SQUARE_BRACKET){
             List<Expression> values = new ArrayList<>();
             while (moveAhead().type!=Token.Type.TK_CLOSE_SQUARE_BRACKET){
@@ -448,7 +448,7 @@ public class KayJamParser {
         return arguments;
     }
 
-    public Expression parseBinOpRHS(AccessIdentifier identifier, List<Annotation> annotations,
+    public Expression parseBinOpRHS(AccessType identifier, List<Annotation> annotations,
                                     int exprPrec, Expression lhs) throws LexerException,
                                         ParserException {
         while (true) {

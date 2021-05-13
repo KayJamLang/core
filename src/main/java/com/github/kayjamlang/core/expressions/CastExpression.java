@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.expressions;
 
 import com.github.kayjamlang.core.Type;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class CastExpression extends Expression {
 
@@ -9,7 +9,7 @@ public class CastExpression extends Expression {
     public final Type castType;
 
     public CastExpression(Expression expression, Type castType, int line) {
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.expression = expression;
         this.castType = castType;
     }
