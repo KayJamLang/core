@@ -1,6 +1,6 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class CallOrCreateExpression extends Expression {
     public final List<Expression> arguments;
 
     public CallOrCreateExpression(String name, List<Expression> arguments, int line){
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.name = name;
         this.arguments = arguments;
     }
@@ -23,7 +23,7 @@ public class CallOrCreateExpression extends Expression {
         return "FunctionCall{" +
                 "functionName='" + name + '\'' +
                 ", arguments=" + arguments +
-                ", identifier=" + identifier +
+                ", identifier=" + accessType +
                 ", line=" + line +
                 '}';
     }

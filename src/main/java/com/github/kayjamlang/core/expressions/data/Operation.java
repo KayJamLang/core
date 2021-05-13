@@ -1,7 +1,10 @@
-package com.github.kayjamlang.core.expressions.loops;
+package com.github.kayjamlang.core.expressions.data;
 
 import com.github.kayjamlang.core.Token;
 
+/**
+ * Operation types
+ */
 public enum Operation {
 
     PLUS(Token.Type.TK_PLUS),

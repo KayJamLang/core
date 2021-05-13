@@ -3,7 +3,7 @@ package com.github.kayjamlang.core.containers;
 import com.github.kayjamlang.core.exceptions.ParserException;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.expressions.UseExpression;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class Script extends Container {
     public final List<UseExpression> usages = new ArrayList<>();
 
     public Script(String namespace, Container container) throws ParserException {
-        super(new ArrayList<>(), AccessIdentifier.NONE, 0);
+        super(new ArrayList<>(), AccessType.NONE, 0);
         this.namespace = namespace;
         functions.addAll(container.functions);
 

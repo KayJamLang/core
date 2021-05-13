@@ -1,25 +1,33 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.HashMap;
 
 public abstract class Expression implements Cloneable {
-    public final AccessIdentifier identifier;
+    /**
+     * Type of access
+     */
+    public final AccessType accessType;
+
+    /**
+     * Specific data for provider
+     */
     public HashMap<String, Object> data = new HashMap<>();
+
+    /**
+     * Expression line
+     */
     public final int line;
 
-    public Expression(AccessIdentifier identifier, int line) {
-        this.identifier = identifier;
+    /**
+     * Creates Expression
+     * @param accessType Type of access
+     * @param line Expression line
+     */
+    public Expression(AccessType accessType, int line) {
+        this.accessType = accessType;
         this.line = line;
-    }
-
-    @Override
-    public String toString() {
-        return "Expression{" +
-                "identifier=" + identifier +
-                ", line=" + line +
-                '}';
     }
 
     @Override

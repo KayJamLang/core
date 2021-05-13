@@ -1,13 +1,13 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class UseExpression extends Expression {
 
     public final String from;
 
     public UseExpression(String from, int line){
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.from = from;
         expression = null;
     }
@@ -17,7 +17,7 @@ public class UseExpression extends Expression {
 
     @Deprecated
     public UseExpression(Expression expression, int line) {
-        super(AccessIdentifier.NONE, line);
+        super(AccessType.NONE, line);
         this.expression = expression;
         this.from = null;
     }

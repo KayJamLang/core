@@ -1,6 +1,6 @@
 package com.github.kayjamlang.core.opcodes;
 
-public enum AccessIdentifier {
+public enum AccessType {
     NONE,
     PUBLIC,
     PRIVATE,

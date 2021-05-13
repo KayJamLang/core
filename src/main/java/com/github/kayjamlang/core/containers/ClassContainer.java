@@ -3,7 +3,7 @@ package com.github.kayjamlang.core.containers;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.exceptions.ParserException;
 import com.github.kayjamlang.core.expressions.VariableExpression;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class ClassContainer extends Container {
      * @throws ParserException throws on unexpected expression in code
      */
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
-                          List<Expression> children, AccessIdentifier accessType, int line) throws ParserException {
+                          List<Expression> children, AccessType accessType, int line) throws ParserException {
         super(new ArrayList<>(), accessType, line);
         this.name = name;
         this.extendsClass = extendsClass;
@@ -60,7 +60,7 @@ public class ClassContainer extends Container {
 
         for(Expression expression: children) {
             if (expression instanceof ObjectContainer
-                    && expression.identifier == AccessIdentifier.COMPANION) {
+                    && expression.accessType == AccessType.COMPANION) {
                 if (companion != null)
                     throw new ParserException(expression.line, "companion already exists");
 

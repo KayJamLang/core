@@ -2,7 +2,7 @@ package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.opcodes.AccessIdentifier;
+import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class ConstructorContainer extends Container {
      * @param line Line of constructor
      */
     public ConstructorContainer(List<Argument> arguments, List<Expression> children,
-                                AccessIdentifier accessType, int line) {
+                                AccessType accessType, int line) {
         super(children, accessType, line);
         this.arguments = arguments;
     }
