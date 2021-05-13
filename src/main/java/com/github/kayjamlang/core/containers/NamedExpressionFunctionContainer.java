@@ -9,13 +9,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Named function
+ */
 public class NamedExpressionFunctionContainer extends FunctionContainer {
+
+    /**
+     * @param name Name of function
+     * @param children Code of function
+     * @param accessType Type of access
+     * @param line Start of named function
+     */
     public NamedExpressionFunctionContainer(String name,
                                             List<Expression> children,
-                                            AccessIdentifier identifier,
+                                            AccessIdentifier accessType,
                                             int line) {
-        super(name, children, identifier,
+        super(name, children, accessType,
                 Collections.singletonList(new Argument(Type.FUNCTION_REF, name)),
-                line, Type.VOID, new ArrayList<>());
+                Type.VOID, Collections.emptyList(), line);
     }
 }

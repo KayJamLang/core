@@ -166,7 +166,7 @@ public class KayJamParser {
 
                     List<Expression> body = parseAST();
 
-                    return new FunctionContainer(name, body, identifier, arguments, line, returnType, annotations);
+                    return new FunctionContainer(name, body, identifier, arguments, returnType, annotations, line);
                 }else if(keyword==KayJamIdentifier.NAMED){
                     requireIdentifier(KayJamIdentifier.FUNCTION);
                     String name = requireToken(Token.Type.IDENTIFIER).value;

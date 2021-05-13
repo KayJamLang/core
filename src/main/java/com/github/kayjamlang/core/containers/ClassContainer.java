@@ -8,19 +8,52 @@ import com.github.kayjamlang.core.opcodes.AccessIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class expression group
+ */
 public class ClassContainer extends Container {
-
+    /**
+     * Name of class
+     */
     public final String name;
+
+    /**
+     * Name of class parent
+     */
     public final String extendsClass;
+
+    /**
+     * Classes implements
+     */
     public final List<String> implementsClass;
+
+    /**
+     * Static companion of class
+     */
     public ObjectContainer companion;
 
+    /**
+     * Class constructors
+     */
     public ArrayList<ConstructorContainer> constructors = new ArrayList<>();
+
+    /**
+     * Properties in class
+     */
     public ArrayList<VariableExpression> variables = new ArrayList<>();
 
+    /**
+     * @param name Name of class
+     * @param extendsClass Name of class parent
+     * @param implementsClass Classes implements
+     * @param children Code in class (Only functions, constructors, properties and companion)
+     * @param accessType Access of class
+     * @param line Line of start class
+     * @throws ParserException throws on unexpected expression in code
+     */
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
-                          List<Expression> children, AccessIdentifier identifier, int line) throws ParserException {
-        super(new ArrayList<>(), identifier, line);
+                          List<Expression> children, AccessIdentifier accessType, int line) throws ParserException {
+        super(new ArrayList<>(), accessType, line);
         this.name = name;
         this.extendsClass = extendsClass;
         this.implementsClass = implementsClass;
