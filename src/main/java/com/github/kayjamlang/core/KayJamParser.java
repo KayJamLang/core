@@ -391,6 +391,8 @@ public class KayJamParser {
         throw new ParserException(lexer, "\""+lexer.currentToken().value+"\" is in the wrong place");
     }
 
+    public String[]
+
     public int getTokPrecedence(){
         if(!binOperationPrecedence.containsKey(lexer.currentToken().value)) {
             //lexer.input = new StringBuilder(lexer.currentToken().value+" "+lexer.input);
@@ -476,9 +478,8 @@ public class KayJamParser {
 
                 moveAhead();
                 int nextPrec = getTokPrecedence();
-                if (tokPrec < nextPrec) {
+                if (tokPrec < nextPrec)
                     rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs);
-                }//else moveAhead();
 
                 if (binOp.type == Token.Type.TK_ACCESS)
                     lhs = new AccessExpression(lhs, rhs, line);

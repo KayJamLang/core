@@ -2,13 +2,17 @@ package com.github.kayjamlang.core.expressions;
 
 import com.github.kayjamlang.core.opcodes.AccessType;
 
-public class UseExpression extends Expression {
+import java.util.List;
 
+public class UseExpression extends Expression {
+    public List<String> required;
     public final String from;
 
-    public UseExpression(String from, int line){
+    public UseExpression(List<String> required, String from, int line){
         super(AccessType.NONE, line);
+        this.required = required;
         this.from = from;
+
         expression = null;
     }
 
