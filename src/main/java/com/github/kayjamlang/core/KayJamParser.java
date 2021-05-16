@@ -391,7 +391,7 @@ public class KayJamParser {
         throw new ParserException(lexer, "\""+lexer.currentToken().value+"\" is in the wrong place");
     }
 
-    public String[]
+    /*public String[]*/
 
     public int getTokPrecedence(){
         if(!binOperationPrecedence.containsKey(lexer.currentToken().value)) {
