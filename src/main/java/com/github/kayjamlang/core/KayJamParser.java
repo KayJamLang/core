@@ -19,8 +19,6 @@ import java.util.Map;
 public class KayJamParser {
 
     private final KayJamLexer lexer;
-
-    private String namespace;
     private static final Map<String, Integer> binOperationPrecedence;
 
     static {
@@ -164,7 +162,7 @@ public class KayJamParser {
                         returnType = parseType(true);
                     }
 
-                    List<Expression> body = parseAST();
+                    List<Expression> body = parseExpressions();
 
                     return new FunctionContainer(name, body, identifier, arguments, returnType, annotations, line);
                 }else if(keyword==KayJamIdentifier.NAMED){
@@ -172,7 +170,7 @@ public class KayJamParser {
                     String name = requireToken(Token.Type.IDENTIFIER).value;
 
                     moveAhead();
-                    return new NamedExpressionFunctionContainer(name, parseAST(), identifier, line);
+                    return new NamedExpressionFunctionContainer(name, parseExpressions(), identifier, line);
                 }else if(keyword==KayJamIdentifier.PRIVATE) {
                     moveAhead();
                     return readExpression(AccessType.PRIVATE, annotations);
@@ -209,11 +207,11 @@ public class KayJamParser {
                 }else if(keyword==KayJamIdentifier.OBJECT){
                     Token t = moveAhead();
                     if(t.type==Token.Type.OPEN_BRACKET)
-                        return new ObjectContainer(parseAST(), identifier, line);
+                        return new ObjectContainer(parseExpressions(), identifier, line);
                     else if(t.type==Token.Type.IDENTIFIER){
                         moveAhead();
                         return new ObjectContainer(t.value,
-                                parseAST(), identifier, line);
+                                parseExpressions(), identifier, line);
                     }else throw new ParserException(lexer, "expected name of object or open bracket");
                 }else if(keyword==KayJamIdentifier.CLASS){
                     moveAhead();
@@ -232,7 +230,7 @@ public class KayJamParser {
                         }
 
                         return new ClassContainer(name, extendsClass, implementsClass,
-                                parseAST(), identifier, line);
+                                parseExpressions(), identifier, line);
                     }else throw new ParserException(lexer, "expected identifier of class");
                 }else if(keyword==KayJamIdentifier.RETURN){
                     moveAhead();
@@ -242,7 +240,7 @@ public class KayJamParser {
                     List<Argument> arguments = parseArguments();
 
                     moveAhead();
-                    return new ConstructorContainer(arguments, parseAST(), identifier, line);
+                    return new ConstructorContainer(arguments, parseExpressions(), identifier, line);
                 }else if(keyword==KayJamIdentifier.USE){
                     moveAhead();
                     return new UseExpression(readExpression(), line);
@@ -270,8 +268,28 @@ public class KayJamParser {
                     }
 
                     return new IfExpression(condition, ifTrue, ifFalse, line);
+                }else if(keyword==KayJamIdentifier.PACK){
+                    moveAhead();
+                    String name = parseName();
+                    if(lexer.currentToken().type!=Token.Type.OPEN_BRACKET)
+                        throw new ParserException(lexer, "Expected open bracket");
+
+                    List<Expression> expressions = new ArrayList<>();
+
+                    while (moveAhead().type != Token.Type.CLOSE_BRACKET) {
+                        expressions.add(readExpression());
+
+                        boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
+
+                        if (!closeBracket&&moveAhead().type!=Token.Type.TK_SEMI)
+                            throw new ParserException(lexer,
+                                    "A semicolon was expected, but it wasn't there. Please put it on!");
+                    }
+
+                    return new PackContainer(name, new Container(expressions, line),
+                            false);
                 }
-            }else {
+            }else{
                 String name = lexer.currentToken().value;
 
                 type = moveAhead().type;
@@ -352,7 +370,7 @@ public class KayJamParser {
             moveAhead();
             return new NegationExpression(readExpression(identifier, annotations), line);
         }else if(type == Token.Type.OPEN_BRACKET){
-            return new Container(parseAST(), AccessType.PUBLIC, line);
+            return new Container(parseExpressions(), AccessType.PUBLIC, line);
         }else if(type == Token.Type.TK_OPEN_SQUARE_BRACKET){
             List<Expression> values = new ArrayList<>();
             while (moveAhead().type!=Token.Type.TK_CLOSE_SQUARE_BRACKET){
@@ -391,7 +409,20 @@ public class KayJamParser {
         throw new ParserException(lexer, "\""+lexer.currentToken().value+"\" is in the wrong place");
     }
 
-    /*public String[]*/
+    public String parseName() throws LexerException, ParserException {
+        if(currentTokenType()==Token.Type.TK_NAMESPACE_DELIMITER)
+            moveAhead();
+
+        if(currentTokenType()!=Token.Type.IDENTIFIER)
+            throw new ParserException(lexer, "excepted type");
+
+        StringBuilder name = new StringBuilder("\\"+lexer.currentToken().value);
+        while (moveAhead().type==Token.Type.TK_NAMESPACE_DELIMITER){
+            name.append("\\").append(moveAhead().value);
+        }
+
+        return name.toString();
+    }
 
     public int getTokPrecedence(){
         if(!binOperationPrecedence.containsKey(lexer.currentToken().value)) {
@@ -407,13 +438,8 @@ public class KayJamParser {
     }
 
     public Type parseType(boolean isFunc) throws LexerException, ParserException {
-        if(lexer.currentToken().type != Token.Type.IDENTIFIER)
-            throw new ParserException(lexer, "expected type identifier");
-
-        Type type = Type.getType(lexer.currentToken().value, isFunc);
-
-        Token.Type token = moveAhead().type;
-        if(token==Token.Type.TK_NULLABLE){
+        Type type = Type.getType(parseName(), isFunc);
+        if(currentTokenType()==Token.Type.TK_NULLABLE){
             if(type.equals(Type.VOID))
                 throw new ParserException(lexer, "Void cannot be nullable");
 
@@ -492,19 +518,17 @@ public class KayJamParser {
         List<Expression> children = new ArrayList<>();
 
         while (moveAhead().type != Token.Type.CLOSE_BRACKET) {
-            if(namespace.isEmpty()&&lexer.currentToken().value.equals("namespace")){
-                namespace = requireToken(Token.Type.IDENTIFIER).value;
-            }else children.add(readTopExpression());
+            children.add(readTopExpression());
 
             if (!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
                 throw new ParserException(lexer,
                         "A semicolon was expected, but it wasn't there. Please put it on!");
         }
 
-        return new Script(namespace, new Container(children, 0));
+        return new Script(new Container(children, 0));
     }
 
-    public List<Expression> parseAST() throws ParserException, LexerException {
+    public List<Expression> parseExpressions() throws ParserException, LexerException {
         if(lexer.currentToken().type!=Token.Type.OPEN_BRACKET)
             throw new ParserException(lexer, "Expected open bracket");
 

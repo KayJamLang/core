@@ -125,7 +125,7 @@ public class Type implements Cloneable {
                 try {
                     Type type = (Type) f.get(Type.class);
                     type.nullable = nullable;
-                    if(type.name.equals(name))
+                    if(type.name.equals(name)||("\\"+type.name).equals(name))
                         if(!type.onlyForFunction || isFunction)
                             return type.clone();
                 } catch (IllegalAccessException ignored) {}

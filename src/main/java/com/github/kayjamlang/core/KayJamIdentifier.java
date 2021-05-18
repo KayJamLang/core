@@ -22,6 +22,7 @@ public enum KayJamIdentifier {
     IF("if"),
     IN("in"),
     ELSE("else"),
+    PACK("pack"),
 
     ;
 
