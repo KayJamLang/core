@@ -3,15 +3,11 @@ package com.github.kayjamlang.tests.expressions;
 import com.github.kayjamlang.core.exceptions.LexerException;
 import com.github.kayjamlang.core.exceptions.ParserException;
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.UseExpression;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class UseExpressionTests {
     @Test
