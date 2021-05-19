@@ -243,7 +243,13 @@ public class KayJamParser {
                     return new ConstructorContainer(arguments, parseExpressions(), identifier, line);
                 }else if(keyword==KayJamIdentifier.USE){
                     moveAhead();
-                    return new UseExpression(readExpression(), line);
+                    List<String> needed = parseRequiredUsages("");
+                    if(!lexer.currentToken().value.equals("from"))
+                        throw new ParserException(lexer, "excepted keyword 'from'");
+
+                    String from = requireToken(Token.Type.STRING).value;
+                    return new UseExpression(needed,
+                            from.substring(1, from.length()-1), line);
                 }else if(keyword==KayJamIdentifier.COMPANION) {
                     moveAhead();
                     return readExpression(AccessType.COMPANION, annotations);
@@ -288,6 +294,16 @@ public class KayJamParser {
 
                     return new PackContainer(name, new Container(expressions, line),
                             false);
+                }else if(keyword==KayJamIdentifier.CONSTANT){
+                    String name = requireToken(Token.Type.IDENTIFIER).value;
+                    requireToken(Token.Type.TK_ASSIGN);
+
+                    moveAhead();
+                    Expression expression = readExpression();
+                    if(expression instanceof ValueExpression)
+                        return new ConstantValueExpression(name, (ValueExpression) expression, line);
+                    else throw new ParserException(expression.line,
+                            "Expression cannot be constant");
                 }
             }else{
                 String name = lexer.currentToken().value;
@@ -407,6 +423,29 @@ public class KayJamParser {
         }
 
         throw new ParserException(lexer, "\""+lexer.currentToken().value+"\" is in the wrong place");
+    }
+
+    public List<String> parseRequiredUsages(String root) throws LexerException, ParserException {
+        List<String> usages = new ArrayList<>();
+        if(currentTokenType()==Token.Type.OPEN_BRACKET){
+            while (moveAhead().type!=Token.Type.CLOSE_BRACKET){
+                usages.addAll(parseRequiredUsages(root));
+
+                if(currentTokenType()==Token.Type.CLOSE_BRACKET)
+                    break;
+                else if(currentTokenType()!=Token.Type.TK_COMMA)
+                    throw new ParserException(lexer, "excepted comma");
+            }
+
+            moveAhead();
+        }else{
+            String name = root+parseName();
+            if(currentTokenType()==Token.Type.OPEN_BRACKET){
+                usages.addAll(parseRequiredUsages(name));
+            }else usages.add(name);
+        }
+
+        return usages;
     }
 
     public String parseName() throws LexerException, ParserException {

@@ -9,7 +9,7 @@ import com.github.kayjamlang.core.expressions.Expression;
 public class TestsUtils {
 
     public static Expression parse(String code) throws ParserException, LexerException {
-        return getParser(code).readExpression();
+        return getParser(code).readTopExpression();
     }
 
     public static KayJamParser getParser(String code) {

@@ -23,6 +23,8 @@ public enum KayJamIdentifier {
     IN("in"),
     ELSE("else"),
     PACK("pack"),
+    CONSTANT("const"),
+    FROM("from"),
 
     ;
 
