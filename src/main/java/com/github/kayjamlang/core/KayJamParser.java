@@ -82,7 +82,9 @@ public class KayJamParser {
     public Expression readExpression(AccessType identifier, List<Annotation> annotations) throws LexerException, ParserException {
         Expression expression = readTopExpression(identifier, annotations);
         if(expression instanceof ClassContainer||
-                expression instanceof UseExpression)
+                expression instanceof UseExpression||
+                expression instanceof PackContainer||
+                expression instanceof ConstantValueExpression)
             throw new ParserException(lexer, "This expression is not allowed to be used in this place.");
 
         return expression;
