@@ -285,7 +285,7 @@ public class KayJamParser {
                     List<Expression> expressions = new ArrayList<>();
 
                     while (moveAhead().type != Token.Type.CLOSE_BRACKET) {
-                        expressions.add(readExpression());
+                        expressions.add(readTopExpression());
 
                         boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
 
@@ -544,13 +544,17 @@ public class KayJamParser {
                 Expression rhs = readPrimary(identifier, annotations);
 
                 moveAhead();
-                int nextPrec = getTokPrecedence();
-                if (tokPrec < nextPrec)
-                    rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs);
 
-                if (binOp.type == Token.Type.TK_ACCESS)
+                if (binOp.type == Token.Type.TK_ACCESS) {
                     lhs = new AccessExpression(lhs, rhs, line);
-                else lhs = new OperationExpression(lhs, rhs, Operation.get(binOp.type), line);
+                }if (binOp.type == Token.Type.TK_RANGE) {
+                    lhs = new OperationExpression(lhs, rhs, Operation.RANGE, line);
+                }else{
+                    int nextPrec = getTokPrecedence();
+                    if (tokPrec < nextPrec)
+                        rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs);
+                    lhs = new OperationExpression(lhs, rhs, Operation.get(binOp.type), line);
+                }
             }
         }
     }
@@ -558,10 +562,10 @@ public class KayJamParser {
     public Script parseScript() throws ParserException, LexerException {
         List<Expression> children = new ArrayList<>();
 
-        while (moveAhead().type != Token.Type.CLOSE_BRACKET) {
+        while (!lexer.isFinished()) {
             children.add(readTopExpression());
 
-            if (!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
+            if (moveAhead().type!=Token.Type.TK_SEMI)
                 throw new ParserException(lexer,
                         "A semicolon was expected, but it wasn't there. Please put it on!");
         }
