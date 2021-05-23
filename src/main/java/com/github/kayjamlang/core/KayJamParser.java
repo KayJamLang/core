@@ -547,7 +547,7 @@ public class KayJamParser {
 
                 if (binOp.type == Token.Type.TK_ACCESS) {
                     lhs = new AccessExpression(lhs, rhs, line);
-                }if (binOp.type == Token.Type.TK_RANGE) {
+                }else if (binOp.type == Token.Type.TK_RANGE) {
                     lhs = new OperationExpression(lhs, rhs, Operation.RANGE, line);
                 }else{
                     int nextPrec = getTokPrecedence();
@@ -565,7 +565,8 @@ public class KayJamParser {
         while (!lexer.isFinished()) {
             children.add(readTopExpression());
 
-            if (moveAhead().type!=Token.Type.TK_SEMI)
+            boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
+            if (!closeBracket&&!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
                 throw new ParserException(lexer,
                         "A semicolon was expected, but it wasn't there. Please put it on!");
         }

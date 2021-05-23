@@ -7,7 +7,7 @@ plugins {
 
 group 'com.github.kayjamlang'
 archivesBaseName = "core"
-version '0.1.4-beta2'
+version '0.1.4-beta3'
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.13.2'
@@ -55,6 +55,14 @@ publishing {
     }
 
     repositories {
+        maven {
+            url 'https://repo.levkopo.ru/repository/maven/'
+            credentials {
+                username = project.findProperty('levkopoRepoUsername') ?: System.getenv('levkopoRepoUsername')
+                password = project.findProperty('levkopoRepoPassword') ?: System.getenv('levkopoRepoPassword')
+            }
+        }
+
         maven {
             url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
             credentials {
