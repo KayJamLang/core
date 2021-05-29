@@ -25,7 +25,7 @@ public abstract class Expression implements Cloneable {
      * @param accessType Type of access
      * @param line Expression line
      */
-    public Expression(AccessType accessType, int line) {
+    protected Expression(AccessType accessType, int line) {
         this.accessType = accessType;
         this.line = line;
     }
