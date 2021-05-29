@@ -16,9 +16,15 @@ public class UseExpression extends Expression {
         expression = null;
     }
 
+    /**
+     * @deprecated please don't use this
+     */
     @Deprecated
     public final Expression expression;
 
+    /**
+     * @deprecated please don't use this
+     */
     @Deprecated
     public UseExpression(Expression expression, int line) {
         super(AccessType.NONE, line);
@@ -26,6 +32,9 @@ public class UseExpression extends Expression {
         this.from = null;
     }
 
+    /**
+     * @deprecated please don't use this
+     */
     @Deprecated
     public interface UseInterface{
         Expression getExpression(String path) throws Exception;
