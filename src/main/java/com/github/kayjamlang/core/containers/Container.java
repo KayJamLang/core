@@ -13,12 +13,12 @@ public class Container extends Expression implements Cloneable {
     /**
      * Expressions in container
      */
-    public ArrayList<Expression> children = new ArrayList<>();
+    public List<Expression> children = new ArrayList<>();
 
     /**
      * Functions in group
      */
-    public ArrayList<FunctionContainer> functions = new ArrayList<>();
+    public List<FunctionContainer> functions = new ArrayList<>();
 
     /**
      * Type of container is used only for other containers
@@ -51,8 +51,8 @@ public class Container extends Expression implements Cloneable {
     @SuppressWarnings("unchecked")
     public Container clone() throws CloneNotSupportedException {
         Container container = (Container) super.clone();
-        container.children = (ArrayList<Expression>) children.clone();
-        container.functions = (ArrayList<FunctionContainer>) functions.clone();
+        container.children = (List<Expression>) ((ArrayList<Expression>) children).clone();
+        container.functions = (List<FunctionContainer>) ((ArrayList<FunctionContainer>) functions).clone();
         return container;
     }
 }
