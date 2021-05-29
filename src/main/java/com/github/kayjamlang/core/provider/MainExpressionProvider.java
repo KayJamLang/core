@@ -59,7 +59,7 @@ public class MainExpressionProvider<A, B, C> {
     }
 
     public Type getType(Expression expression, B context,
-                                B argsContext) throws TypeException {
+                                B argsContext) {
         if(providers.containsKey(expression.getClass())){
             ExpressionProvider<? extends Expression, A, B, C> expressionCompiler =
                     providers.get(expression.getClass());
