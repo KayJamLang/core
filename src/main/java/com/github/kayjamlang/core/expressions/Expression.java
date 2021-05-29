@@ -3,6 +3,7 @@ package com.github.kayjamlang.core.expressions;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Expression implements Cloneable {
     /**
@@ -13,7 +14,7 @@ public abstract class Expression implements Cloneable {
     /**
      * Specific data for provider
      */
-    public HashMap<String, Object> data = new HashMap<>();
+    public Map<String, Object> data = new HashMap<>();
 
     /**
      * Expression line
@@ -34,7 +35,7 @@ public abstract class Expression implements Cloneable {
     @SuppressWarnings("unchecked")
     protected Expression clone() throws CloneNotSupportedException {
         Expression expression = (Expression) super.clone();
-        expression.data = (HashMap<String, Object>) data.clone();
+        expression.data = (Map<String, Object>) ((HashMap<String, Object>) data).clone();
         return expression;
     }
 }
