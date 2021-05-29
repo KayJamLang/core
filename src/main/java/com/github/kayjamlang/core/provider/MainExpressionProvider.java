@@ -9,20 +9,20 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainExpressionProvider<ReturnObject, ContextObject, MainContextObject> {
+public class MainExpressionProvider<A, B, C> {
     private final Map<Class<? extends Expression>,
-            ExpressionProvider<? extends Expression, ReturnObject, ContextObject, MainContextObject>> providers = new HashMap<>();
+            ExpressionProvider<? extends Expression, A, B, C>> providers = new HashMap<>();
 
-    public final ReturnObject defaultObject;
-    public MainContextObject mainContext;
+    public final A defaultObject;
+    public C mainContext;
 
-    public MainExpressionProvider(ReturnObject defaultObject){
+    public MainExpressionProvider(A defaultObject){
         this.defaultObject = defaultObject;
     }
 
     public <ExpressionType extends Expression> void addProvider(
             Class<ExpressionType> expression,
-            ExpressionProvider<ExpressionType, ReturnObject, ContextObject, MainContextObject> expressionCompiler) {
+            ExpressionProvider<ExpressionType, A, B, C> expressionCompiler) {
         providers.put(expression, expressionCompiler);
     }
 
@@ -33,10 +33,10 @@ public class MainExpressionProvider<ReturnObject, ContextObject, MainContextObje
 
 
     @SuppressWarnings("unchecked")
-    public ReturnObject provide(Expression expression, ContextObject context,
-                                ContextObject argsContext) throws Exception {
+    public A provide(Expression expression, B context,
+                     B argsContext) throws Exception {
         if(providers.containsKey(expression.getClass())){
-            ExpressionProvider<? extends Expression, ReturnObject, ContextObject, MainContextObject> expressionCompiler =
+            ExpressionProvider<? extends Expression, A, B, C> expressionCompiler =
                     providers.get(expression.getClass());
             Method method = expressionCompiler.getClass()
                     .getMethod("provide",
@@ -46,7 +46,7 @@ public class MainExpressionProvider<ReturnObject, ContextObject, MainContextObje
                             Object.class);
 
             try {
-                return (ReturnObject)
+                return (A)
                         method.invoke(expressionCompiler,
                                 this, context, argsContext, expression);
             } catch (InvocationTargetException ite) {
@@ -59,10 +59,10 @@ public class MainExpressionProvider<ReturnObject, ContextObject, MainContextObje
         return defaultObject;
     }
 
-    public Type getType(Expression expression, ContextObject context,
-                                ContextObject argsContext) throws TypeException {
+    public Type getType(Expression expression, B context,
+                                B argsContext) throws TypeException {
         if(providers.containsKey(expression.getClass())){
-            ExpressionProvider<? extends Expression, ReturnObject, ContextObject, MainContextObject> expressionCompiler =
+            ExpressionProvider<? extends Expression, A, B, C> expressionCompiler =
                     providers.get(expression.getClass());
             try {
                 Method method = expressionCompiler.getClass()
