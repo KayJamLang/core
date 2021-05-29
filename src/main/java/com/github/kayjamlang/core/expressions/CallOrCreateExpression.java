@@ -5,7 +5,9 @@ import com.github.kayjamlang.core.opcodes.AccessType;
 import java.util.List;
 
 public class CallOrCreateExpression extends Expression {
-
+    /**
+     * @deprecated replaced to {@link #name}
+     */
     @Deprecated
     public final String functionName = null;
 
