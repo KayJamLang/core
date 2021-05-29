@@ -39,7 +39,9 @@ public class PackContainer extends Container {
 
             if (expression instanceof ConstantValueExpression) {
                 ConstantValueExpression constant = (ConstantValueExpression) expression;
-                if (head != 1)
+                if (head == 0)
+                    head++;
+                else if (head != 1)
                     throw new ParserException(expression.line, "All constant expressions must be above the rest!");
 
                 if (constants.containsKey(constant.name))
