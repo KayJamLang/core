@@ -14,20 +14,19 @@ public class MainExpressionProvider<A, B, C> {
             ExpressionProvider<? extends Expression, A, B, C>> providers = new HashMap<>();
 
     public final A defaultObject;
-    public C mainContext;
 
     public MainExpressionProvider(A defaultObject){
         this.defaultObject = defaultObject;
     }
 
-    public <ExpressionType extends Expression> void addProvider(
-            Class<ExpressionType> expression,
-            ExpressionProvider<ExpressionType, A, B, C> expressionCompiler) {
+    public <D extends Expression> void addProvider(
+            Class<D> expression,
+            ExpressionProvider<D, A, B, C> expressionCompiler) {
         providers.put(expression, expressionCompiler);
     }
 
-    public <ExpressionType extends Expression> void removeProvider(
-            Class<ExpressionType> expression){
+    public <D extends Expression> void removeProvider(
+            Class<D> expression){
         providers.remove(expression);
     }
 
