@@ -31,20 +31,17 @@ public class PackContainer extends Container {
             if(expression instanceof UseExpression){
                 if(head!=0)
                     throw new ParserException(expression.line, "All use expressions must be above the rest!");
-
                 usages.add((UseExpression) expression);
             }else head++;
 
             if(expression instanceof ConstantValueExpression){
                 ConstantValueExpression constant = (ConstantValueExpression) expression;
-                if(head==0)
-                    head++;
-                else if(head!=1)
+                if(head!=0)
                     throw new ParserException(expression.line, "All constant expressions must be above the rest!");
+                head++;
 
                 if(constants.containsKey(constant.name))
                     throw new ParserException(expression.line, "Constant \""+constant.name+"\" already defined");
-
                 constants.put(constant.name, constant.value.value);
             }
 
