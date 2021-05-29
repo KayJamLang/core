@@ -22,6 +22,9 @@ public class Type implements Cloneable {
     //Class
     public final String name;
 
+    /**
+     * @deprecated removed in newer versions
+     */
     @Deprecated
     public final Class<?> typeClass = null;
 
@@ -107,6 +110,9 @@ public class Type implements Cloneable {
         return getType(name, isFunction, false);
     }
 
+    /**
+     * @deprecated removed in newer versions
+     */
     @Deprecated
     public static Type getType(Class<?> clazz){
         return Type.ANY;
@@ -125,9 +131,8 @@ public class Type implements Cloneable {
                 try {
                     Type type = (Type) f.get(Type.class);
                     type.nullable = nullable;
-                    if(type.name.equals(name)||("\\"+type.name).equals(name))
-                        if(!type.onlyForFunction || isFunction)
-                            return type.clone();
+                    if((type.name.equals(name)||("\\"+type.name).equals(name))&&(!type.onlyForFunction || isFunction))
+                        return type.clone();
                 } catch (IllegalAccessException ignored) {}
 
         Type type = new Type(name);
@@ -157,6 +162,9 @@ public class Type implements Cloneable {
         return new Type(name);
     }
 
+    /**
+     * @deprecated removed in newer versions
+     */
     @Deprecated
     private Type(String name, Class<?> typeClass, boolean onlyForFunction){
         this.name = name;
@@ -164,6 +172,9 @@ public class Type implements Cloneable {
         this.primitive = true;
     }
 
+    /**
+     * @deprecated removed in newer versions
+     */
     @Deprecated
     private Type(String name, Class<?> typeClass, boolean onlyForFunction, boolean primitive){
         this.name = name;
@@ -171,6 +182,9 @@ public class Type implements Cloneable {
         this.primitive = primitive;
     }
 
+    /**
+     * @deprecated removed in newer versions
+     */
     @Deprecated
     public Type(String name, Class<?> typeClass){
         this.name = name;

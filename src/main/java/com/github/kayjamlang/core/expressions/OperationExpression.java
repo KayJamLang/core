@@ -1,7 +1,6 @@
 package com.github.kayjamlang.core.expressions;
 
 import com.github.kayjamlang.core.expressions.data.Operation;
-import com.github.kayjamlang.core.Token;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class OperationExpression extends Expression {
