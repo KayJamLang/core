@@ -50,7 +50,7 @@ public class ObjectContainer extends ClassContainer {
 
         try {
             companion = (ObjectContainer) this.clone();
-        }catch (Exception ignored){}
+        }catch (CloneNotSupportedException ignored){}
 
         variables.clear();
         functions.clear();
