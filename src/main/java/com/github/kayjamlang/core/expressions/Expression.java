@@ -14,7 +14,7 @@ public abstract class Expression implements Cloneable {
     /**
      * Specific data for provider
      */
-    public Map<String, Object> data = new HashMap<>(); // это был fix java:S1319 а не fix java:S5993
+    public Map<String, Object> data = new HashMap<>();
 
     /**
      * Expression line
