@@ -35,12 +35,12 @@ public class ClassContainer extends Container {
     /**
      * Class constructors
      */
-    public ArrayList<ConstructorContainer> constructors = new ArrayList<>();
+    public List<ConstructorContainer> constructors = new ArrayList<>();
 
     /**
      * Properties in class
      */
-    public ArrayList<VariableExpression> variables = new ArrayList<>();
+    public List<VariableExpression> variables = new ArrayList<>();
 
     /**
      * @param name Name of class
@@ -82,9 +82,8 @@ public class ClassContainer extends Container {
     @SuppressWarnings("unchecked")
     public ClassContainer clone() throws CloneNotSupportedException {
         ClassContainer classContainer = (ClassContainer) super.clone();
-        classContainer.constructors = (ArrayList<ConstructorContainer>)
-                constructors.clone();
-        classContainer.variables = (ArrayList<VariableExpression>) variables.clone();
+        classContainer.constructors = (List<ConstructorContainer>) ((ArrayList<ConstructorContainer>) constructors).clone();
+        classContainer.variables = (List<VariableExpression>) ((ArrayList<VariableExpression>) variables).clone();
         return classContainer;
     }
 
