@@ -304,8 +304,7 @@ public class KayJamParser {
                                 boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
 
                                 if (!closeBracket && moveAhead().type != Token.Type.TK_SEMI)
-                                    throw new ParserException(lexer,
-                                            "A semicolon was expected, but it wasn't there. Please put it on!");
+                                    throwSemicolon();
                             }
 
                             return new PackContainer(name, new Container(expressions, line),
@@ -593,8 +592,7 @@ public class KayJamParser {
 
             boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
             if (!closeBracket&&!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
-                throw new ParserException(lexer,
-                        "A semicolon was expected, but it wasn't there. Please put it on!");
+                throwSemicolon();
         }
 
         return new Script(new Container(children, 0));
@@ -612,10 +610,13 @@ public class KayJamParser {
             boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
 
             if (!closeBracket&&moveAhead().type!=Token.Type.TK_SEMI)
-                throw new ParserException(lexer,
-                        "A semicolon was expected, but it wasn't there. Please put it on!");
+                throwSemicolon();
         }
 
         return expressions;
+    }
+
+    void throwSemicolon() throws ParserException {
+        throw new ParserException(lexer, "A semicolon was expected, but it wasn't there. Please put it on!");
     }
 }
