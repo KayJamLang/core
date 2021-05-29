@@ -3,12 +3,12 @@ package com.github.kayjamlang.core.provider;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.exceptions.TypeException;
 
-public abstract class ExpressionProvider<ET, RO, CO, MCO> {
+public abstract class ExpressionProvider<A, B, C, D> {
     /**
      * @deprecated please replace to {@code mainProvider.defaultObject}
      */
     @Deprecated
-    public RO provide(MainExpressionProvider<RO, CO, MCO> mainProvider, CO context, CO argsContext, ET expression) {
+    public B provide(MainExpressionProvider<B, C, D> mainProvider, C context, C argsContext, A expression) {
         return mainProvider.defaultObject;
     }
 
@@ -16,7 +16,7 @@ public abstract class ExpressionProvider<ET, RO, CO, MCO> {
      * @deprecated please don't use this
      */
     @Deprecated
-    public Type getType(MainExpressionProvider<RO, CO, MCO> mainProvider, CO context, CO argsContext, ET expression) throws TypeException {
+    public Type getType(MainExpressionProvider<B, C, D> mainProvider, C context, C argsContext, A expression) throws TypeException {
         return Type.ANY;
     }
 }
