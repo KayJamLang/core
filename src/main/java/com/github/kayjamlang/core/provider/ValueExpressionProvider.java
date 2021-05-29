@@ -4,13 +4,13 @@ import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.exceptions.TypeException;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 
-public class ValueExpressionProvider<ReturnObject, ContextObject, MainContextObject> extends ExpressionProvider<ValueExpression,
-        ReturnObject, ContextObject, MainContextObject> {
+public class ValueExpressionProvider<A, B, C> extends ExpressionProvider<ValueExpression,
+        A, B, C> {
 
     @Override
-    public final Type getType(MainExpressionProvider<ReturnObject, ContextObject, MainContextObject> mainProvider,
-                        ContextObject context,
-                        ContextObject argsContext,
+    public final Type getType(MainExpressionProvider<A, B, C> mainProvider,
+                        B context,
+                        B argsContext,
                         ValueExpression expression) throws TypeException {
         if(expression.value == null) {
             Type any = Type.NULL.clone();
