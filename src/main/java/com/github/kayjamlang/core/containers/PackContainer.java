@@ -27,31 +27,32 @@ public class PackContainer extends Container {
         functions.addAll(container.functions);
 
         int head = 0;
-        for(Expression expression: container.children){
-            if(expression instanceof UseExpression){
-                if(head!=0)
+        for (Expression expression : container.children) {
+            if (expression instanceof UseExpression) {
+                if (head != 0)
                     throw new ParserException(expression.line, "All use expressions must be above the rest!");
                 usages.add((UseExpression) expression);
-            }else head++;
+                return;
+            }
 
-            if(expression instanceof ConstantValueExpression){
+            head++;
+
+            if (expression instanceof ConstantValueExpression) {
                 ConstantValueExpression constant = (ConstantValueExpression) expression;
-                if(head!=1)
+                if (head != 1)
                     throw new ParserException(expression.line, "All constant expressions must be above the rest!");
                 head++;
 
-                if(constants.containsKey(constant.name))
-                    throw new ParserException(expression.line, "Constant \""+constant.name+"\" already defined");
+                if (constants.containsKey(constant.name))
+                    throw new ParserException(expression.line, "Constant \"" + constant.name + "\" already defined");
                 constants.put(constant.name, constant.value.value);
-            }
-
-            if(expression instanceof ClassContainer){
+            } else if (expression instanceof ClassContainer) {
                 ClassContainer clazz = (ClassContainer) expression;
                 classes.put(clazz.name, clazz);
-            }else if(expression instanceof PackContainer){
+            } else if (expression instanceof PackContainer) {
                 PackContainer pack = (PackContainer) expression;
                 packs.put(pack.packName, pack);
-            }else if(otherExpressionAllow)
+            } else if (otherExpressionAllow)
                 this.children.add(expression);
         }
     }
