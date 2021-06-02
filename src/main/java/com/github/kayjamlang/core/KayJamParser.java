@@ -630,7 +630,7 @@ public class KayJamParser {
                 }
             }
         }
-        return readExpression();
+        return readTopExpression();
     }
 
     public List<Stmt> parseExpressions() throws ParserException, LexerException {
