@@ -27,6 +27,6 @@ public class NamedExpressionTest {
         assertSame(NamedExpression.class, expression.getClass());
 
         NamedExpression namedContainer = (NamedExpression) expression;
-        assertSame(Container.class, namedContainer.expression.getClass());
+        assertSame(Container.class, namedContainer.stmt.getClass());
     }
 }

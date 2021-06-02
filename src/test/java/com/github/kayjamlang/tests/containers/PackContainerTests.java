@@ -1,5 +1,6 @@
 package com.github.kayjamlang.tests.containers;
 
+import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.containers.PackContainer;
 import com.github.kayjamlang.core.exceptions.LexerException;
 import com.github.kayjamlang.core.exceptions.ParserException;
@@ -12,13 +13,13 @@ import static org.junit.Assert.assertEquals;
 public class PackContainerTests {
     @Test
     public void constantTest() throws ParserException, LexerException {
-        Expression expression = TestsUtils.parse("pack Test\\A {" +
+        Stmt stmt = TestsUtils.parseStmt("pack Test\\A {" +
                 "const test = 123;" +
                 "}");
 
-        assertEquals(PackContainer.class, expression.getClass());
+        assertEquals(PackContainer.class, stmt.getClass());
 
-        PackContainer pack = (PackContainer) expression;
+        PackContainer pack = (PackContainer) stmt;
         assertEquals(1, pack.constants.size());
         assertEquals(123, pack.constants.get("test"));
     }

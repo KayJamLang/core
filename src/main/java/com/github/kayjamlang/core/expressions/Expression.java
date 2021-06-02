@@ -1,25 +1,14 @@
 package com.github.kayjamlang.core.expressions;
 
+import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public abstract class Expression implements Cloneable {
+public abstract class Expression extends Stmt implements Cloneable {
     /**
      * Type of access
      */
+    @Deprecated
     public final AccessType accessType;
-
-    /**
-     * Specific data for provider
-     */
-    public Map<String, Object> data = new HashMap<>();
-
-    /**
-     * Expression line
-     */
-    public final int line;
 
     /**
      * Creates Expression
@@ -27,15 +16,16 @@ public abstract class Expression implements Cloneable {
      * @param line Expression line
      */
     protected Expression(AccessType accessType, int line) {
+        super(line);
         this.accessType = accessType;
-        this.line = line;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    protected Expression clone() throws CloneNotSupportedException {
-        Expression expression = (Expression) super.clone();
-        expression.data = (Map<String, Object>) ((HashMap<String, Object>) data).clone();
-        return expression;
+    /**
+     * Creates Expression
+     * @param line Expression line
+     */
+    protected Expression(int line) {
+        super(line);
+        this.accessType = AccessType.NONE;
     }
 }

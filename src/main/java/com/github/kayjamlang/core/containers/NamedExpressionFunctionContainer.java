@@ -1,8 +1,8 @@
 package com.github.kayjamlang.core.containers;
 
-import com.github.kayjamlang.core.expressions.data.Argument;
-import com.github.kayjamlang.core.expressions.Expression;
+import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.Type;
+import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.Collections;
@@ -20,7 +20,7 @@ public class NamedExpressionFunctionContainer extends FunctionContainer {
      * @param line Start of named function
      */
     public NamedExpressionFunctionContainer(String name,
-                                            List<Expression> children,
+                                            List<Stmt> children,
                                             AccessType accessType,
                                             int line) {
         super(name, children, accessType,

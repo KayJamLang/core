@@ -1,10 +1,9 @@
 package com.github.kayjamlang.core.containers;
 
+import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.exceptions.ParserException;
 import com.github.kayjamlang.core.expressions.ConstantValueExpression;
-import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.expressions.UseExpression;
-import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,13 +20,13 @@ public class PackContainer extends Container {
     public final List<UseExpression> usages = new ArrayList<>();
 
     public PackContainer(String packName, Container container, boolean otherExpressionAllow) throws ParserException {
-        super(new ArrayList<>(), AccessType.NONE, 0);
+        super(new ArrayList<>(), container.line);
         this.packName = packName;
 
         functions.addAll(container.functions);
 
         int head = 0;
-        for (Expression expression : container.children) {
+        for (Stmt expression : container.children) {
             if (expression instanceof UseExpression) {
                 if (head != 0)
                     throw new ParserException(expression.line, "All use expressions must be above the rest!");

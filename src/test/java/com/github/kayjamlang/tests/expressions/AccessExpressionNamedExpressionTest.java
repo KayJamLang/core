@@ -34,6 +34,6 @@ public class AccessExpressionNamedExpressionTest {
         assertSame(NamedExpression.class, accessExpression.child.getClass());
 
         NamedExpression namedContainer = (NamedExpression) accessExpression.child;
-        assertSame(Container.class, namedContainer.expression.getClass());
+        assertSame(Container.class, namedContainer.stmt.getClass());
     }
 }

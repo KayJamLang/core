@@ -28,9 +28,9 @@ public class FunctionContainerRefZeroArgsExpressionTest {
 
         FunctionRefExpression functionRefExpression = (FunctionRefExpression) expression;
         assertEquals(0, functionRefExpression.arguments.size());
-        assertSame(ValueExpression.class, functionRefExpression.expression.getClass());
+        assertSame(ValueExpression.class, functionRefExpression.stmt.getClass());
 
-        ValueExpression constant = (ValueExpression) functionRefExpression.expression;
+        ValueExpression constant = (ValueExpression) functionRefExpression.stmt;
         assertEquals(true, constant.value);
     }
 }

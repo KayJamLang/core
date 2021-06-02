@@ -1,5 +1,6 @@
 package com.github.kayjamlang.core.expressions;
 
+import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.opcodes.AccessType;
@@ -13,7 +14,7 @@ public class FunctionRefExpression extends Expression {
     /**
      * c
      */
-    public final Expression expression;
+    public final Stmt stmt;
 
     /**
      * Lambda arguments
@@ -28,14 +29,14 @@ public class FunctionRefExpression extends Expression {
 
     /**
      * @param arguments Lambda arguments
-     * @param expression Lambda arguments
+     * @param stmt Lambda arguments
      * @param typeOfReturn Return lambda type
      * @param line Start line
      */
-    public FunctionRefExpression(List<Argument> arguments, Expression expression, Type typeOfReturn,
+    public FunctionRefExpression(List<Argument> arguments, Stmt stmt, Type typeOfReturn,
                                  int line) {
         super(AccessType.NONE, line);
-        this.expression = expression;
+        this.stmt = stmt;
         this.typeOfReturn = typeOfReturn;
         this.arguments = arguments;
     }
