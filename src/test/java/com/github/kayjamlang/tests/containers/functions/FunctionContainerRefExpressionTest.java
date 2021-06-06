@@ -31,9 +31,9 @@ public class FunctionContainerRefExpressionTest {
         assertEquals(1, functionRefExpression.arguments.size());
         assertEquals("test", functionRefExpression.arguments.get(0).name);
         assertEquals(Type.ANY, functionRefExpression.arguments.get(0).type);
-        assertSame(ValueExpression.class, functionRefExpression.stmt.getClass());
+        assertSame(ValueExpression.class, functionRefExpression.expression.getClass());
 
-        ValueExpression constant = (ValueExpression) functionRefExpression.stmt;
+        ValueExpression constant = (ValueExpression) functionRefExpression.expression;
         assertEquals(true, constant.value);
     }
 }

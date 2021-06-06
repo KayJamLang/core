@@ -1,6 +1,5 @@
 package com.github.kayjamlang.core.containers;
 
-import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.expressions.data.Argument;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.Type;
@@ -37,11 +36,6 @@ public class FunctionContainer extends Container {
     public final List<Annotation> annotations;
 
     /**
-     * Type of access
-     */
-    public final AccessType accessType;
-
-    /**
      * Creates function
      * @param name Function name
      * @param children Expressions in function
@@ -51,13 +45,12 @@ public class FunctionContainer extends Container {
      * @param annotations List of annotations
      * @param line Function line
      */
-    public FunctionContainer(String name, List<Stmt> children,
+    public FunctionContainer(String name, List<Expression> children,
                              AccessType accessType, List<Argument> arguments,
                              Type returnType, List<Annotation> annotations, int line) {
-        super(children, line);
+        super(children, accessType, line);
 
         this.name = name;
-        this.accessType = accessType;
         this.returnType = returnType;
         this.arguments = arguments;
         this.annotations = annotations;

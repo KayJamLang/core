@@ -1,6 +1,5 @@
 package com.github.kayjamlang.tests.containers;
 
-import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
@@ -21,12 +20,12 @@ public class ContainerEmptyTest {
 
     @Test
     public void test() throws Exception {
-        Stmt stmt = parser.readStmt();
+        Expression expression = parser.readExpression();
 
-        assertNotNull(stmt);
-        assertSame(Container.class, stmt.getClass());
+        assertNotNull(expression);
+        assertSame(Container.class, expression.getClass());
 
-        Container container = (Container) stmt;
+        Container container = (Container) expression;
         assertEquals(0, container.children.size());
     }
 }

@@ -20,12 +20,12 @@ public class FunctionContainerOneArgsTest {
 
     @Test
     public void test() throws Exception {
-        Stmt stmt = parser.readStmt();
+        Expression expression = parser.readExpression();
 
-        assertNotNull(stmt);
-        assertSame(FunctionContainer.class, stmt.getClass());
+        assertNotNull(expression);
+        assertSame(FunctionContainer.class, expression.getClass());
 
-        FunctionContainer functionContainer = (FunctionContainer) stmt;
+        FunctionContainer functionContainer = (FunctionContainer) expression;
         assertEquals(1, functionContainer.arguments.size());
         assertEquals(2, functionContainer.children.size());
 

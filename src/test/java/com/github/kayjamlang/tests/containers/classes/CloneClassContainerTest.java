@@ -1,6 +1,5 @@
 package com.github.kayjamlang.tests.containers.classes;
 
-import com.github.kayjamlang.core.Stmt;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
@@ -21,23 +20,24 @@ public class CloneClassContainerTest {
 
     @Test
     public void test() throws Exception {
-        Stmt stmt = parser.readStmt();
+        Expression expression = parser.readTopExpression();
 
-        assertNotNull(stmt);
-        assertSame(ClassContainer.class, stmt.getClass());
+        assertNotNull(expression);
+        assertSame(ClassContainer.class, expression.getClass());
 
-        ClassContainer classContainer = (ClassContainer) stmt;
+        ClassContainer classContainer = (ClassContainer) expression;
         assertEquals("Test", classContainer.name);
         assertNull(classContainer.extendsClass);
         assertEquals(0, classContainer.implementsClass.size());
         assertEquals(1, classContainer.variables.size());
         assertEquals(1, classContainer.functions.size());
 
-        ClassContainer classContainer1 = classContainer.clone();
+        ClassContainer classContainer1 = (ClassContainer) classContainer.clone();
         assertNotEquals(classContainer, classContainer1);
         assertEquals(classContainer.name, classContainer1.name);
         assertNull(classContainer1.extendsClass);
         assertEquals(classContainer.implementsClass.size(), classContainer1.implementsClass.size());
+        assertEquals(classContainer.children.size(), classContainer1.children.size());
         assertEquals(classContainer.functions.size(), classContainer1.functions.size());
     }
 }
