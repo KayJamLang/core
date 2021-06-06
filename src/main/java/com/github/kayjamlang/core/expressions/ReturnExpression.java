@@ -3,6 +3,7 @@ package com.github.kayjamlang.core.expressions;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
 public class ReturnExpression extends Expression {
+
     public final Expression expression;
 
     public ReturnExpression(Expression expression, int line) {

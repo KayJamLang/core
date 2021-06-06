@@ -246,8 +246,10 @@ public class KayJamParser {
                             } else throw new ParserException(lexer, "expected identifier of class");
                         }
                         case RETURN:
-                            moveAhead();
+                            if(moveAhead().value.equals("void"))
+                                return new ReturnExpression(null, line);
                             return new ReturnExpression(readExpression(), line);
+
                         case CONSTRUCTOR: {
                             requireToken(Token.Type.TK_OPEN);
                             List<Argument> arguments = parseArguments();
