@@ -595,6 +595,8 @@ public class KayJamParser {
             boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
             if (!closeBracket&&!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
                 throwSemicolon();
+
+            moveAhead();
         }
 
         return new Script(new Container(children, 0));

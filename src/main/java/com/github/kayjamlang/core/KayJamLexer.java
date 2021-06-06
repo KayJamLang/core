@@ -40,6 +40,11 @@ public class KayJamLexer {
             while (token.type==Token.Type.TK_NEW_LINE||token.type==Token.Type.COMMENT){
                 line++;
 
+                if (input.length() == 0) {
+                    finished = true;
+                    return;
+                }
+
                 ignoreWhiteSpaces();
                 findNextToken();
             }
