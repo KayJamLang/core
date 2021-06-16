@@ -12,6 +12,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '6'
+          distribution: 'oracle'
           architecture: 'x32'
       - name: Build with Gradle
         run: ./gradlew build test
