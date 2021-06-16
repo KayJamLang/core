@@ -13,6 +13,7 @@ import scala.util.control.Breaks.break
 import scala.util.control.ControlThrowable
 
 class KayJamParser(val lexer: KayJamLexer) {
+
   @throws[LexerException]
   @throws[ParserException]
   def readExpression: Expression = readExpression(AccessType NONE, new AdvancedMutableList[Annotation])
@@ -27,10 +28,12 @@ class KayJamParser(val lexer: KayJamLexer) {
     var expression = readPrimary(identifier, annotations)
     if (currentTokenType eq Token.Type.CLOSE_BRACKET)
       return expression
+
     moveAhead
     expression = readEndExpression(expression)
     expression = parseBinOpRHS(identifier, annotations, 0, expression)
     moveAhead
+
     while (currentTokenType eq Token.Type.TK_OPEN_SQUARE_BRACKET) {
       val line = lexer.getLine
       moveAhead
@@ -70,11 +73,14 @@ class KayJamParser(val lexer: KayJamLexer) {
   def currentTokenType: Token.Type = lexer.currentToken `type`
 
   @throws[LexerException]
-  def moveAhead: Token = {
-    lexer moveAhead()
+  def moveAhead(needToken: Token.Type = null): Token = {
+    lexer moveAhead needToken
     if (!lexer.isSuccessful) throw new ParserException(lexer errorMessage)
     lexer currentToken
   }
+
+  @throws[LexerException]
+  def moveAhead: Token = moveAhead(null)
 
   @throws[LexerException]
   @throws[ParserException]
