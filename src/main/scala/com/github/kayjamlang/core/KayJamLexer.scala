@@ -22,7 +22,7 @@ class KayJamLexer(value: String) {
 
   def moveAhead(): Unit = {
     if (finished) return
-    if (input.isEmpty) {
+    if (input isEmpty) {
       finished = true
       return
     }
@@ -43,7 +43,8 @@ class KayJamLexer(value: String) {
       return
     }
     finished = true
-    if (input nonEmpty) errorMessage = "Unexpected symbol: '" + input.charAt(0) + "'"
+    if (input nonEmpty)
+      errorMessage = s"Unexpected symbol: '${input.charAt(0)}'"
   }
 
   private def ignoreWhiteSpaces(): Unit = {
@@ -65,10 +66,9 @@ class KayJamLexer(value: String) {
 
   def getLine: Int = line
 
-
   private def findNextToken: Boolean = {
     for (t <- Token.Type values) {
-      val end = t.endOfMatch(input toString)
+      val end = t endOfMatch input.toString
       if (end != -1) {
         val lexema = input substring(0, end)
         token = new Token(t, lexema)
