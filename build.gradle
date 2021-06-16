@@ -7,7 +7,7 @@ plugins {
 
 group 'com.github.kayjamlang'
 archivesBaseName = "core"
-version '0.1.4-beta3'
+version '0.1.5'
 
 tasks.withType(ScalaCompile) {
     scalaCompileOptions.additionalParameters = ["-feature", "-language:postfixOps", "-language:implicitConversions", "-language:higherKinds", "-language:existentials"]
