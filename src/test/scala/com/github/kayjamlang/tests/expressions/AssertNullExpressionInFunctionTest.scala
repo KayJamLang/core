@@ -20,11 +20,11 @@ class AssertNullExpressionInFunctionTest {
   def test(): Unit = {
     val expression = AssertNullExpressionInFunctionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[CallOrCreateExpression], expression.getClass)
+    assertSame(classOf[CallOrCreateExpression], expression getClass)
     val callOrCreateExpression = expression.asInstanceOf[CallOrCreateExpression]
-    assertEquals(1, callOrCreateExpression.arguments.size)
-    assertSame(classOf[AssertNullExpression], callOrCreateExpression.arguments.apply(0).getClass)
-    val assertNull = callOrCreateExpression.arguments.apply(0).asInstanceOf[AssertNullExpression]
-    assertSame(classOf[ValueExpression], assertNull.expression.getClass)
+    assertEquals(1, callOrCreateExpression.arguments size)
+    assertSame(classOf[AssertNullExpression], callOrCreateExpression.arguments.head getClass)
+    val assertNull = callOrCreateExpression.arguments.head.asInstanceOf[AssertNullExpression]
+    assertSame(classOf[ValueExpression], assertNull.expression getClass)
   }
 }

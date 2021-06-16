@@ -19,9 +19,9 @@ class IsExpressionTest {
   def test(): Unit = {
     val expression = IsExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertEquals(classOf[IsExpression], expression.getClass)
+    assertEquals(classOf[IsExpression], expression getClass)
     val isExpression = expression.asInstanceOf[IsExpression]
-    assertEquals(classOf[ValueExpression], isExpression.expression.getClass)
+    assertEquals(classOf[ValueExpression], isExpression.expression getClass)
     assertEquals(Type.INTEGER, isExpression.verifyType)
   }
 }

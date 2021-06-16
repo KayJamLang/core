@@ -20,9 +20,9 @@ class AnonymousObjectContainerTest {
   def test(): Unit = {
     val expression = AnonymousObjectContainerTest.parser.readTopExpression
     assertNotNull(expression)
-    assertSame(classOf[ObjectContainer], expression.getClass)
+    assertSame(classOf[ObjectContainer], expression getClass)
     val objectContainer = expression.asInstanceOf[ObjectContainer]
-    assertEquals(1, objectContainer.variables.size)
-    assertEquals(1, objectContainer.functions.size)
+    assertEquals(1, objectContainer.variables size)
+    assertEquals(1, objectContainer.functions size)
   }
 }

@@ -9,7 +9,7 @@ class ValueExpressionProvider[A, B, C] extends ExpressionProvider[ValueExpressio
   override def getType(mainProvider: MainExpressionProvider[A, B, C], context: B, argsContext: B, expression: ValueExpression): Type = {
     val value = expression.value
     if (value == null) {
-      val any: Type = Type.NULL.clone().asInstanceOf
+      val any = Type.NULL clone()
       any.nullable = true
       return any
     }

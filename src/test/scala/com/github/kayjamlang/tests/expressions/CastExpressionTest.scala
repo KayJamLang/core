@@ -19,9 +19,9 @@ class CastExpressionTest {
   def test(): Unit = {
     val expression = CastExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertEquals(classOf[CastExpression], expression.getClass)
+    assertEquals(classOf[CastExpression], expression getClass)
     val castExpression = expression.asInstanceOf[CastExpression]
-    assertEquals(classOf[ValueExpression], castExpression.expression.getClass)
-    assertEquals(Type.INTEGER, castExpression.castType)
+    assertEquals(classOf[ValueExpression], castExpression.expression getClass)
+    assertEquals(Type INTEGER, castExpression.castType)
   }
 }

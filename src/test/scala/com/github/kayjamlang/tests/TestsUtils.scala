@@ -10,7 +10,7 @@ import com.github.kayjamlang.core.expressions.Expression
 object TestsUtils {
   @throws[ParserException]
   @throws[LexerException]
-  def parse(code: String): Expression = getParser(code).readTopExpression
+  def parse(code: String): Expression = getParser(code) readTopExpression
 
   def getParser(code: String) = new KayJamParser(new KayJamLexer(code))
 }

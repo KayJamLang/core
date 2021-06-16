@@ -20,14 +20,14 @@ class ObjectContainerTest {
   def test(): Unit = {
     val expression = ObjectContainerTest.parser.readTopExpression
     assertNotNull(expression)
-    assertSame(classOf[ObjectContainer], expression.getClass)
+    assertSame(classOf[ObjectContainer], expression getClass)
     var objectContainer = expression.asInstanceOf[ObjectContainer]
     assertEquals("Test", objectContainer.name)
-    assertEquals(0, objectContainer.variables.size)
-    assertEquals(0, objectContainer.functions.size)
+    assertEquals(0, objectContainer.variables size)
+    assertEquals(0, objectContainer.functions size)
     objectContainer = objectContainer.companion
     assertNotNull(objectContainer)
-    assertEquals(1, objectContainer.variables.size)
-    assertEquals(1, objectContainer.functions.size)
+    assertEquals(1, objectContainer.variables size)
+    assertEquals(1, objectContainer.functions size)
   }
 }

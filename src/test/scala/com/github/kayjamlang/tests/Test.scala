@@ -7,6 +7,6 @@ object Test {
   @throws[Exception]
   def main(args: Array[String]): Unit = {
     val parser = new KayJamParser(new KayJamLexer("{" + "if(postData[1]!=secretKey){\n" + "\t\tprint(\"Invalid secret key\");\n" + "\t\treturn;\n" + "\t}" + "}"))
-    parser.readExpression
+    parser readExpression
   }
 }

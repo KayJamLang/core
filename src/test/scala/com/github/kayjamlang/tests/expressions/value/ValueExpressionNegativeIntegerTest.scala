@@ -20,10 +20,10 @@ class ValueExpressionNegativeIntegerTest {
   def test(): Unit = {
     val expression = ValueExpressionNegativeIntegerTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[OperationExpression], expression.getClass)
+    assertSame(classOf[OperationExpression], expression getClass)
     val operationExpression = expression.asInstanceOf[OperationExpression]
-    assertSame(classOf[ValueExpression], operationExpression.left.getClass)
-    assertSame(classOf[ValueExpression], operationExpression.right.getClass)
+    assertSame(classOf[ValueExpression], operationExpression.left getClass)
+    assertSame(classOf[ValueExpression], operationExpression.right getClass)
     var constant = operationExpression.right.asInstanceOf[ValueExpression]
     assertEquals(12345, constant.value)
     constant = operationExpression.left.asInstanceOf[ValueExpression]

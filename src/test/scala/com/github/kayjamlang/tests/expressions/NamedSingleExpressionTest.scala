@@ -19,8 +19,8 @@ class NamedSingleExpressionTest {
   def test(): Unit = {
     val expression = NamedSingleExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[NamedExpression], expression.getClass)
+    assertSame(classOf[NamedExpression], expression getClass)
     val namedContainer = expression.asInstanceOf[NamedExpression]
-    assertSame(classOf[CallOrCreateExpression], namedContainer.expression.getClass)
+    assertSame(classOf[CallOrCreateExpression], namedContainer.expression getClass)
   }
 }
