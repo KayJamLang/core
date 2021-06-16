@@ -13,6 +13,5 @@ jobs:
         with:
           java-version: '6'
           distribution: 'zulu'
-          architecture: 'x32'
       - name: Build with Gradle
         run: ./gradlew build test
