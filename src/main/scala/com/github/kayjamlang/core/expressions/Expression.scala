@@ -2,7 +2,6 @@ package com.github.kayjamlang.core.expressions
 
 import com.github.kayjamlang.core.opcodes.AccessType
 
-import java.util
 import scala.collection.mutable
 
 abstract class Expression (val accessType: AccessType, val line: Int) extends Cloneable {
