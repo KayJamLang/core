@@ -163,7 +163,7 @@ class KayJamParser(val lexer: KayJamLexer) {
 
           case KayJamIdentifier.CLASS =>
             moveAhead
-            `type` = lexer.currentToken `type`
+            `type` = lexer.currentToken.`type`
             if (`type` eq Token.Type.IDENTIFIER) {
               val name = lexer.currentToken value
               var extendsClass: String = null
@@ -239,7 +239,7 @@ class KayJamParser(val lexer: KayJamLexer) {
               case _ => throw new ParserException(expression.line, "Expression cannot be constant")
             }
 
-          case _ => throw new ParserException(lexer, s"\"${lexer.currentToken value}\" is in the wrong place")
+          case _ => throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
         }
         else {
           val name = lexer.currentToken.value
@@ -354,7 +354,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         moveAhead
         new OperationExpression(new ValueExpression(-1), readExpression(identifier, annotations), Operation MULTIPLY, line)
       case _ =>
-        throw new ParserException(lexer, s"\"${lexer.currentToken value}\" is in the wrong place")
+        throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
     }
   }
 
