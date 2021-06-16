@@ -20,13 +20,13 @@ class ClassExtendsImplementsContainerTest {
   def test(): Unit = {
     val expression = ClassExtendsImplementsContainerTest.parser.readTopExpression
     assertNotNull(expression)
-    assertSame(classOf[ClassContainer], expression.getClass)
+    assertSame(classOf[ClassContainer], expression getClass)
     val classContainer = expression.asInstanceOf[ClassContainer]
     assertEquals("Test", classContainer.name)
     assertEquals("ABC", classContainer.extendsClass)
-    assertEquals(1, classContainer.implementsClass.size)
-    assertEquals("AAA", classContainer.implementsClass.apply(0))
-    assertEquals(1, classContainer.variables.size)
-    assertEquals(1, classContainer.functions.size)
+    assertEquals(1, classContainer.implementsClass size)
+    assertEquals("AAA", classContainer.implementsClass head)
+    assertEquals(1, classContainer.variables size)
+    assertEquals(1, classContainer.functions size)
   }
 }

@@ -20,8 +20,8 @@ class ContainerEmptyTest {
   def test(): Unit = {
     val expression = ContainerEmptyTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[Container], expression.getClass)
+    assertSame(classOf[Container], expression getClass)
     val container = expression.asInstanceOf[Container]
-    assertEquals(0, container.children.size)
+    assertEquals(0, container.children size)
   }
 }

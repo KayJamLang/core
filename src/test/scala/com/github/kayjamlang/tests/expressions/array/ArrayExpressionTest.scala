@@ -20,12 +20,12 @@ class ArrayExpressionTest {
   def test(): Unit = {
     val expression = ArrayExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[ArrayExpression], expression.getClass)
+    assertSame(classOf[ArrayExpression], expression getClass)
     val arrayExpression = expression.asInstanceOf[ArrayExpression]
-    assertEquals(5, arrayExpression.values.size)
-    for (i <- arrayExpression.values.indices) {
-      val value = arrayExpression.values.apply(i)
-      assertSame(classOf[ValueExpression], value.getClass)
+    assertEquals(5, arrayExpression.values size)
+    for (i <- arrayExpression.values indices) {
+      val value = arrayExpression.values apply i
+      assertSame(classOf[ValueExpression], value getClass)
       val constantValue = value.asInstanceOf[ValueExpression]
       assertEquals(i + 1, constantValue.value)
     }

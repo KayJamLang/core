@@ -20,8 +20,8 @@ class NullableTypeTest {
   @Test
   @throws[Exception]
   def test(): Unit = {
-    val `type` = NullableTypeTest.parser.parseType(false)
-    assertEquals(Type.STRING, `type`)
+    val `type` = NullableTypeTest.parser parseType false
+    assertEquals(Type STRING, `type`)
     assertTrue(`type`.nullable)
   }
 }

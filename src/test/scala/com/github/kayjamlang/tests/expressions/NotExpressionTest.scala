@@ -19,9 +19,9 @@ class NotExpressionTest {
   def test(): Unit = {
     val expression = NotExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[NegationExpression], expression.getClass)
+    assertSame(classOf[NegationExpression], expression getClass)
     val notExpression = expression.asInstanceOf[NegationExpression]
-    assertSame(classOf[ValueExpression], notExpression.expression.getClass)
+    assertSame(classOf[ValueExpression], notExpression.expression getClass)
     val constant = notExpression.expression.asInstanceOf[ValueExpression]
     assertEquals(true, constant.value)
   }

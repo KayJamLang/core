@@ -13,23 +13,23 @@ class TypeTests {
   @throws[ParserException]
   @throws[LexerException]
   def primitiveTypeParse(): Unit = {
-    val `type` = TestsUtils.getParser("int").parseType(false)
-    assertEquals(Type.INTEGER, `type`)
+    val `type` = TestsUtils getParser "int" parseType false
+    assertEquals(Type INTEGER, `type`)
   }
 
   @Test
   @throws[ParserException]
   @throws[LexerException]
   def primitiveTypeForFunctionParse(): Unit = {
-    val `type` = TestsUtils.getParser("void").parseType(true)
-    assertEquals(Type.VOID, `type`)
+    val `type` = TestsUtils getParser "void" parseType(true)
+    assertEquals(Type VOID, `type`)
   }
 
   @Test
   @throws[ParserException]
   @throws[LexerException]
   def typeParse(): Unit = {
-    val `type` = TestsUtils.getParser("test").parseType(true)
+    val `type` = TestsUtils getParser "test" parseType(true)
     assertEquals("\\test", `type`.name)
   }
 
@@ -37,7 +37,7 @@ class TypeTests {
   @throws[ParserException]
   @throws[LexerException]
   def multiTypeParse(): Unit = {
-    val `type` = TestsUtils.getParser("test\\testType").parseType(true)
+    val `type` = TestsUtils getParser "test\\testType" parseType(true)
     assertEquals("\\test\\testType", `type`.name)
   }
 
@@ -45,7 +45,7 @@ class TypeTests {
   @throws[ParserException]
   @throws[LexerException]
   def multiTypeParseWithStart(): Unit = {
-    val `type` = TestsUtils.getParser("\\test\\testType").parseType(true)
+    val `type` = TestsUtils getParser "\\test\\testType" parseType true
     assertEquals("\\test\\testType", `type`.name)
   }
 
@@ -53,7 +53,7 @@ class TypeTests {
   @throws[ParserException]
   @throws[LexerException]
   def primitiveTypeForFunctionParseException(): Unit = {
-    val `type` = TestsUtils.getParser("void").parseType(false)
-    assertNotEquals(Type.VOID, `type`)
+    val `type` = TestsUtils getParser "void" parseType false
+    assertNotEquals(Type VOID, `type`)
   }
 }

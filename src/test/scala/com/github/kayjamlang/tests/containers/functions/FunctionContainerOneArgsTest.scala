@@ -20,12 +20,12 @@ class FunctionContainerOneArgsTest {
   def test(): Unit = {
     val expression = FunctionContainerOneArgsTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[FunctionContainer], expression.getClass)
+    assertSame(classOf[FunctionContainer], expression getClass)
     val functionContainer = expression.asInstanceOf[FunctionContainer]
-    assertEquals(1, functionContainer.arguments.size)
-    assertEquals(2, functionContainer.children.size)
-    val argument = functionContainer.arguments.apply(0)
-    assertEquals(Type.STRING, argument.`type`)
+    assertEquals(1, functionContainer.arguments size)
+    assertEquals(2, functionContainer.children size)
+    val argument = functionContainer.arguments.head
+    assertEquals(Type STRING, argument.`type`)
     assertEquals("value", argument.name)
   }
 }

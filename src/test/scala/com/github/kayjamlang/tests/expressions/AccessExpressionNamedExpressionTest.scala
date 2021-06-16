@@ -21,11 +21,11 @@ class AccessExpressionNamedExpressionTest {
   def test(): Unit = {
     val expression = AccessExpressionNamedExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[AccessExpression], expression.getClass)
+    assertSame(classOf[AccessExpression], expression getClass)
     val accessExpression = expression.asInstanceOf[AccessExpression]
-    assertSame(classOf[VariableLinkExpression], accessExpression.root.getClass)
-    assertSame(classOf[NamedExpression], accessExpression.child.getClass)
+    assertSame(classOf[VariableLinkExpression], accessExpression.root getClass)
+    assertSame(classOf[NamedExpression], accessExpression.child getClass)
     val namedContainer = accessExpression.child.asInstanceOf[NamedExpression]
-    assertSame(classOf[Container], namedContainer.expression.getClass)
+    assertSame(classOf[Container], namedContainer.expression getClass)
   }
 }

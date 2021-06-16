@@ -17,7 +17,7 @@ object TypeTest {
   @throws[LexerException]
   def prepare(): Unit = {
     parser = new KayJamParser(new KayJamLexer("string"))
-    parser.moveAhead
+    parser moveAhead
   }
 }
 
@@ -25,8 +25,8 @@ class TypeTest {
   @Test
   @throws[Exception]
   def test(): Unit = {
-    val `type` = TypeTest.parser.parseType(false)
-    assertEquals(Type.STRING, `type`)
+    val `type` = TypeTest.parser parseType false
+    assertEquals(Type STRING, `type`)
     assertFalse(`type`.nullable)
   }
 }

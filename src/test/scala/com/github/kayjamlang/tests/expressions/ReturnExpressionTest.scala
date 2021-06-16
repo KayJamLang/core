@@ -19,9 +19,9 @@ class ReturnExpressionTest {
   def test(): Unit = {
     val expression = ReturnExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[ReturnExpression], expression.getClass)
+    assertSame(classOf[ReturnExpression], expression getClass)
     val returnExpression = expression.asInstanceOf[ReturnExpression]
-    assertSame(classOf[ValueExpression], returnExpression.expression.getClass)
+    assertSame(classOf[ValueExpression], returnExpression.expression getClass)
     val constant = returnExpression.expression.asInstanceOf[ValueExpression]
     assertEquals(2005, constant.value)
   }

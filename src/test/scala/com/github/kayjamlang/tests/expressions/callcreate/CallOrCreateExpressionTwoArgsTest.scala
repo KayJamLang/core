@@ -24,16 +24,16 @@ class CallOrCreateExpressionTwoArgsTest {
   def test(): Unit = {
     val expression = CallOrCreateExpressionTwoArgsTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[CallOrCreateExpression], expression.getClass)
+    assertSame(classOf[CallOrCreateExpression], expression getClass)
     val callOrCreateExpression = expression.asInstanceOf[CallOrCreateExpression]
     assertEquals("concat", callOrCreateExpression.name)
-    assertEquals(2, callOrCreateExpression.arguments.size)
+    assertEquals(2, callOrCreateExpression.arguments size)
     val firstArgument = callOrCreateExpression.arguments.head
     assertSame(classOf[ValueExpression], firstArgument.getClass)
     val firstArgumentConstant = firstArgument.asInstanceOf[ValueExpression]
     assertEquals(2021, firstArgumentConstant.value)
-    val secondaryArgument = callOrCreateExpression.arguments.apply(1)
-    assertSame(classOf[ValueExpression], secondaryArgument.getClass)
+    val secondaryArgument = callOrCreateExpression.arguments apply 1
+    assertSame(classOf[ValueExpression], secondaryArgument getClass)
     val secondaryArgumentConstant = secondaryArgument.asInstanceOf[ValueExpression]
     assertEquals("year", secondaryArgumentConstant.value)
   }
