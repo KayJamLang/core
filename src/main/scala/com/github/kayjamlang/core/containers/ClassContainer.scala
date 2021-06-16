@@ -6,7 +6,7 @@ import com.github.kayjamlang.core.expressions.{Expression, VariableExpression}
 import com.github.kayjamlang.core.opcodes.AccessType
 
 class ClassContainer(val name: String, val extendsClass: String, val implementsClass: AdvancedMutableList[String], children: AdvancedMutableList[Expression], accessType: AccessType, line: Int) extends Container(children, accessType, line) {
-  var companion: ObjectContainer = null
+  var companion: ObjectContainer = _
   var constructors = new AdvancedMutableList[ConstructorContainer]
   var variables = new AdvancedMutableList[VariableExpression]
 
@@ -21,7 +21,10 @@ class ClassContainer(val name: String, val extendsClass: String, val implementsC
         constructors += container
         children -= expression
       case expression1: VariableExpression => variables += expression1
-      case container: FunctionContainer => functions += container
+      case container: FunctionContainer =>
+        if(functions.contains(container.desc))
+          throw new ParserException(line, s"Function ${container.name} already defined")
+        functions put(container.desc, container)
       case _ => throw new ParserException(line, "The class can only contain variables and functions")
     }
   }

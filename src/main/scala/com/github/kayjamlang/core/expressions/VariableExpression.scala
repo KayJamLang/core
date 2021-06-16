@@ -5,6 +5,6 @@ import com.github.kayjamlang.core.opcodes.AccessType
 
 class VariableExpression(val name: String,
                          val expression: Expression,
-                         val variableType: Type = null,
+                         val variableType: Type,
                          accessType: AccessType,
                          line: Int) extends Expression(accessType, line)
