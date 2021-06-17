@@ -17,7 +17,7 @@ class Container(var children: AdvancedMutableList[Expression], identifier: Acces
       case container: FunctionContainer =>
         if(functions.contains(container.desc))
           throw new ParserException(line, s"Function ${container.name} already defined")
-        functions put(container.desc, container)
+        functions += (container.desc, container)
       case _ => children += expression
     }
   }
