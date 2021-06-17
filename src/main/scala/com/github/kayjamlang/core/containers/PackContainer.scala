@@ -1,6 +1,6 @@
 package com.github.kayjamlang.core.containers
 
-import com.github.kayjamlang.core.AdvancedMutableList
+import com.github.kayjamlang.core.ArrayList
 import com.github.kayjamlang.core.exceptions.ParserException
 import com.github.kayjamlang.core.expressions.{ConstantValueExpression, Expression, UseExpression}
 import com.github.kayjamlang.core.opcodes.AccessType
@@ -9,7 +9,7 @@ import scala.collection.JavaConversions.asJavaCollection
 import scala.collection.mutable
 import scala.util.control.Breaks.break
 
-class PackContainer(val packName: String, container: Container, otherExpressionAllow: Boolean) extends Container(new AdvancedMutableList[Expression], AccessType.NONE, 0) {
+class PackContainer(val packName: String, container: Container, otherExpressionAllow: Boolean) extends Container(new ArrayList[Expression], AccessType.NONE, 0) {
   val constants = new mutable.HashMap[String, Any]
   val packs = new mutable.HashMap[String, PackContainer]
   val classes = new mutable.HashMap[String, ClassContainer]

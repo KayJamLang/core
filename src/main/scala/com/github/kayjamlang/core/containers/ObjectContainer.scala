@@ -1,19 +1,19 @@
 package com.github.kayjamlang.core.containers
 
-import com.github.kayjamlang.core.AdvancedMutableList
+import com.github.kayjamlang.core.ArrayList
 import com.github.kayjamlang.core.exceptions.ParserException
 import com.github.kayjamlang.core.expressions.Expression
 import com.github.kayjamlang.core.opcodes.AccessType
 
 @throws[ParserException]
-class ObjectContainer private (name: String, children: AdvancedMutableList[Expression], accessType: AccessType, line: Int, implementsClass: AdvancedMutableList[String], val anonymous: Boolean) extends ClassContainer(name, null, implementsClass, children, accessType, line) {
-  def this(children: AdvancedMutableList[Expression], accessType: AccessType, line: Int) {
-    this("anonymous@class", children, accessType, line, new AdvancedMutableList[String], true)
+class ObjectContainer private (name: String, children: ArrayList[Expression], accessType: AccessType, line: Int, implementsClass: ArrayList[String], val anonymous: Boolean) extends ClassContainer(name, null, implementsClass, children, accessType, line) {
+  def this(children: ArrayList[Expression], accessType: AccessType, line: Int) {
+    this("anonymous@class", children, accessType, line, new ArrayList[String], true)
     verify()
   }
 
-  def this(name: String, children: AdvancedMutableList[Expression], accessType: AccessType, line: Int) {
-    this(name, children, accessType, line, new AdvancedMutableList[String], false)
+  def this(name: String, children: ArrayList[Expression], accessType: AccessType, line: Int) {
+    this(name, children, accessType, line, new ArrayList[String], false)
     verify()
 
     try
