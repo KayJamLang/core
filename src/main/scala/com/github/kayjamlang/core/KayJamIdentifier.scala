@@ -2,82 +2,87 @@
 //
 //import java.util.regex.Pattern
 //
-//case class KayJamIdentifier(regex: String) extends Enumeration {
+//abstract class KayJamIdentifier(regex: String, name: String, ordinal: Int) extends Enum[KayJamIdentifier](name, ordinal) {
 //  val pattern: Pattern = Pattern compile("^" + regex + "$")
 //
 //  def endOfMatch(s: String): Boolean = pattern matcher s find
+//
+//   def equals(obj: KayJamIdentifier): Boolean = this.ordinal == obj.ordinal
 //}
 //
-//object KayJamIdentifier extends Enumeration {
-//  case object VAR         extends KayJamIdentifier("var")
-//  case object FUNCTION    extends KayJamIdentifier("function|fun")
-//  case object NAMED       extends KayJamIdentifier("named")
-//  case object PUBLIC      extends KayJamIdentifier("public")
-//  case object PRIVATE     extends KayJamIdentifier("private")
-//  case object WHILE       extends KayJamIdentifier("while")
-//  case object FOR         extends KayJamIdentifier("for")
-//  case object CLASS       extends KayJamIdentifier("class")
-//  case object OBJECT      extends KayJamIdentifier("object")
-//  case object RETURN      extends KayJamIdentifier("return")
-//  case object CONSTRUCTOR extends KayJamIdentifier("constructor")
-//  case object COMPANION   extends KayJamIdentifier("companion")
-//  case object NAMESPACE   extends KayJamIdentifier("namespace")
-//  case object USE         extends KayJamIdentifier("use")
-//  case object CAST        extends KayJamIdentifier("case")
-//  case object IS          extends KayJamIdentifier("is")
-//  case object IF          extends KayJamIdentifier("if")
-//  case object IN          extends KayJamIdentifier("in")
-//  case object ELSE        extends KayJamIdentifier("else")
-//  case object PACK        extends KayJamIdentifier("pack")
-//  case object CONSTANT    extends KayJamIdentifier("constant")
-//  case object FROM        extends KayJamIdentifier("from")
+//object KayJamIdentifier {
+//  val values = new ArrayList[KayJamIdentifier]()
+//
+//  case object VAR extends KayJamIdentifier("var", "VAR", 0)
+//  values += VAR
+//
+//  case object FUNCTION extends KayJamIdentifier("function|fun", "FUNCTION", 1)
+//  values += FUNCTION
+//
+//  case object NAMED extends KayJamIdentifier("named", "NAMED", 2)
+//  values += NAMED
+//
+//  case object PUBLIC extends KayJamIdentifier("public", "PUBLIC", 3)
+//  values += PUBLIC
+//
+//  case object PRIVATE extends KayJamIdentifier("private", "PRIVATE", 4)
+//  values += PRIVATE
+//
+//  case object WHILE extends KayJamIdentifier("while", "WHILE", 5)
+//  values += WHILE
+//
+//  case object FOR extends KayJamIdentifier("for", "FOR", 6)
+//  values += FOR
+//
+//  case object CLASS extends KayJamIdentifier("class", "CLASS", 7)
+//  values += CLASS
+//
+//  case object OBJECT extends KayJamIdentifier("object", "OBJECT", 8)
+//  values += OBJECT
+//
+//  case object RETURN extends KayJamIdentifier("return", "RETURN", 9)
+//  values += RETURN
+//
+//  case object CONSTRUCTOR extends KayJamIdentifier("constructor", "CONSTRUCTOR", 10)
+//  values += CONSTRUCTOR
+//
+//  case object COMPANION extends KayJamIdentifier("companion", "COMPANION", 11)
+//  values += COMPANION
+//
+//  case object NAMESPACE extends KayJamIdentifier("namespace", "NAMESPACE", 12)
+//  values += NAMESPACE
+//
+//  case object USE extends KayJamIdentifier("use", "USE", 13)
+//  values += USE
+//
+//  case object CAST extends KayJamIdentifier("as", "CAST", 14)
+//  values += CAST
+//
+//  case object IS extends KayJamIdentifier("is", "IS", 15)
+//  values += IS
+//
+//  case object IF extends KayJamIdentifier("if", "IF", 16)
+//  values += IF
+//
+//  case object IN extends KayJamIdentifier("in", "IN", 17)
+//  values += IN
+//
+//  case object ELSE extends KayJamIdentifier("else", "ELSE", 18)
+//  values += ELSE
+//
+//  case object PACK extends KayJamIdentifier("pack", "PACK", 19)
+//  values += PACK
+//
+//  case object CONSTANT extends KayJamIdentifier("constant", "CONSTANT", 20)
+//  values += CONSTANT
+//
+//  case object FROM extends KayJamIdentifier("from", "FROM", 21)
+//  values += FROM
 //
 //  def find(str: String): KayJamIdentifier = {
-//    values.foreach(f => {
-//      println(f.outerEnum)
-//    })
-//    if (VAR endOfMatch str)
-//      return VAR
-//    if (FUNCTION endOfMatch str)
-//      return FUNCTION
-//    if (NAMED endOfMatch str)
-//        return NAMED
-//    if (PUBLIC endOfMatch(str))
-//      return PUBLIC
-//    if (PRIVATE endOfMatch str)
-//      return PRIVATE
-//    if (WHILE endOfMatch str)
-//      return WHILE
-//    if (FOR endOfMatch str)
-//      return FOR
-//    if (CLASS endOfMatch str)
-//      return CLASS
-//    if (OBJECT endOfMatch str)
-//      return OBJECT
-//    if (RETURN endOfMatch str)
-//      return RETURN
-//    if (CONSTRUCTOR endOfMatch str)
-//      return CONSTRUCTOR
-//    if (COMPANION endOfMatch str)
-//      return COMPANION
-//    if (NAMESPACE endOfMatch str)
-//      return NAMESPACE
-//    if (USE endOfMatch str)
-//      return USE
-//    if (CAST endOfMatch str)
-//      return CAST
-//    if (IS endOfMatch str)
-//      return IS
-//    if (IN endOfMatch str)
-//      return IN
-//    if (ELSE endOfMatch str)
-//      return ELSE
-//    if (PACK endOfMatch str)
-//      return PACK
-//    if (CONSTANT endOfMatch str)
-//      return CONSTANT
-//    if (FROM endOfMatch str)
-//      return FROM
+//    for(t <- KayJamIdentifier.values)
+//      if(t endOfMatch str)
+//        return t
 //    null
 //  }
 //}
