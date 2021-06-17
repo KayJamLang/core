@@ -1,10 +1,10 @@
 package com.github.kayjamlang.core.expressions.data
 
-import com.github.kayjamlang.core.{ArrayList, Token, Type}
+import com.github.kayjamlang.core.{ArrayList, Token}
 
 abstract class Operation(val `type`: Token.Type, name: String, ordinal: Int) extends Enum[Operation](name, ordinal)
 object Operation {
-  val values = ArrayList[Operation]()
+  val values = new ArrayList[Operation]()
 
   case object PLUS extends Operation(Token.Type TK_PLUS, "   PLUS", 0)
   values += PLUS
