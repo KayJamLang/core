@@ -3,8 +3,9 @@ package com.github.kayjamlang.core.provider
 import com.github.kayjamlang.core.Type
 import com.github.kayjamlang.core.exceptions.TypeException
 import com.github.kayjamlang.core.expressions.ValueExpression
+import com.github.kayjamlang.core.opcodes.AccessType
 
-class ValueExpressionProvider[A, B, C] extends ExpressionProvider[ValueExpression, A, B, C] {
+class ValueExpressionProvider[A, B, C](accessType: AccessType) extends ExpressionProvider[ValueExpression, A, B, C](accessType) {
   @throws[TypeException]
   override def getType(mainProvider: MainExpressionProvider[A, B, C], context: B, argsContext: B, expression: ValueExpression): Type = {
     val value = expression.value
