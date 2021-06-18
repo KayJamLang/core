@@ -39,10 +39,30 @@ object Type {
    */
   def getType(name: String, isFunction: Boolean): Type = getType(name, isFunction, nullable = false)
 
-  /**
-   * @deprecated removed in newer versions
-   */
-  @deprecated def getType(clazz: Class[_]): Type = Type ANY
+  def getType(clazz: Class[_]): Type = {
+    if (clazz == null)
+      return Type NULL
+
+    val name = clazz.getName
+    if (name == classOf[Null].getName)
+      Type NULL
+    else if (name == classOf[Void].getName)
+      Type VOID
+    else if (name == classOf[String].getName)
+      Type STRING
+    else if (name == classOf[Boolean].getName)
+      Type BOOLEAN
+    else if (name == classOf[Int].getName)
+      Type INTEGER
+    else if (name == classOf[Long].getName)
+      Type LONG
+    else if (name == classOf[Double].getName)
+      Type DOUBLE
+    else if (name == classOf[List[_]].getName || name == classOf[ArrayList[_]].getName || name == classOf[java.util.ArrayList[_]].getName)
+      Type ARRAY
+    else
+      Type ANY
+  }
 
   /**
    * Type creator
