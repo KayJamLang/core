@@ -424,7 +424,7 @@ class KayJamParser(val lexer: KayJamLexer) {
             case Token.Type.STRING =>
                 new ValueExpression(lexer.currentToken.value, Type.STRING)
             case Token.Type.NULL =>
-                new ValueExpression(null, Type.NULL)
+                new ValueExpression(null, Type.NOTHING)
             case Token.Type.LONG =>
                 new ValueExpression(lexer.currentToken.value toLong, Type.LONG)
             case Token.Type.INTEGER =>

@@ -1,6 +1,6 @@
 package com.github.kayjamlang.core
 
-import com.github.kayjamlang.core.Type.NULL
+import com.github.kayjamlang.core.Type.NOTHING
 
 import java.util.Objects
 import scala.collection.mutable
@@ -18,9 +18,9 @@ object Type {
   val RANGE = new Type("range", true)
 
   val ANY = new Type("any", false)
-  val NULL = new Type("null", true)
+  val NOTHING = new Type("nothing", true)
 
-  val allTypes: mutable.MutableList[Type] = mutable.MutableList[Type](INTEGER, DOUBLE, LONG, STRING, BOOLEAN, OBJECT, ARRAY, VOID, FUNCTION_REF, RANGE, ANY, NULL)
+  val allTypes: mutable.MutableList[Type] = mutable.MutableList[Type](INTEGER, DOUBLE, LONG, STRING, BOOLEAN, OBJECT, ARRAY, VOID, FUNCTION_REF, RANGE, ANY, NOTHING)
 
   /**
    * Type creator
@@ -41,11 +41,11 @@ object Type {
 
   def getType(clazz: Class[_]): Type = {
     if (clazz == null)
-      return Type NULL
+      return Type NOTHING
 
     val name = clazz.getName
     if (name == classOf[Null].getName)
-      Type NULL
+      Type NOTHING
     else if (name == classOf[Void].getName)
       Type VOID
     else if (name == classOf[String].getName)
@@ -109,11 +109,6 @@ object Type {
 }
 
 class Type (val name: String, var onlyForFunction: Boolean = false, val primitive: Boolean = false, var nullable: Boolean = false) {
-  /**
-   * @deprecated removed in newer versions
-   */
-  @deprecated
-  val typeClass: Class[_] = null
 
   override def clone(): Type =
     try super.clone.asInstanceOf[Type]
@@ -131,7 +126,7 @@ class Type (val name: String, var onlyForFunction: Boolean = false, val primitiv
    * @return Returns whether a type supports another type
    */
   def isAccept(`type`: Type): Boolean =
-    if (`type` == NULL && (`type`.nullable || nullable))
+    if (`type` == NOTHING && (`type`.nullable || nullable))
       true
     else
       this == `type`
@@ -145,19 +140,4 @@ class Type (val name: String, var onlyForFunction: Boolean = false, val primitiv
       onlyForFunction == o.asInstanceOf[Type].onlyForFunction && Objects.equals(name, o.asInstanceOf[Type].name)
 
   override def hashCode: Int = Objects.hash(name.asInstanceOf[Object], onlyForFunction.asInstanceOf[Object], nullable.asInstanceOf[Object])
-
-  /**
-   * @deprecated removed in newer versions
-   */
-  def this(name: String, typeClass: Class[_], onlyForFunction: Boolean) = this(name, onlyForFunction, true)
-
-  /**
-   * @deprecated removed in newer versions
-   */
-  def this(name: String, typeClass: Class[_], onlyForFunction: Boolean, primitive: Boolean) = this(name, onlyForFunction, primitive)
-
-  /**
-   * @deprecated removed in newer versions
-   */
-  def this(name: String, typeClass: Class[_]) = this(name, false, false)
 }
