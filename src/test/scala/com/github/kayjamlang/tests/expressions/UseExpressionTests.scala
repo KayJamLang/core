@@ -16,7 +16,7 @@ class UseExpressionTests {
     val useExpression = expression.asInstanceOf[UseExpression]
     assertEquals("test.kj", useExpression.from)
     assertEquals(1, useExpression.required size)
-    assertEquals("\\Test\\Value", useExpression.required head)
+    assertEquals("Test\\Value", useExpression.required head)
   }
 
   @Test
@@ -28,8 +28,8 @@ class UseExpressionTests {
     val useExpression = expression.asInstanceOf[UseExpression]
     assertEquals("test.kj", useExpression.from)
     assertEquals(2, useExpression.required size)
-    assertEquals("\\Test\\Value", useExpression.required head)
-    assertEquals("\\Test\\ValueT", useExpression.required apply 1)
+    assertEquals("Test\\Value", useExpression.required head)
+    assertEquals("Test\\ValueT", useExpression.required apply 1)
   }
 
   @Test
@@ -41,7 +41,7 @@ class UseExpressionTests {
     val useExpression = expression.asInstanceOf[UseExpression]
     assertEquals("test.kj", useExpression.from)
     assertEquals(2, useExpression.required size)
-    assertEquals("\\Value", useExpression.required head)
-    assertEquals("\\ValueT", useExpression.required apply 1)
+    assertEquals("Value", useExpression.required head)
+    assertEquals("ValueT", useExpression.required apply 1)
   }
 }

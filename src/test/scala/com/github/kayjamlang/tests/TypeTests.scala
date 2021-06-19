@@ -30,7 +30,7 @@ class TypeTests {
   @throws[LexerException]
   def typeParse(): Unit = {
     val `type` = TestsUtils getParser "test" parseType(true)
-    assertEquals("\\test", `type`.name)
+    assertEquals("test", `type`.name)
   }
 
   @Test
@@ -38,7 +38,7 @@ class TypeTests {
   @throws[LexerException]
   def multiTypeParse(): Unit = {
     val `type` = TestsUtils getParser "test\\testType" parseType(true)
-    assertEquals("\\test\\testType", `type`.name)
+    assertEquals("test\\testType", `type`.name)
   }
 
   @Test
@@ -46,7 +46,7 @@ class TypeTests {
   @throws[LexerException]
   def multiTypeParseWithStart(): Unit = {
     val `type` = TestsUtils getParser "\\test\\testType" parseType true
-    assertEquals("\\test\\testType", `type`.name)
+    assertEquals("test\\testType", `type`.name)
   }
 
   @Test

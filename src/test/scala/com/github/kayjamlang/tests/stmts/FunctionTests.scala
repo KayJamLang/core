@@ -21,6 +21,6 @@ class FunctionTests {
       assertEquals("test", function.name)
       assertEquals(Type.VOID, function.returnType)
       assertEquals(1, function.arguments.length)
-      assertEquals("test(string;)V", function.desc)
+      assertEquals("test(string;)void", function.desc)
   }
 }
