@@ -17,7 +17,7 @@ class FunctionTests {
       assertEquals(classOf[FunctionStmt], stmt.getClass)
 
       val function = stmt.asInstanceOf[FunctionStmt]
-      assertEquals(classOf[Container], function.body)
+      assertEquals(classOf[Container], function.body.getClass)
       assertEquals("test", function.name)
       assertEquals(Type.VOID, function.returnType)
       assertEquals(1, function.arguments.length)
