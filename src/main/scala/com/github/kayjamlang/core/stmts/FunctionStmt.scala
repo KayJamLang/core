@@ -16,7 +16,7 @@ class FunctionStmt(
   val desc: String = name+"("+{
     var args = ""
     arguments.foreach {
-      argument: Argument => args += argument.`type`.name
+      argument: Argument => args += argument.`type`.name+";"
     }
 
     args
