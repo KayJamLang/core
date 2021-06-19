@@ -2,8 +2,7 @@ package com.github.kayjamlang.core
 
 import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION}
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.{BOOL, STRING,
-    IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, TK_ASSIGN}
+import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_NAMESPACE_DELIMITER}
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
@@ -145,13 +144,12 @@ class KayJamParser(val lexer: KayJamLexer) {
     @throws[LexerException]
     @throws[ParserException]
     def readPrimary(identifier: AccessType, annotations: ArrayList[Annotation]): Expression = {
-        var `type` = currentTokenType
+        var tokenType = currentTokenType
         val line = lexer.getLine
-        `type` match {
-            case Token.Type.IDENTIFIER =>
+        tokenType match {
+            case Token.Type.IDENTIFIER|TK_NAMESPACE_DELIMITER =>
                 val keyword = KayJamIdentifier find lexer.currentToken.value
-                if(keyword != null) keyword match {
-
+                if(tokenType!=TK_NAMESPACE_DELIMITER&&keyword!= null) keyword match {
                     case KayJamIdentifier.VAR =>
                         val name = requireToken(Token.Type IDENTIFIER).value
                         var variableType: Type = null
@@ -240,8 +238,8 @@ class KayJamParser(val lexer: KayJamLexer) {
 
                     case KayJamIdentifier.CLASS =>
                         moveAhead
-                        `type` = lexer.currentToken.`type`
-                        if(`type` eq Token.Type.IDENTIFIER) {
+                        tokenType = lexer.currentToken.`type`
+                        if(tokenType eq Token.Type.IDENTIFIER) {
                             val name = lexer.currentToken.value
                             var extendsClass: String = null
                             val implementsClass = new ArrayList[String]
@@ -328,11 +326,9 @@ class KayJamParser(val lexer: KayJamLexer) {
                         }
 
                     case _ => throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
-                }
-                else {
-                    val name = lexer.currentToken.value
-                    `type` = moveAhead.`type`
-                    `type` match {
+                } else {
+                    val name = parseName
+                    currentTokenType match {
                         case Token.Type.TK_ASSIGN =>
                             moveAhead
                             val expression = readExpression
@@ -361,10 +357,10 @@ class KayJamParser(val lexer: KayJamLexer) {
                             moveAhead
                             new CompanionAccessExpression(name, readExpression, line)
                         case Token.Type.TK_REF =>
-                            if(`type` eq Token.Type.TK_REF) moveAhead
+                            if(tokenType eq Token.Type.TK_REF) moveAhead
                             new NamedExpression(name, readExpression, line)
                         case Token.Type.OPEN_BRACKET =>
-                            if(`type` eq Token.Type.TK_REF) moveAhead
+                            if(tokenType eq Token.Type.TK_REF) moveAhead
                             new NamedExpression(name, readExpression, line)
                         case _ =>
                             lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
