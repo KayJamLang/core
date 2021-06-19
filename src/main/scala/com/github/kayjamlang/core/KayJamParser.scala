@@ -476,7 +476,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         if(currentTokenType ne Token.Type.IDENTIFIER)
             throw new ParserException(lexer, "excepted type")
 
-        val name = new StringBuilder(s"\\${lexer.currentToken.value}")
+        val name = new StringBuilder(lexer.currentToken.value)
         while( {
             moveAhead.`type` eq Token.Type.TK_NAMESPACE_DELIMITER
         }) name.append("\\").append(moveAhead.value)
