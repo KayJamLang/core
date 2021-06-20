@@ -166,29 +166,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                         moveAhead
                         val expression = readExpression
                         new VariableExpression(name, expression, variableType, identifier, line)
-
-                    /* TODO: convert to stmt
-                    case KayJamIdentifier.FUNCTION =>
-                        val name = requireToken(Token.Type IDENTIFIER).value
-                        requireToken(Token.Type TK_OPEN)
-                        val arguments = parseArguments
-                        var returnType = Type.VOID
-
-                        if(moveAhead.`type` eq Token.Type.TK_COLON) {
-                            requireToken(Token.Type IDENTIFIER)
-                            returnType = parseType(true)
-                        }
-
-                        val body = parseExpressions
-                        new FunctionContainer(name, body, identifier, arguments, returnType, annotations, line)
-
-                    case KayJamIdentifier.NAMED =>
-                        requireIdentifier(KayJamIdentifier FUNCTION)
-
-                        val name = requireToken(Token.Type IDENTIFIER).value
-
-                        moveAhead
-                        new NamedExpressionFunctionContainer(name, parseExpressions, identifier, line)*/
+                        
                     case KayJamIdentifier.PRIVATE =>
                         if(identifier ne AccessType.NONE)
                             throw new ParserException(lexer, "Access type is already set")
