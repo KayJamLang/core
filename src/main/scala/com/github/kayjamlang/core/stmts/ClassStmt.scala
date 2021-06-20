@@ -7,7 +7,7 @@ class ClassStmt(
                 val classExtends: String,
                 val implementsClass: ArrayList[String],
                 var methods: ArrayList[FunctionStmt],
-                var children: ArrayList[StmtExpression],
+                var properties: ArrayList[StmtExpression],
                 var companion: ObjectStmt
                ) extends Stmt {
   @SuppressWarnings(Array("unchecked"))
@@ -15,7 +15,7 @@ class ClassStmt(
   override def clone: ClassStmt = {
     val classContainer = super.clone.asInstanceOf[ClassStmt]
     classContainer.methods = methods clone()
-    classContainer.children = children clone()
+    classContainer.properties = properties clone()
     classContainer
   }
 

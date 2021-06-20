@@ -7,7 +7,7 @@ class ObjectStmt(
                   clazz: String,
                   implementsClass: ArrayList[String],
                   methods: ArrayList[FunctionStmt],
-                  children: ArrayList[StmtExpression]
-                ) extends ClassStmt(name, clazz, implementsClass, methods, children, null) {
+                  properties: ArrayList[StmtExpression]
+                ) extends ClassStmt(name, clazz, implementsClass, methods, properties, null) {
   companion = this
 }
