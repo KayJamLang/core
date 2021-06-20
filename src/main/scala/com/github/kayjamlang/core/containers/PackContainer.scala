@@ -4,6 +4,7 @@ import com.github.kayjamlang.core.ArrayList
 import com.github.kayjamlang.core.exceptions.ParserException
 import com.github.kayjamlang.core.expressions.{ConstantValueExpression, Expression, UseExpression}
 import com.github.kayjamlang.core.opcodes.AccessType
+import com.github.kayjamlang.core.stmts.ClassStmt
 
 import scala.collection.JavaConversions.asJavaCollection
 import scala.collection.mutable
@@ -12,7 +13,7 @@ import scala.util.control.Breaks.break
 class PackContainer(val packName: String, container: Container, otherExpressionAllow: Boolean) extends Container(new ArrayList[Expression], AccessType.NONE, 0) {
   val constants = new mutable.HashMap[String, Any]
   val packs = new mutable.HashMap[String, PackContainer]
-  val classes = new mutable.HashMap[String, ClassContainer]
+  val classes = new mutable.HashMap[String, ClassStmt]
   val usages = new mutable.MutableList[UseExpression]
 
 
@@ -37,8 +38,8 @@ class PackContainer(val packName: String, container: Container, otherExpressionA
         if (constants containsKey constant.name)
           throw new ParserException(expression.line, "Constant \"" + constant.name + "\" already defined")
         constants put(constant.name, constant.value.value)
-      case clazz: ClassContainer =>
-        classes put(clazz.name, clazz)
+//      case clazz: ClassContainer => // TODO: NEED TO FIX
+//        classes put(clazz.name, clazz)
       case pack: PackContainer =>
         packs put(pack.packName, pack)
       case _ => if (otherExpressionAllow) children add expression

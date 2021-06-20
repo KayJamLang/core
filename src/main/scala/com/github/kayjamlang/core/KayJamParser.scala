@@ -97,7 +97,7 @@ class KayJamParser(val lexer: KayJamLexer) {
     @throws[ParserException]
     def readExpression(identifier: AccessType, annotations: ArrayList[Annotation]): Expression = {
         val expression = readTopExpression(identifier, annotations)
-        if(expression.isInstanceOf[ClassContainer] || expression.isInstanceOf[UseExpression] || expression.isInstanceOf[PackContainer] || expression.isInstanceOf[ConstantValueExpression])
+        if(expression.isInstanceOf[UseExpression] || expression.isInstanceOf[PackContainer] || expression.isInstanceOf[ConstantValueExpression])
             throw new ParserException(lexer, "This expression is not allowed to be used in this place.")
         expression
     }
@@ -208,31 +208,31 @@ class KayJamParser(val lexer: KayJamLexer) {
                         moveAhead
                         new ForExpression(name, range, readExpression, line)
 
-                    case KayJamIdentifier.OBJECT =>
-                        val t = moveAhead
-                        if(t.`type` eq Token.Type.OPEN_BRACKET)
-                            new ObjectContainer(parseExpressions, identifier, line)
-                        else if(t.`type` eq Token.Type.IDENTIFIER) {
-                            moveAhead
-                            new ObjectContainer(t.value, parseExpressions, identifier, line)
-                        } else throw new ParserException(lexer, "expected name of object or open bracket")
+//                    case KayJamIdentifier.OBJECT => // TODO: CONVERT TO STMT
+//                        val t = moveAhead
+//                        if(t.`type` eq Token.Type.OPEN_BRACKET)
+//                            new ObjectContainer(parseExpressions, identifier, line)
+//                        else if(t.`type` eq Token.Type.IDENTIFIER) {
+//                            moveAhead
+//                            new ObjectContainer(t.value, parseExpressions, identifier, line)
+//                        } else throw new ParserException(lexer, "expected name of object or open bracket")
 
-                    case KayJamIdentifier.CLASS =>
-                        moveAhead
-                        tokenType = lexer.currentToken.`type`
-                        if(tokenType eq Token.Type.IDENTIFIER) {
-                            val name = lexer.currentToken.value
-                            var extendsClass: String = null
-                            val implementsClass = new ArrayList[String]
-                            while(moveAhead.`type` ne Token.Type.OPEN_BRACKET)
-                                if(currentTokenType eq Token.Type.TK_COMPANION_ACCESS)
-                                    implementsClass += requireToken(Token.Type IDENTIFIER).value
-                                else if((currentTokenType eq Token.Type.TK_COLON) && extendsClass == null)
-                                    extendsClass = requireToken(Token.Type IDENTIFIER).value
-                                else throw new ParserException(lexer, "expected open bracket or extends/implements token")
-                            new ClassContainer(name, extendsClass, implementsClass, parseExpressions, identifier, line)
-                        }
-                        else throw new ParserException(lexer, "expected identifier of class")
+//                    case KayJamIdentifier.CLASS =>
+//                        moveAhead
+//                        tokenType = lexer.currentToken.`type`
+//                        if(tokenType eq Token.Type.IDENTIFIER) {
+//                            val name = lexer.currentToken.value
+//                            var extendsClass: String = null
+//                            val implementsClass = new ArrayList[String]
+//                            while(moveAhead.`type` ne Token.Type.OPEN_BRACKET)
+//                                if(currentTokenType eq Token.Type.TK_COMPANION_ACCESS)
+//                                    implementsClass += requireToken(Token.Type IDENTIFIER).value
+//                                else if((currentTokenType eq Token.Type.TK_COLON) && extendsClass == null)
+//                                    extendsClass = requireToken(Token.Type IDENTIFIER).value
+//                                else throw new ParserException(lexer, "expected open bracket or extends/implements token")
+//                            new ClassContainer(name, extendsClass, implementsClass, parseExpressions, identifier, line)
+//                        }
+//                        else throw new ParserException(lexer, "expected identifier of class")
 
                     case KayJamIdentifier.RETURN =>
                         if(moveAhead.value == "void") return new ReturnExpression(null, line)
