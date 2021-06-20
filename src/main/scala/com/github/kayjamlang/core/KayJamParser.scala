@@ -390,17 +390,38 @@ class KayJamParser(val lexer: KayJamLexer) {
                 expression
 
             case Token.Type.TK_REF =>
+                var x = false // TODO: please rename "x" variable
                 var arguments = new ArrayList[Argument]
                 if(moveAhead.`type` eq Token.Type.TK_OPEN) {
                     arguments = parseArguments
                     moveAhead
+                } else {
+                    val value = lexer.currentToken.value
+                    if (value.apply(0) == '{')
+                        lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
+                    else {
+                        x = true
+                        lexer.input = new StringBuilder(s"{ ${value + lexer.input} }")
+                    }
                 }
+
                 var returnType = Type.VOID
                 if(moveAhead.`type` eq Token.Type.TK_COLON) {
                     requireToken(Token.Type IDENTIFIER)
                     returnType = parseType(true)
+                } else
+                    lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
+
+                val expr: Expression = readExpression
+                expr match {
+                    case expression: NamedExpression => new FunctionRefExpression(arguments, expression.expression.asInstanceOf[Container].children.head, returnType, line)
+                    case expression: Container =>
+                        if (x)
+                            new FunctionRefExpression(arguments, expression.children.head.asInstanceOf[Container].children.head, returnType, line)
+                        else
+                            new FunctionRefExpression(arguments, expression.children.head, returnType, line)
+                    case _ => new FunctionRefExpression(arguments, expr, returnType, line)
                 }
-                new FunctionRefExpression(arguments, readExpression, returnType, line)
 
             case Token.Type.TK_NOT =>
                 moveAhead

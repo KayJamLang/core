@@ -1,5 +1,6 @@
 package com.github.kayjamlang.tests.expressions
 
+import com.github.kayjamlang.core.containers.Container
 import com.github.kayjamlang.core.{KayJamLexer, KayJamParser}
 import com.github.kayjamlang.core.expressions.{CallOrCreateExpression, FunctionRefExpression, NamedExpression}
 import org.junit.Assert.{assertNotNull, assertSame}
@@ -9,7 +10,7 @@ class NamedSingleExpressionTest {
   @Test
   @throws[Exception]
   def test1(): Unit = { // TODO: rename test!
-    val parser = new KayJamParser(new KayJamLexer("test -> () { println() }"))
+    val parser = new KayJamParser(new KayJamLexer("test -> (x) { println(x) }"))
 
     val expression = parser.readExpression
     assertNotNull(expression)
@@ -35,7 +36,10 @@ class NamedSingleExpressionTest {
     assertSame(classOf[FunctionRefExpression], namedContainer.expression getClass)
 
     val functionRefContainer = namedContainer.expression.asInstanceOf[FunctionRefExpression]
-    assertSame(classOf[CallOrCreateExpression], functionRefContainer.expression getClass)
+    assertSame(classOf[Container], functionRefContainer.expression getClass)
+
+    val container = functionRefContainer.expression.asInstanceOf[Container]
+    assertSame(classOf[CallOrCreateExpression], container.children.head getClass)
   }
 
   @Test
