@@ -10,7 +10,7 @@ object NamedExpressionTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer("test{}"))
+    parser = new KayJamParser(new KayJamLexer("test {}"))
   }
 }
 

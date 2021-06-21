@@ -11,7 +11,7 @@ object TwoFunctionOperationWithInFunctionContainerOperationTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer("equals(2-1)+equals(1+1)"))
+    parser = new KayJamParser(new KayJamLexer("equals(2 - 1) + equals(1 + 1)"))
   }
 }
 

@@ -12,7 +12,12 @@ class PackContainerTests {
   @throws[ParserException]
   @throws[LexerException]
   def constantTest(): Unit = {
-    val expression = TestsUtils.parse("pack Test\\A {" + "const test = 123;" + "}")
+    val expression = TestsUtils.parse(
+      """
+        |pack Test\A {
+        | const test = 123;
+        |}
+        |""".stripMargin)
     assertEquals(classOf[PackContainer], expression getClass)
     val pack = expression.asInstanceOf[PackContainer]
     assertEquals(1, pack.constants size)

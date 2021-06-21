@@ -10,7 +10,11 @@ object IfWithoutExpressionTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer("if(putin) true"))
+    parser = new KayJamParser(new KayJamLexer(
+      """
+        |if (putin)
+        | true
+        |""".stripMargin))
   }
 }
 
