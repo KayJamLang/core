@@ -9,7 +9,7 @@ import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operat
 import com.github.kayjamlang.core.expressions.loops.{ForExpression, WhileExpression}
 import com.github.kayjamlang.core.expressions.{Expression, _}
 import com.github.kayjamlang.core.opcodes.AccessType
-import com.github.kayjamlang.core.stmts.{FunctionStmt, Stmt, StmtExpression}
+import com.github.kayjamlang.core.stmts.{ClassStmt, FunctionStmt, ObjectStmt, Stmt, StmtExpression}
 
 import scala.collection.mutable
 import scala.util.control.Breaks.break
@@ -21,6 +21,7 @@ class KayJamParser(val lexer: KayJamLexer) {
     def parseStmt(): Stmt = {
         lexer.currentToken.`type` match {
             case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
+                case CLASS => parseClass()
                 case FUNCTION => parseFunction()
                 case _ =>
                     val stmt = new StmtExpression(readTopExpression)
@@ -29,6 +30,50 @@ class KayJamParser(val lexer: KayJamLexer) {
             }
             case _ => new StmtExpression(readTopExpression)
         }
+    }
+
+    @throws[ParserException]
+    private def parseClass(): ClassStmt = {
+        // Getting Name
+        val nameR = requireTokenOrNull(Token.Type IDENTIFIER)
+        val name = if (nameR == null)
+            s"class$$${this.hashCode() + lexer.hashCode()}"
+        else nameR.value
+
+        // Parsing extend/implements
+        var extendsClass: String = null
+        val implementsClass = new ArrayList[String]
+        while (moveAhead.`type` ne Token.Type.OPEN_BRACKET)
+            if (currentTokenType eq Token.Type.TK_COMPANION_ACCESS)
+                implementsClass += requireToken(Token.Type IDENTIFIER).value
+            else if ((currentTokenType eq Token.Type.TK_COLON) && extendsClass == null)
+                extendsClass = requireToken(Token.Type IDENTIFIER).value
+
+        // Parsing body
+        val functions = new ArrayList[FunctionStmt]
+        val variables = new ArrayList[StmtExpression]
+
+//        while (true) { // TODO: NEED TO RECREATE
+//            if (moveAhead.`type` eq Token.Type.CLOSE_BRACKET)
+//                break
+//            else
+//                lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
+//
+//            parseStmt() match {
+//                case expr: FunctionStmt => functions += expr
+//                case expr: StmtExpression => variables += expr
+//                case _ => throw new ParserException("ERROR") // TODO: please put normal text
+//            }
+//        }
+
+        new ClassStmt(
+            name,
+            null,
+            new ArrayList[String],
+            functions,
+            variables,
+            new ObjectStmt(s"companion$$$name", name, new ArrayList[String], new ArrayList[FunctionStmt], new ArrayList[StmtExpression])
+        )
     }
 
     @throws[ParserException]
@@ -127,6 +172,14 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     def moveAhead: Token = moveAhead(null)
+
+    @throws[LexerException]
+    def requireTokenOrNull(`type`: Token.Type): Token = {
+        val token = moveAhead(`type`)
+        if(token.`type` ne `type`)
+            null
+        lexer.currentToken
+    }
 
     @throws[LexerException]
     @throws[ParserException]
