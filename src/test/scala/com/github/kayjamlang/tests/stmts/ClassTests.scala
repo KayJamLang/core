@@ -10,8 +10,11 @@ class ClassTests {
     val stmt = TestsUtils.parseStmt(
       """
         |class A {
-        | var i = 12;
+        | var i;
+        | var j = 12 var k = 21
+        | var x = "Hello, World!"
         |}
         |""".stripMargin)
+    println(stmt)
   }
 }
