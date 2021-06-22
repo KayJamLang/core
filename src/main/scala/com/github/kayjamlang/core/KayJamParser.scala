@@ -24,7 +24,6 @@ class KayJamParser(val lexer: KayJamLexer) {
                 case CLASS => parseClass()
                 case FUNCTION => parseFunction()
                 case VAR =>
-                    moveAhead
                     val name = requireToken(IDENTIFIER)
 
                     var `type` = if (lexer _tryToken TK_COLON) {
@@ -91,6 +90,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                 else
                     lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
 
+                moveAhead
                 parseStmt() match {
                     case expr: FunctionStmt => functions += expr
                     case expr: StmtExpression => variables += expr

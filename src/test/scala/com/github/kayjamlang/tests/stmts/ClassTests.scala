@@ -76,6 +76,18 @@ class ClassTests {
     assertVariableExpression(properties, 5, "k", Type INTEGER, 33)
   }
 
+  @Test
+  def test3(): Unit = { // TODO: please rename test
+    val stmt = TestsUtils.parseStmt(
+      """
+        |class AdvancedClass {
+        | fun foo() {
+        |   println("Hello, World!");
+        | }
+        |}
+        |""".stripMargin)
+  }
+
   def assertVariableExpression(arr: ArrayList[StmtExpression], i: Int, name: String, `type`: Type, value: Any): Unit = {
     val a = (arr apply i).expression
     assertTrue(a.isInstanceOf[VariableExpression])
