@@ -2,7 +2,7 @@ package com.github.kayjamlang.core
 
 import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION, VAR}
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_NAMESPACE_DELIMITER, TK_NEW_LINE, TK_SEMI}
+import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_COLON, TK_COMMA, TK_NAMESPACE_DELIMITER, TK_NEW_LINE, TK_SEMI}
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
@@ -27,16 +27,28 @@ class KayJamParser(val lexer: KayJamLexer) {
                     moveAhead
                     val name = requireToken(IDENTIFIER)
 
+                    var `type` = if (lexer _tryToken TK_COLON) {
+                        lexer tryToken TK_COLON
+                        moveAhead
+                        val t = parseType(false)
+                        lexer.input = new StringBuilder(lexer.token.value + lexer.input)
+                        t
+                    } else
+                        Type NOTHING
+
                     if (requireTokenOrNull(TK_ASSIGN) == null)
-                        return new StmtExpression(new VariableExpression(name.value, new ValueExpression(null, Type.NOTHING), Type.NOTHING, AccessType PUBLIC, lexer line))
+                        return new StmtExpression(new VariableExpression(name.value, new ValueExpression(null, `type`), `type`, AccessType PUBLIC, lexer line))
                     moveAhead
 
-                    val value: ValueExpression = parseValue()
+                    val value: ValueExpression = parseValue(`type`)
 
                     if (value == null) // TODO: NEED TO REALIZE
                         throw new UnsupportedOperationException
 
-                    new StmtExpression (new VariableExpression (name.value, value, value.`type`, AccessType PUBLIC, lexer line) )
+                    if ((`type` == null || `type` == Type.NOTHING) && value != null)
+                        `type` = value.`type`
+
+                    new StmtExpression(new VariableExpression (name.value, value, `type`, AccessType PUBLIC, lexer line))
                 case _ =>
                     val stmt = new StmtExpression(readTopExpression)
                     requireToken(TK_SEMI)
@@ -118,15 +130,28 @@ class KayJamParser(val lexer: KayJamLexer) {
         }, returnType, AccessType NONE, new ArrayList[Annotation])
     }
 
-    private def parseValue(): ValueExpression = lexer.currentToken.`type` match {
-        case STRING => new ValueExpression(lexer.currentToken.value, Type.STRING)
-        case INTEGER => new ValueExpression(lexer.currentToken.value.toInt, Type.INTEGER)
-        case LONG => new ValueExpression(lexer.currentToken.value.toLong, Type.LONG)
-        case REAL => new ValueExpression(lexer.currentToken.value.toDouble, Type.DOUBLE)
-        case BOOL => new ValueExpression(lexer.currentToken.value.equals("true"), Type.BOOLEAN)
-        case NULL => new ValueExpression(null, Type.NOTHING)
-        case _ => null
-    }
+    private def parseValue(`type`: Type = null): ValueExpression =
+        if (`type` == null || `type` == Type.NOTHING) {
+            lexer.currentToken.`type` match {
+                case STRING => new ValueExpression(lexer.currentToken.value, Type.STRING)
+                case INTEGER => new ValueExpression(lexer.currentToken.value.toInt, Type.INTEGER)
+                case LONG => new ValueExpression(lexer.currentToken.value.toLong, Type.LONG)
+                case REAL => new ValueExpression(lexer.currentToken.value.toDouble, Type.DOUBLE)
+                case BOOL => new ValueExpression(lexer.currentToken.value.equals("true"), Type.BOOLEAN)
+                case NULL => new ValueExpression(null, Type.NOTHING)
+                case _ => null
+            }
+        } else {
+            lexer.currentToken.`type` match {
+                case STRING => new ValueExpression(lexer.currentToken.value, `type`)
+                case INTEGER => new ValueExpression(lexer.currentToken.value.toInt, `type`)
+                case LONG => new ValueExpression(lexer.currentToken.value.toLong, `type`)
+                case REAL => new ValueExpression(lexer.currentToken.value.toDouble, `type`)
+                case BOOL => new ValueExpression(lexer.currentToken.value.equals("true"), `type`)
+                case NULL => new ValueExpression(null, `type`)
+                case _ => null
+            }
+        }
 
     @throws[LexerException]
     @throws[ParserException]
