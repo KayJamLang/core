@@ -6,7 +6,7 @@ abstract class Operation(val `type`: Token.Type, name: String, ordinal: Int) ext
 object Operation {
   val values = new ArrayList[Operation]()
 
-  case object PLUS extends Operation(Token.Type TK_PLUS, "   PLUS", 0)
+  case object PLUS extends Operation(Token.Type TK_PLUS, "PLUS", 0)
   values += PLUS
 
   case object MINUS extends Operation(Token.Type TK_MINUS, "MINUS", 1)
