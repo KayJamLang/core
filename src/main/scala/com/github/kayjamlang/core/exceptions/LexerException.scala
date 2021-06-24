@@ -1,3 +1,3 @@
-package com.github.kayjamlang.core.exception
+package com.github.kayjamlang.core.exceptions
 
 class LexerException(errorMessage: String) extends Exception(errorMessage)

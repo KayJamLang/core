@@ -1,13 +1,13 @@
 package com.github.kayjamlang.core.provider
 
 import com.github.kayjamlang.core.Type
-import com.github.kayjamlang.core.exception.TypeException
-import com.github.kayjamlang.core.expression.VariableExpression
+import com.github.kayjamlang.core.exceptions.TypeException
+import com.github.kayjamlang.core.expressions.ValueExpression
 import com.github.kayjamlang.core.opcodes.AccessType
 
-class ValueExpressionProvider[A, B, C](accessType: AccessType) extends ExpressionProvider[VariableExpression, A, B, C](accessType) {
+class ValueExpressionProvider[A, B, C](accessType: AccessType) extends ExpressionProvider[ValueExpression, A, B, C](accessType) {
   @throws[TypeException]
-  override def getType(mainProvider: MainExpressionProvider[A, B, C], context: B, argsContext: B, expression: VariableExpression): Type = {
+  override def getType(mainProvider: MainExpressionProvider[A, B, C], context: B, argsContext: B, expression: ValueExpression): Type = {
     val value = expression.value
     if (value == null) {
       val any = Type.NOTHING clone()
