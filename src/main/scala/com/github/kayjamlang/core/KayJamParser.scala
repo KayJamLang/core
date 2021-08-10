@@ -1,15 +1,15 @@
 package com.github.kayjamlang.core
 
-import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION}
+import com.github.kayjamlang.core.KayJamIdentifier.CLASS
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.{IDENTIFIER, OPEN_BRACKET, TK_ASSIGN}
+import com.github.kayjamlang.core.Token.Type.IDENTIFIER
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
 import com.github.kayjamlang.core.expressions.loops.{ForExpression, WhileExpression}
 import com.github.kayjamlang.core.expressions.{Expression, _}
 import com.github.kayjamlang.core.opcodes.AccessType
-import com.github.kayjamlang.core.stmts.{FunctionStmt, Stmt, StmtExpression}
+import com.github.kayjamlang.core.stmts.{Stmt, StmtExpression}
 
 import scala.collection.mutable
 import scala.util.control.Breaks.break
@@ -17,28 +17,10 @@ import scala.util.control.ControlThrowable
 
 class KayJamParser(val lexer: KayJamLexer) {
 
-    @throws[ParserException]
     def parseStmt(): Stmt ={
         lexer.currentToken.`type` match {
             case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
-                case FUNCTION => {
-                    val name = requireToken(Token.Type IDENTIFIER).value
-                    requireToken(Token.Type TK_OPEN)
-                    val arguments = parseArguments
-                    var returnType = Type.VOID
-
-                    if(moveAhead.`type` eq Token.Type.TK_COLON) {
-                        requireToken(Token.Type IDENTIFIER)
-                        returnType = parseType(true)
-                    }
-
-                    val line = lexer.line
-                    new FunctionStmt(name, arguments, lexer.currentToken.`type` match {
-                        case OPEN_BRACKET => readTopExpression
-                        case TK_ASSIGN => new ReturnExpression(readTopExpression, line)
-                        case _ => throw new ParserException(this.lexer, "")
-                    }, returnType, AccessType NONE, new ArrayList[Annotation])
-                }
+                case CLASS =>
                 case _ => new StmtExpression(readTopExpression)
             }
             case _ => new StmtExpression(readTopExpression)
