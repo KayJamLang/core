@@ -85,7 +85,7 @@ class KayJamParser(val lexer: KayJamLexer) {
   @throws[LexerException]
   @throws[ParserException]
   def requireToken(`type`: Token.Type): Token = {
-    val token = moveAhead(`type`)
+    val token = moveAhead
     if (token.`type` ne `type`) throw new ParserException(lexer, s"expected ${`type`.name.toLowerCase}")
     lexer.currentToken
   }
