@@ -23,6 +23,7 @@ class ObjectContainer private (name: String, children: ArrayList[Expression], ac
     }
 
     variables clear()
+    functions clear()
   }
 
   @throws[ParserException]
