@@ -449,7 +449,7 @@ class KayJamParser(val lexer: KayJamLexer) {
             try {
                 while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
                     for(e <- parseRequiredUsages(root))
-                        usages += "\\"+ e
+                        usages += e
                     if(currentTokenType eq Token.Type.CLOSE_BRACKET)
                         break
                     else if(currentTokenType ne Token.Type.TK_COMMA)

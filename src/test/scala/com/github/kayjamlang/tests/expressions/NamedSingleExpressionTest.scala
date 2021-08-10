@@ -20,7 +20,6 @@ class NamedSingleExpressionTest {
     val expression = NamedSingleExpressionTest.parser.readExpression
     assertNotNull(expression)
     assertSame(classOf[NamedExpression], expression getClass)
-
     val namedContainer = expression.asInstanceOf[NamedExpression]
     assertSame(classOf[CallOrCreateExpression], namedContainer.expression getClass)
   }
