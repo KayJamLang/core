@@ -259,10 +259,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                         while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
                             expressions += readTopExpression
                             val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
-//                            val `type` = moveAhead.`type` // TODO DEBUG
-//                            println(s"expr1 = ${closeBracket}\nexpr2 = ${`type`}")
-//                            if(!closeBracket && (`type` ne Token.Type.TK_SEMI))
-                            if (!closeBracket && (moveAhead.`type` ne Token.Type.TK_SEMI))
+                            if(!closeBracket && (moveAhead.`type` ne Token.Type.TK_SEMI))
                                 throwSemicolon()
                         }
                         new PackContainer(name, new Container(expressions, line), false)
