@@ -1,9 +1,9 @@
 package com.github.kayjamlang.tests.stmts
 
+import com.github.kayjamlang.core.Type
 import com.github.kayjamlang.core.expressions.{ValueExpression, VariableExpression}
 import com.github.kayjamlang.core.opcodes.AccessType
-import com.github.kayjamlang.core.stmts.{ClassStmt, StmtExpression}
-import com.github.kayjamlang.core.{ArrayList, Type}
+import com.github.kayjamlang.core.stmts.ClassStmt
 import com.github.kayjamlang.tests.TestsUtils
 import org.junit.Assert.{assertEquals, assertNotNull, assertNull, assertTrue}
 import org.junit.Test
@@ -40,10 +40,8 @@ class ClassTests {
       """
         |class AdvancedClass {
         | var x;
-        | var y: int;
-        | var z: double = 5
-        | var i = 12
-        | var j = 21 var k = 33
+        | var k = 33
+        | var i = 12 var j = 21
         |}
         |""".stripMargin)
 
@@ -66,29 +64,70 @@ class ClassTests {
     assertEquals(companion, companion.companion)
 
     val properties = clazz.properties
-    assertEquals(6, properties.size)
+    assertEquals(4, properties.size)
 
-    assertVariableExpression(properties, 0, "x", Type NOTHING, null)
-    assertVariableExpression(properties, 1, "y", Type INTEGER, null)
-    assertVariableExpression(properties, 2, "z", Type DOUBLE, 5)
-    assertVariableExpression(properties, 3, "i", Type INTEGER, 12)
-    assertVariableExpression(properties, 4, "j", Type INTEGER, 21)
-    assertVariableExpression(properties, 5, "k", Type INTEGER, 33)
-  }
+    val p1 = properties.head.expression
+    assertTrue(p1.isInstanceOf[VariableExpression])
 
-  def assertVariableExpression(arr: ArrayList[StmtExpression], i: Int, name: String, `type`: Type, value: Any): Unit = {
-    val a = (arr apply i).expression
-    assertTrue(a.isInstanceOf[VariableExpression])
-    val b = a.asInstanceOf[VariableExpression]
-    assertEquals(name, b.name)
-    assertEquals(`type`, b.variableType)
-    assertEquals(AccessType PUBLIC, b.accessType)
-    assertTrue(b.data isEmpty)
-    assertTrue(b.expression.isInstanceOf[ValueExpression])
-    val c = b.expression.asInstanceOf[ValueExpression]
-    assertEquals(value, c.value)
-    assertEquals(`type`, c.`type`)
-    assertEquals(AccessType NONE, c.accessType)
-    assertTrue(c.data isEmpty)
+    val x = p1.asInstanceOf[VariableExpression]
+    assertEquals("x", x.name)
+    assertEquals(Type NOTHING, x.variableType)
+    assertEquals(AccessType PUBLIC, x.accessType)
+    assertTrue(x.data isEmpty)
+
+    assertTrue(x.expression.isInstanceOf[ValueExpression])
+    val xE = x.expression.asInstanceOf[ValueExpression]
+    assertEquals(null, xE.value)
+    assertEquals(Type NOTHING, xE.`type`)
+    assertEquals(AccessType NONE, xE.accessType)
+    assertTrue(xE.data isEmpty)
+
+    val p2 = properties.apply(1).expression
+    assertTrue(p2.isInstanceOf[VariableExpression])
+
+    val k = p2.asInstanceOf[VariableExpression]
+    assertEquals("k", k.name)
+    assertEquals(Type INTEGER, k.variableType)
+    assertEquals(AccessType PUBLIC, k.accessType)
+    assertTrue(k.data isEmpty)
+
+    assertTrue(k.expression.isInstanceOf[ValueExpression])
+    val kE = k.expression.asInstanceOf[ValueExpression]
+    assertEquals(33, kE.value)
+    assertEquals(Type INTEGER, kE.`type`)
+    assertEquals(AccessType NONE, kE.accessType)
+    assertTrue(kE.data isEmpty)
+
+    val p3 = properties.apply(2).expression
+    assertTrue(p2.isInstanceOf[VariableExpression])
+
+    val i = p3.asInstanceOf[VariableExpression]
+    assertEquals("i", i.name)
+    assertEquals(Type INTEGER, i.variableType)
+    assertEquals(AccessType PUBLIC, i.accessType)
+    assertTrue(i.data isEmpty)
+
+    assertTrue(i.expression.isInstanceOf[ValueExpression])
+    val iE = i.expression.asInstanceOf[ValueExpression]
+    assertEquals(12, iE.value)
+    assertEquals(Type INTEGER, iE.`type`)
+    assertEquals(AccessType NONE, iE.accessType)
+    assertTrue(iE.data isEmpty)
+
+    val p4 = properties.apply(3).expression
+    assertTrue(p2.isInstanceOf[VariableExpression])
+
+    val j = p4.asInstanceOf[VariableExpression]
+    assertEquals("j", j.name)
+    assertEquals(Type INTEGER, j.variableType)
+    assertEquals(AccessType PUBLIC, j.accessType)
+    assertTrue(j.data isEmpty)
+
+    assertTrue(j.expression.isInstanceOf[ValueExpression])
+    val jE = j.expression.asInstanceOf[ValueExpression]
+    assertEquals(21, jE.value)
+    assertEquals(Type INTEGER, jE.`type`)
+    assertEquals(AccessType NONE, jE.accessType)
+    assertTrue(jE.data isEmpty)
   }
 }

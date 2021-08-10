@@ -42,7 +42,7 @@ class KayJamLexer(value: String) {
       errorMessage = s"Unexpected symbol: '${input.charAt(0)}'"
   }
 
-  def ignoreWhiteSpaces(): Unit = {
+  private def ignoreWhiteSpaces(): Unit = {
     var charsToDelete = 0
 
     try {
@@ -59,7 +59,7 @@ class KayJamLexer(value: String) {
 
   def getLine: Int = line
 
-  def findNextToken(needToken: Token.Type = null): Boolean = {
+  private def findNextToken(needToken: Token.Type = null): Boolean = {
     if(needToken!=null&&tryToken(needToken))
       return true
 
@@ -71,21 +71,11 @@ class KayJamLexer(value: String) {
     false
   }
 
-  def _tryToken(t: Token.Type): Boolean = { // TODO: PLEASE RENAME!
+  private def tryToken(t: Token.Type): Boolean = {
     val response = t matchStr input.toString
     if (response != null) {
-      token = new Token(t, response.group(response.groupCount))
-      return true
-    }
-
-    false
-  }
-
-  def tryToken(t: Token.Type): Boolean = {
-    val response = t matchStr input.toString
-    if (response != null) {
-      token = new Token(t, response.group(response.groupCount))
-      input delete(0, response.end)
+      token = new Token(t, response.group(response.groupCount()))
+      input delete(0, response.end())
       return true
     }
 
