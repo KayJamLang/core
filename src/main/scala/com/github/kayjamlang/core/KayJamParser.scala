@@ -27,7 +27,6 @@ class KayJamParser(val lexer: KayJamLexer) {
     var expression = readPrimary(identifier, annotations)
     if (currentTokenType eq Token.Type.CLOSE_BRACKET)
       return expression
-
     moveAhead
     expression = readEndExpression(expression)
     expression = parseBinOpRHS(identifier, annotations, 0, expression)
@@ -73,20 +72,17 @@ class KayJamParser(val lexer: KayJamLexer) {
   def currentTokenType: Token.Type = lexer.currentToken.`type`
 
   @throws[LexerException]
-  def moveAhead(tokenType: Token.Type = null): Token = {
-    lexer.moveAhead(tokenType)
+  def moveAhead: Token = {
+    lexer.moveAhead()
     if (!lexer.isSuccessful) throw new ParserException(lexer.errorMessage)
     lexer.currentToken
   }
 
   @throws[LexerException]
-  def moveAhead: Token = moveAhead(null)
-
-  @throws[LexerException]
   @throws[ParserException]
-  def requireToken(tokenType: Token.Type): Token = {
-    val token = moveAhead(tokenType)
-    if (token.`type` ne tokenType) throw new ParserException(lexer, "expected " + tokenType.name.toLowerCase)
+  def requireToken(`type`: Token.Type): Token = {
+    val token = moveAhead
+    if (token.`type` ne `type`) throw new ParserException(lexer, "expected " + `type`.name.toLowerCase)
     lexer.currentToken
   }
 
@@ -346,11 +342,11 @@ class KayJamParser(val lexer: KayJamLexer) {
       case Token.Type.NULL =>
         new ValueExpression(null)
       case Token.Type.LONG =>
-        new ValueExpression(lexer.currentToken.value.substring(0, lexer.currentToken.value.length - 1).toLong)
+        new ValueExpression(lexer.currentToken.value.substring(0, lexer.currentToken.value.length - 1) toLong)
       case Token.Type.INTEGER =>
-        new ValueExpression(lexer.currentToken.value.toInt)
+        new ValueExpression(lexer.currentToken.value toInt)
       case Token.Type.REAL =>
-        new ValueExpression(lexer.currentToken.value.toDouble)
+        new ValueExpression(lexer.currentToken.value toDouble)
       case Token.Type.BOOL =>
         new ValueExpression(lexer.currentToken.value == "true")
       case Token.Type.TK_SEMI =>
@@ -358,7 +354,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         readPrimary(identifier, annotations)
       case Token.Type.TK_MINUS =>
         moveAhead
-        new OperationExpression(new ValueExpression(-1), readExpression(identifier, annotations), Operation.MULTIPLY, line)
+        new OperationExpression(new ValueExpression(-1), readExpression(identifier, annotations), Operation MULTIPLY, line)
       case _ =>
         throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
     }
@@ -399,7 +395,7 @@ class KayJamParser(val lexer: KayJamLexer) {
       moveAhead
     if (currentTokenType ne Token.Type.IDENTIFIER)
       throw new ParserException(lexer, "excepted type")
-    val name = new StringBuilder(s"\\${lexer.currentToken.value}")
+    val name = new StringBuilder(s"\\${lexer.currentToken value}")
     while ( {
       moveAhead.`type` eq Token.Type.TK_NAMESPACE_DELIMITER
     }) name.append("\\").append(moveAhead.value)
@@ -441,11 +437,11 @@ class KayJamParser(val lexer: KayJamLexer) {
         val argType = parseType(false)
         var t = lexer.currentToken
         if (t.`type` eq Token.Type.IDENTIFIER) {
-          arguments += new Argument(argType, t.value)
+          arguments += new Argument(argType, t value)
           t = moveAhead
         }
         else if ((t.`type` eq Token.Type.TK_COMMA) || (t.`type` eq Token.Type.TK_CLOSE))
-          arguments += new Argument(Type.ANY, name)
+          arguments += new Argument(Type ANY, name)
         if (t.`type` eq Token.Type.TK_CLOSE)
           break
         else if (t.`type` ne Token.Type.TK_COMMA)

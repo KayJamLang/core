@@ -6,40 +6,44 @@ import scala.util.control.ControlThrowable
 
 class KayJamLexer(value: String) {
   var input = new StringBuilder(value)
-  var token: Token = _
+  var token: Token = null
   var line = 1
   var finished = false
   var errorMessage = ""
-  var blankChars: mutable.Set[Character] = mutable.HashSet[Character](8.toChar, 9.toChar,
-    11.toChar, 12.toChar, 32.toChar)
+  var blankChars: mutable.Set[Character] = new mutable.HashSet[Character]
+
+  blankChars add 8.toChar
+  blankChars add 9.toChar
+  blankChars add 11.toChar
+  blankChars add 12.toChar
+  blankChars add 32.toChar
 
   moveAhead()
 
-  def moveAhead(needToken: Token.Type = null): Unit = {
+  def moveAhead(): Unit = {
     if (finished) return
     if (input.isEmpty) {
       finished = true
       return
     }
-
     fixNewLine()
     ignoreWhiteSpaces()
-    if (findNextToken(needToken)) {
+    if (findNextToken) {
       while ( {
         (token.`type` eq Token.Type.TK_NEW_LINE) || (token.`type` eq Token.Type.COMMENT)
       }) {
         line += 1
-        if (input.isEmpty) {
+        if (input isEmpty) {
           finished = true
           return
         }
         ignoreWhiteSpaces()
-        findNextToken(needToken)
+        findNextToken
       }
       return
     }
     finished = true
-    if (input.nonEmpty) errorMessage = "Unexpected symbol: '" + input.charAt(0) + "'"
+    if (input nonEmpty) errorMessage = "Unexpected symbol: '" + input.charAt(0) + "'"
   }
 
   private def ignoreWhiteSpaces(): Unit = {
@@ -50,9 +54,7 @@ class KayJamLexer(value: String) {
         if (input.toString.length == charsToDelete)
           break
       }
-    } catch {
-      case _: ControlThrowable =>
-    }
+    } catch { case _: ControlThrowable => }
     if (charsToDelete > 0)
       input delete(0, charsToDelete)
   }
@@ -64,33 +66,22 @@ class KayJamLexer(value: String) {
   def getLine: Int = line
 
 
-  private def findNextToken(needToken: Token.Type = null): Boolean = {
-    if(needToken!=null&&tryParse(needToken))
-      return true
-
-    for (t <- Token.Type.values) {
-      if(tryParse(t))
+  private def findNextToken: Boolean = {
+    for (t <- Token.Type values) {
+      val end = t.endOfMatch(input toString)
+      if (end != -1) {
+        val lexema = input substring(0, end)
+        token = new Token(t, lexema)
+        input delete(0, end)
         return true
+      }
     }
-
-    false
-  }
-
-  private def tryParse(t: Token.Type = null): Boolean = {
-    val end = t.endOfMatch(input.toString)
-    if (end != -1) {
-      val lexema = input substring(0, end)
-      token = new Token(t, lexema)
-      input delete(0, end)
-      return true
-    }
-
     false
   }
 
   def currentToken: Token = token
 
-  def isSuccessful: Boolean = errorMessage.isEmpty
+  def isSuccessful: Boolean = errorMessage isEmpty
 
   def isFinished: Boolean = finished
 }
