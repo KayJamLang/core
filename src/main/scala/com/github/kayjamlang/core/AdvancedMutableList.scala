@@ -5,14 +5,14 @@ import scala.collection.mutable
 import scala.util.control.Breaks.break
 import scala.util.control.ControlThrowable
 
-class ArrayList[A] extends mutable.MutableList[A] with Shrinkable[A] {
-  override def +=(elem: A): ArrayList.this.type = {
+class AdvancedMutableList[A] extends mutable.MutableList[A] with Shrinkable[A] {
+  override def +=(elem: A): AdvancedMutableList.this.type = {
     if (!contains(elem))
       super.+=(elem)
     this
   }
 
-  override def +=:(elem: A): ArrayList.this.type = {
+  override def +=:(elem: A): AdvancedMutableList.this.type = {
     if (!contains(elem))
       super.+=:(elem)
     this
@@ -41,16 +41,16 @@ class ArrayList[A] extends mutable.MutableList[A] with Shrinkable[A] {
     this
   }
 
-  override def clone(): ArrayList[A]  = {
-    val bf = new ArrayList[A]
+  override def clone(): AdvancedMutableList[A]  = {
+    val bf = new AdvancedMutableList[A]
     bf ++= seq
-    bf.result().asInstanceOf[ArrayList[A]]
+    bf.result().asInstanceOf[AdvancedMutableList[A]]
   }
 }
 
-object ArrayList extends SeqFactory[mutable.MutableList] {
+object AdvancedMutableList extends SeqFactory[mutable.MutableList] {
   implicit def canBuildFrom[A]: CanBuildFrom[Coll, A, mutable.MutableList[A]] =
     ReusableCBF.asInstanceOf[GenericCanBuildFrom[A]]
 
-  def newBuilder[A]: mutable.Builder[A, mutable.MutableList[A]] = new ArrayList[A]
+  def newBuilder[A]: mutable.Builder[A, mutable.MutableList[A]] = new AdvancedMutableList[A]
 }

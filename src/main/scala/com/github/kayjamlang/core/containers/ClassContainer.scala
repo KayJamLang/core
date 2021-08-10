@@ -1,14 +1,14 @@
 package com.github.kayjamlang.core.containers
 
-import com.github.kayjamlang.core.ArrayList
+import com.github.kayjamlang.core.AdvancedMutableList
 import com.github.kayjamlang.core.exceptions.ParserException
 import com.github.kayjamlang.core.expressions.{Expression, VariableExpression}
 import com.github.kayjamlang.core.opcodes.AccessType
 
-class ClassContainer(val name: String, val extendsClass: String, val implementsClass: ArrayList[String], children: ArrayList[Expression], accessType: AccessType, line: Int) extends Container(children, accessType, line) {
+class ClassContainer(val name: String, val extendsClass: String, val implementsClass: AdvancedMutableList[String], children: AdvancedMutableList[Expression], accessType: AccessType, line: Int) extends Container(children, accessType, line) {
   var companion: ObjectContainer = null
-  var constructors = new ArrayList[ConstructorContainer]
-  var variables = new ArrayList[VariableExpression]
+  var constructors = new AdvancedMutableList[ConstructorContainer]
+  var variables = new AdvancedMutableList[VariableExpression]
 
   for (expression <- children) {
     expression match {

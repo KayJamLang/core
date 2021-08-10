@@ -15,15 +15,15 @@ import scala.util.control.ControlThrowable
 class KayJamParser(val lexer: KayJamLexer) {
     @throws[LexerException]
     @throws[ParserException]
-    def readExpression: Expression = readExpression(AccessType NONE, new ArrayList[Annotation])
+    def readExpression: Expression = readExpression(AccessType NONE, new AdvancedMutableList[Annotation])
 
     @throws[LexerException]
     @throws[ParserException]
-    def readTopExpression: Expression = readTopExpression(AccessType NONE, new ArrayList[Annotation])
+    def readTopExpression: Expression = readTopExpression(AccessType NONE, new AdvancedMutableList[Annotation])
 
     @throws[LexerException]
     @throws[ParserException]
-    def readTopExpression(identifier: AccessType, annotations: ArrayList[Annotation]): Expression = {
+    def readTopExpression(identifier: AccessType, annotations: AdvancedMutableList[Annotation]): Expression = {
         var expression = readPrimary(identifier, annotations)
         if(currentTokenType eq Token.Type.CLOSE_BRACKET)
             return expression
@@ -47,7 +47,7 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     @throws[ParserException]
-    def readExpression(identifier: AccessType, annotations: ArrayList[Annotation]): Expression = {
+    def readExpression(identifier: AccessType, annotations: AdvancedMutableList[Annotation]): Expression = {
         val expression = readTopExpression(identifier, annotations)
         if(expression.isInstanceOf[ClassContainer] || expression.isInstanceOf[UseExpression] || expression.isInstanceOf[PackContainer] || expression.isInstanceOf[ConstantValueExpression])
             throw new ParserException(lexer, "This expression is not allowed to be used in this place.")
@@ -97,7 +97,7 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     @throws[ParserException]
-    def readPrimary(identifier: AccessType, annotations: ArrayList[Annotation]): Expression = {
+    def readPrimary(identifier: AccessType, annotations: AdvancedMutableList[Annotation]): Expression = {
         var `type` = currentTokenType
         val line = lexer.getLine
         `type` match {
@@ -197,7 +197,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                         if(`type` eq Token.Type.IDENTIFIER) {
                             val name = lexer.currentToken value
                             var extendsClass: String = null
-                            val implementsClass = new ArrayList[String]
+                            val implementsClass = new AdvancedMutableList[String]
                             while(moveAhead.`type` ne Token.Type.OPEN_BRACKET)
                                 if(currentTokenType eq Token.Type.TK_COMPANION_ACCESS)
                                     implementsClass += requireToken(Token.Type IDENTIFIER).value
@@ -255,7 +255,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                         val name = parseName
                         if(lexer.currentToken.`type` ne Token.Type.OPEN_BRACKET)
                             throw new ParserException(lexer, "Expected open bracket")
-                        val expressions = new ArrayList[Expression]
+                        val expressions = new AdvancedMutableList[Expression]
                         while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
                             expressions += readTopExpression
                             val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
@@ -286,7 +286,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                             new VariableSetExpression(name, expression, line)
 
                         case Token.Type.TK_OPEN =>
-                            val arguments = new ArrayList[Expression]
+                            val arguments = new AdvancedMutableList[Expression]
                             try {
                                 while(moveAhead.`type` ne Token.Type.TK_CLOSE) {
                                     arguments += readExpression
@@ -341,7 +341,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                 expression
 
             case Token.Type.TK_REF =>
-                var arguments = new ArrayList[Argument]
+                var arguments = new AdvancedMutableList[Argument]
                 if(moveAhead.`type` eq Token.Type.TK_OPEN) {
                     arguments = parseArguments
                     moveAhead
@@ -359,7 +359,7 @@ class KayJamParser(val lexer: KayJamLexer) {
             case Token.Type.OPEN_BRACKET =>
                 new Container(parseExpressions, AccessType PUBLIC, line)
             case Token.Type.TK_OPEN_SQUARE_BRACKET =>
-                val values = new ArrayList[Expression]
+                val values = new AdvancedMutableList[Expression]
                 try {
                     while(moveAhead.`type` ne Token.Type.TK_CLOSE_SQUARE_BRACKET) {
                         values += readExpression(identifier, annotations)
@@ -399,8 +399,8 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     @throws[ParserException]
-    def parseRequiredUsages(root: String): ArrayList[String] = {
-        val usages = new ArrayList[String]
+    def parseRequiredUsages(root: String): AdvancedMutableList[String] = {
+        val usages = new AdvancedMutableList[String]
         if(currentTokenType eq Token.Type.OPEN_BRACKET) {
             try {
                 while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
@@ -471,8 +471,8 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     @throws[ParserException]
-    def parseArguments: ArrayList[Argument] = {
-        val arguments = new ArrayList[Argument]
+    def parseArguments: AdvancedMutableList[Argument] = {
+        val arguments = new AdvancedMutableList[Argument]
         try {
             while(true) {
                 moveAhead
@@ -500,7 +500,7 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     @throws[ParserException]
-    def parseBinOpRHS(identifier: AccessType, annotations: ArrayList[Annotation], exprPrec: Int, lhsA: Expression): Expression = {
+    def parseBinOpRHS(identifier: AccessType, annotations: AdvancedMutableList[Annotation], exprPrec: Int, lhsA: Expression): Expression = {
         var lhs = lhsA
         while(true) {
             val tokPrec = getTokPrecedence
@@ -541,7 +541,7 @@ class KayJamParser(val lexer: KayJamLexer) {
     @throws[ParserException]
     @throws[LexerException]
     def parseScript: Script = {
-        val children = new ArrayList[Expression]
+        val children = new AdvancedMutableList[Expression]
         while(!lexer.isFinished) {
             children += readTopExpression
             val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
@@ -554,11 +554,11 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[ParserException]
     @throws[LexerException]
-    def parseExpressions: ArrayList[Expression] = {
+    def parseExpressions: AdvancedMutableList[Expression] = {
         if(lexer.currentToken.`type` ne Token.Type.OPEN_BRACKET)
             throw new ParserException(lexer, "Expected open bracket")
 
-        val expressions = new ArrayList[Expression]
+        val expressions = new AdvancedMutableList[Expression]
         while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
             expressions += readExpression
             val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
