@@ -2,7 +2,7 @@ package com.github.kayjamlang.core
 
 import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION}
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_NAMESPACE_DELIMITER, TK_SEMI}
+import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_NAMESPACE_DELIMITER}
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
@@ -22,10 +22,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         lexer.currentToken.`type` match {
             case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
                 case FUNCTION => parseFunction()
-                case _ =>
-                    val stmt = new StmtExpression(readTopExpression)
-                    requireToken(TK_SEMI)
-                    stmt
+                case _ => new StmtExpression(readTopExpression)
             }
             case _ => new StmtExpression(readTopExpression)
         }
@@ -416,10 +413,9 @@ class KayJamParser(val lexer: KayJamLexer) {
                     while(moveAhead.`type` ne Token.Type.TK_CLOSE_SQUARE_BRACKET) {
                         values += readExpression(identifier, annotations)
                         val token = moveAhead
-                        if(token.`type` eq Token.Type.TK_CLOSE_SQUARE_BRACKET) {
-                            moveAhead
+                        if(token.`type` eq Token.Type.TK_CLOSE_SQUARE_BRACKET)
                             break
-                        } else if(token.`type` ne Token.Type.TK_COMMA)
+                        else if(token.`type` ne Token.Type.TK_COMMA)
                             throw new ParserException(line, "expected comma")
                     }
                 } catch {
