@@ -2,8 +2,7 @@ package com.github.kayjamlang.core
 
 import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION}
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.{BOOL, STRING,
-    IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, TK_ASSIGN}
+import com.github.kayjamlang.core.Token.Type.{IDENTIFIER, OPEN_BRACKET, TK_ASSIGN}
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
@@ -12,6 +11,7 @@ import com.github.kayjamlang.core.expressions.{Expression, _}
 import com.github.kayjamlang.core.opcodes.AccessType
 import com.github.kayjamlang.core.stmts.{FunctionStmt, Stmt, StmtExpression}
 
+import javax.print.DocFlavor.STRING
 import scala.collection.mutable
 import scala.util.control.Breaks.break
 import scala.util.control.ControlThrowable
@@ -49,14 +49,8 @@ class KayJamParser(val lexer: KayJamLexer) {
         }, returnType, AccessType NONE, new ArrayList[Annotation])
     }
 
-    private def parseValue(): ValueExpression = lexer.currentToken.`type` match {
-        case STRING => new ValueExpression(lexer.currentToken.value, Type.STRING)
-        case INTEGER => new ValueExpression(lexer.currentToken.value.toInt, Type.INTEGER)
-        case LONG => new ValueExpression(lexer.currentToken.value.toLong, Type.LONG)
-        case REAL => new ValueExpression(lexer.currentToken.value.toDouble, Type.DOUBLE)
-        case BOOL => new ValueExpression(lexer.currentToken.value.equals("true"), Type.BOOLEAN)
-        case NULL => new ValueExpression(null, Type.NOTHING)
-        case _ => null
+    private def readValue(): ValueExpression = lexer.currentToken.`type` match {
+        case _ => throw new ParserException(this.lexer, "excepted value")
     }
 
     @throws[LexerException]
@@ -426,6 +420,19 @@ class KayJamParser(val lexer: KayJamLexer) {
                     case _: ControlThrowable =>
                 }
                 new ArrayExpression(values, line)
+
+            case Token.Type.STRING =>
+                new ValueExpression(lexer.currentToken.value, Type.STRING)
+            case Token.Type.NULL =>
+                new ValueExpression(null, Type.NOTHING)
+            case Token.Type.LONG =>
+                new ValueExpression(lexer.currentToken.value toLong, Type.LONG)
+            case Token.Type.INTEGER =>
+                new ValueExpression(lexer.currentToken.value toInt, Type.INTEGER)
+            case Token.Type.REAL =>
+                new ValueExpression(lexer.currentToken.value toDouble, Type.DOUBLE)
+            case Token.Type.BOOL =>
+                new ValueExpression(lexer.currentToken.value == "true", Type.BOOLEAN)
             case Token.Type.TK_SEMI =>
                 moveAhead
                 readPrimary(identifier, annotations)
@@ -433,11 +440,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                 moveAhead
                 new OperationExpression(new ValueExpression(-1, Type.INTEGER), readExpression(identifier, annotations), Operation MULTIPLY, line)
             case _ =>
-                val value = parseValue()
-                value match {
-                    case null => throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
-                    case _ => value
-                }
+                throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
         }
     }
 

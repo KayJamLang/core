@@ -5,9 +5,7 @@ import com.github.kayjamlang.core.ArrayList
 class ClassStmt(
                 val name: String,
                 val classExtends: String,
-                val implementsClass: ArrayList[String],
-                val methods: ArrayList[FunctionStmt],
-                val children: ArrayList[StmtExpression]
+                val implementsClass: ArrayList[String]
                ) extends Stmt {
 
 }

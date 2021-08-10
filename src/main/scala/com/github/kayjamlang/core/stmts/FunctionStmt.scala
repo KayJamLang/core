@@ -13,12 +13,5 @@ class FunctionStmt(
                     val accessType: AccessType,
                     val annotations: ArrayList[Annotation]
                   ) extends Stmt {
-  val desc: String = name+"("+{
-    var args = ""
-    arguments.foreach {
-      argument: Argument => args += argument.`type`.name
-    }
 
-    args
-  }+")"+returnType.name
 }
