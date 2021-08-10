@@ -10,12 +10,7 @@ object BigAccessExpressionTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer(
-      """
-        |print(a()
-        | .b(c().d("test")).e()
-        |)
-        |""".stripMargin))
+    parser = new KayJamParser(new KayJamLexer("print(a()\n" + ".b(c().d(\"test\")).e())"))
   }
 }
 

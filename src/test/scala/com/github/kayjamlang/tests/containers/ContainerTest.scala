@@ -10,14 +10,7 @@ object ContainerTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer(
-      """
-        |{
-        | true;
-        | false;
-        | var test = 12345;
-        |}
-        |""".stripMargin))
+    parser = new KayJamParser(new KayJamLexer("{true;false;var test = 12345;}"))
   }
 }
 

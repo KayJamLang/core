@@ -10,11 +10,7 @@ object WhileExpressionTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer(
-      """
-        |while (false)
-        | true
-        |""".stripMargin))
+    parser = new KayJamParser(new KayJamLexer("while(false) true"))
   }
 }
 

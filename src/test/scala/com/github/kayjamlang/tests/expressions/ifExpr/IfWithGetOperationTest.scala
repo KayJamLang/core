@@ -12,11 +12,7 @@ object IfWithGetOperationTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer(
-      """
-        |if (test[1] == 123)
-        | true
-        |""".stripMargin))
+    parser = new KayJamParser(new KayJamLexer("if(test[1]==123) true"))
   }
 }
 

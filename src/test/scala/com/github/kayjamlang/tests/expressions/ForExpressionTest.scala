@@ -10,12 +10,7 @@ object ForExpressionTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-//    parser = new KayJamParser(new KayJamLexer("for(test in 0..2) true"))
-    parser = new KayJamParser(new KayJamLexer(
-      """
-        |for (test in 0..2)
-        | true
-        |""".stripMargin))
+    parser = new KayJamParser(new KayJamLexer("for(test in 0..2) true"))
   }
 }
 

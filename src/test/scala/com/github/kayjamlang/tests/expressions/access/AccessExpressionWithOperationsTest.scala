@@ -12,7 +12,7 @@ object AccessExpressionWithOperationsTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer("getRoot().child + 123"))
+    parser = new KayJamParser(new KayJamLexer("getRoot().child+123"))
   }
 }
 

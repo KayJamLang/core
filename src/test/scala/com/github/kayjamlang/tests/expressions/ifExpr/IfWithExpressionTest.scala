@@ -10,13 +10,7 @@ object IfWithExpressionTest {
   private var parser: KayJamParser = null
 
   @BeforeClass def prepare(): Unit = {
-    parser = new KayJamParser(new KayJamLexer(
-      """
-        |if (putin)
-        | true
-        |else
-        | false
-        |""".stripMargin))
+    parser = new KayJamParser(new KayJamLexer("if(putin) true else false"))
   }
 }
 
