@@ -21,12 +21,10 @@ class BigAccessExpressionTest {
     val expression = BigAccessExpressionTest.parser.readExpression
     assertNotNull(expression)
     assertSame(classOf[CallOrCreateExpression], expression getClass)
-
     var callOrCreateExpression = expression.asInstanceOf[CallOrCreateExpression]
     assertEquals("print", callOrCreateExpression.name)
     assertEquals(1, callOrCreateExpression.arguments size)
     assertSame(classOf[AccessExpression], callOrCreateExpression.arguments.head getClass)
-
     var accessExpression = callOrCreateExpression.arguments.head.asInstanceOf[AccessExpression]
     assertSame(classOf[AccessExpression], accessExpression.root getClass)
     assertSame(classOf[CallOrCreateExpression], accessExpression.child getClass)

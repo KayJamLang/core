@@ -1,19 +1,16 @@
 package com.github.kayjamlang.core
 
-import java.util.regex.{Matcher, Pattern}
+import java.util.regex.Pattern
 
 class Token(val `type`: Token.Type, val value: String)
-
 object Token {
   abstract class Type(regex: String, n: String, o: Int) extends Enum[Type](n, o) {
     val pattern: Pattern = Pattern compile s"^$regex"
 
-    def matchStr(s: String): Matcher = {
+    def endOfMatch(s: String): Int = {
       val m = pattern.matcher(s)
-      if(m.find())
-        return m
-
-      null
+      if (m.find) return m.end
+      -1
     }
   }
 
@@ -77,13 +74,13 @@ object Token {
     case object NULL extends Type("null", "NULL", 18)
     values += NULL
 
-    case object STRING extends Type("\"([^\"]+|)\"", "STRING", 19)
+    case object STRING extends Type("(\"[^\"]+\"|\"\")", "STRING", 19)
     values += STRING
 
-    case object REAL extends Type("(\\d*\\.\\d+)", "REAL", 20)
+    case object REAL extends Type("(\\d*)\\.\\d+", "REAL", 20)
     values += REAL
 
-    case object LONG extends Type("(\\d+)[lL]", "LONG", 21)
+    case object LONG extends Type("\\d+[lL]", "LONG", 21)
     values += LONG
 
     case object INTEGER extends Type("\\d+", "INTEGER", 22)

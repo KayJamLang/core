@@ -11,7 +11,6 @@ import com.github.kayjamlang.core.expressions.{Expression, _}
 import com.github.kayjamlang.core.opcodes.AccessType
 import com.github.kayjamlang.core.stmts.{FunctionStmt, Stmt, StmtExpression}
 
-import javax.print.DocFlavor.STRING
 import scala.collection.mutable
 import scala.util.control.Breaks.break
 import scala.util.control.ControlThrowable
@@ -19,38 +18,30 @@ import scala.util.control.ControlThrowable
 class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[ParserException]
-    def parseStmt(): Stmt = {
+    def parseStmt(): Stmt ={
         lexer.currentToken.`type` match {
             case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
-                case FUNCTION => parseFunction()
+                case FUNCTION =>
+                    val name = requireToken(Token.Type IDENTIFIER).value
+                    requireToken(Token.Type TK_OPEN)
+                    val arguments = parseArguments
+                    var returnType = Type.VOID
+
+                    if(moveAhead.`type` eq Token.Type.TK_COLON) {
+                        requireToken(Token.Type IDENTIFIER)
+                        returnType = parseType(true)
+                    }
+
+                    val line = lexer.line
+                    new FunctionStmt(name, arguments, lexer.currentToken.`type` match {
+                        case OPEN_BRACKET => readTopExpression
+                        case TK_ASSIGN => new ReturnExpression(readTopExpression, line)
+                        case _ => throw new ParserException(this.lexer, "")
+                    }, returnType, AccessType NONE, new ArrayList[Annotation])
                 case _ => new StmtExpression(readTopExpression)
             }
             case _ => new StmtExpression(readTopExpression)
         }
-    }
-
-    @throws[ParserException]
-    private def parseFunction(): FunctionStmt = {
-        val name = requireToken(Token.Type IDENTIFIER).value
-        requireToken(Token.Type TK_OPEN)
-        val arguments = parseArguments
-        var returnType = Type.VOID
-
-        if(moveAhead.`type` eq Token.Type.TK_COLON) {
-            requireToken(Token.Type IDENTIFIER)
-            returnType = parseType(true)
-        }
-
-        val line = lexer.line
-        new FunctionStmt(name, arguments, lexer.currentToken.`type` match {
-            case OPEN_BRACKET => readTopExpression
-            case TK_ASSIGN => new ReturnExpression(readTopExpression, line)
-            case _ => throw new ParserException(this.lexer, "")
-        }, returnType, AccessType NONE, new ArrayList[Annotation])
-    }
-
-    private def readValue(): ValueExpression = lexer.currentToken.`type` match {
-        case _ => throw new ParserException(this.lexer, "excepted value")
     }
 
     @throws[LexerException]
@@ -101,10 +92,10 @@ class KayJamParser(val lexer: KayJamLexer) {
             new AssertNullExpression(root, lexer getLine)
         case Token.Type.TK_PLUS_ONE =>
             moveAhead
-            new OperationExpression(root, new ValueExpression(1, Type.INTEGER), Operation PLUS, lexer getLine)
+            new OperationExpression(root, new ValueExpression(1), Operation PLUS, lexer getLine)
         case Token.Type.TK_MINUS_ONE =>
             moveAhead
-            new OperationExpression(root, new ValueExpression(1, Type.INTEGER), Operation MINUS, lexer getLine)
+            new OperationExpression(root, new ValueExpression(1), Operation MINUS, lexer getLine)
         case _ => root
     }
 
@@ -265,6 +256,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                         var from: String = null
                         if(lexer.currentToken.value == "from") {
                             from = requireToken(Token.Type STRING).value
+                            from = from.substring(1, from.length - 1)
                         }
 
                         new UseExpression(needed, from, line)
@@ -422,23 +414,23 @@ class KayJamParser(val lexer: KayJamLexer) {
                 new ArrayExpression(values, line)
 
             case Token.Type.STRING =>
-                new ValueExpression(lexer.currentToken.value, Type.STRING)
+                new ValueExpression(lexer.currentToken.value substring(1, lexer.currentToken.value.length - 1))
             case Token.Type.NULL =>
-                new ValueExpression(null, Type.NULL)
+                new ValueExpression(null)
             case Token.Type.LONG =>
-                new ValueExpression(lexer.currentToken.value toLong, Type.LONG)
+                new ValueExpression(lexer.currentToken.value substring(0, lexer.currentToken.value.length - 1) toLong)
             case Token.Type.INTEGER =>
-                new ValueExpression(lexer.currentToken.value toInt, Type.INTEGER)
+                new ValueExpression(lexer.currentToken.value toInt)
             case Token.Type.REAL =>
-                new ValueExpression(lexer.currentToken.value toDouble, Type.DOUBLE)
+                new ValueExpression(lexer.currentToken.value toDouble)
             case Token.Type.BOOL =>
-                new ValueExpression(lexer.currentToken.value == "true", Type.BOOLEAN)
+                new ValueExpression(lexer.currentToken.value == "true")
             case Token.Type.TK_SEMI =>
                 moveAhead
                 readPrimary(identifier, annotations)
             case Token.Type.TK_MINUS =>
                 moveAhead
-                new OperationExpression(new ValueExpression(-1, Type.INTEGER), readExpression(identifier, annotations), Operation MULTIPLY, line)
+                new OperationExpression(new ValueExpression(-1), readExpression(identifier, annotations), Operation MULTIPLY, line)
             case _ =>
                 throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
         }
