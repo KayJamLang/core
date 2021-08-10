@@ -310,6 +310,9 @@ class KayJamParser(val lexer: KayJamLexer) {
                         while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
                             expressions += readTopExpression
                             val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
+//                            val `type` = moveAhead.`type` // TODO DEBUG
+//                            println(s"expr1 = ${closeBracket}\nexpr2 = ${`type`}")
+//                            if(!closeBracket && (`type` ne Token.Type.TK_SEMI))
                             if (!closeBracket && (moveAhead.`type` ne Token.Type.TK_SEMI))
                                 throwSemicolon()
                         }
@@ -440,16 +443,16 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     @throws[ParserException]
-    def parseRequiredUsages(root: String, x: Boolean = false): ArrayList[String] = { // TODO: please rename "x" variable
+    def parseRequiredUsages(root: String): ArrayList[String] = {
         val usages = new ArrayList[String]
-        if (currentTokenType eq Token.Type.OPEN_BRACKET) {
+        if(currentTokenType eq Token.Type.OPEN_BRACKET) {
             try {
-                while (moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
-                    for (e <- parseRequiredUsages(root, x = true))
-                        usages += e
-                    if (currentTokenType eq Token.Type.CLOSE_BRACKET)
+                while(moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
+                    for(e <- parseRequiredUsages(root))
+                        usages += e+"\\"
+                    if(currentTokenType eq Token.Type.CLOSE_BRACKET)
                         break
-                    else if (currentTokenType ne Token.Type.TK_COMMA)
+                    else if(currentTokenType ne Token.Type.TK_COMMA)
                         throw new ParserException(lexer, "excepted comma")
                 }
             } catch {
@@ -457,11 +460,9 @@ class KayJamParser(val lexer: KayJamLexer) {
             }
             moveAhead
         } else {
-            val name = if (x && root.nonEmpty)
-                s"$root\\$parseName"
-            else s"$root$parseName"
-            if (currentTokenType eq Token.Type.OPEN_BRACKET) {
-                for (e <- parseRequiredUsages(name, x = true))
+            val name = root + parseName
+            if(currentTokenType eq Token.Type.OPEN_BRACKET) {
+                for(e <- parseRequiredUsages(name))
                     usages += e
             } else
                 usages += name
