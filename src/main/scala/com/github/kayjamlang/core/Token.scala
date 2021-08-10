@@ -3,6 +3,7 @@ package com.github.kayjamlang.core
 import java.util.regex.{Matcher, Pattern}
 
 class Token(val `type`: Token.Type, val value: String)
+
 object Token {
   abstract class Type(regex: String, n: String, o: Int) extends Enum[Type](n, o) {
     val pattern: Pattern = Pattern compile s"^$regex"
