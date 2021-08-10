@@ -391,14 +391,10 @@ class KayJamParser(val lexer: KayJamLexer) {
 
             case Token.Type.TK_REF =>
                 var x = false // TODO: please rename "x" variable
-                var x1 = false // TODO: please rename "x1" variable
-
                 var arguments = new ArrayList[Argument]
                 if(moveAhead.`type` eq Token.Type.TK_OPEN) {
                     arguments = parseArguments
                     moveAhead
-                    x1 = true
-                    lexer.input = new StringBuilder(s"{ ${lexer.currentToken.value + lexer.input} }")
                 } else {
                     val value = lexer.currentToken.value
                     if (value.apply(0) == '{')
@@ -418,21 +414,13 @@ class KayJamParser(val lexer: KayJamLexer) {
 
                 val expr: Expression = readExpression
                 expr match {
-                    case expression: NamedExpression =>
-                        new FunctionRefExpression(arguments, expression.expression.asInstanceOf[Container].children.head, returnType, line)
-
+                    case expression: NamedExpression => new FunctionRefExpression(arguments, expression.expression.asInstanceOf[Container].children.head, returnType, line)
                     case expression: Container =>
                         if (x)
                             new FunctionRefExpression(arguments, expression.children.head.asInstanceOf[Container].children.head, returnType, line)
-                        else {
-                            if (x1)
-                                new FunctionRefExpression(arguments, expression.children.head.asInstanceOf[Container].children.head, returnType, line)
-                            else
-                                new FunctionRefExpression(arguments, expression.children.head, returnType, line)
-                        }
-
-                    case _ =>
-                        new FunctionRefExpression(arguments, expr, returnType, line)
+                        else
+                            new FunctionRefExpression(arguments, expression.children.head, returnType, line)
+                    case _ => new FunctionRefExpression(arguments, expr, returnType, line)
                 }
 
             case Token.Type.TK_NOT =>

@@ -20,10 +20,7 @@ class NamedSingleExpressionTest {
     assertSame(classOf[FunctionRefExpression], namedContainer.expression getClass)
 
     val functionRefContainer = namedContainer.expression.asInstanceOf[FunctionRefExpression]
-    assertSame(classOf[Container], functionRefContainer.expression getClass)
-
-    val container = functionRefContainer.expression.asInstanceOf[Container]
-    assertSame(classOf[CallOrCreateExpression], container.children.head getClass)
+    assertSame(classOf[CallOrCreateExpression], functionRefContainer.expression getClass)
   }
 
   @Test
