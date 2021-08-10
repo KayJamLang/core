@@ -1,8 +1,8 @@
 package com.github.kayjamlang.core
 
-import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION, VAR}
+import com.github.kayjamlang.core.KayJamIdentifier.{CLASS, FUNCTION}
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_NAMESPACE_DELIMITER, TK_NEW_LINE, TK_SEMI}
+import com.github.kayjamlang.core.Token.Type.{BOOL, IDENTIFIER, INTEGER, LONG, NULL, OPEN_BRACKET, REAL, STRING, TK_ASSIGN, TK_NAMESPACE_DELIMITER, TK_SEMI}
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
@@ -23,30 +23,11 @@ class KayJamParser(val lexer: KayJamLexer) {
             case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
                 case CLASS => parseClass()
                 case FUNCTION => parseFunction()
-                case VAR =>
-                    moveAhead
-                    val name = requireToken(IDENTIFIER)
-
-                    if (requireTokenOrNull(TK_ASSIGN) == null)
-                        return new StmtExpression(new VariableExpression(name.value, new ValueExpression(null, Type.NOTHING), Type.NOTHING, AccessType PUBLIC, lexer line))
-                    moveAhead
-
-                    val value: ValueExpression = parseValue()
-
-                    if (value == null) // TODO: NEED TO REALIZE
-                        throw new UnsupportedOperationException
-
-                    new StmtExpression (new VariableExpression (name.value, value, value.`type`, AccessType PUBLIC, lexer line) )
                 case _ =>
                     val stmt = new StmtExpression(readTopExpression)
                     requireToken(TK_SEMI)
                     stmt
             }
-            case TK_NEW_LINE =>
-                moveAhead
-                if (lexer.isFinished)
-                    return null
-                parseStmt()
             case _ => new StmtExpression(readTopExpression)
         }
     }
@@ -72,21 +53,18 @@ class KayJamParser(val lexer: KayJamLexer) {
         val functions = new ArrayList[FunctionStmt]
         val variables = new ArrayList[StmtExpression]
 
-        try {
-            while (true) {
-                if (moveAhead.`type` eq Token.Type.CLOSE_BRACKET)
-                    break
-                else
-                    lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
-
-                parseStmt() match {
-                    case expr: FunctionStmt => functions += expr
-                    case expr: StmtExpression => variables += expr
-                    case null => break
-                    case _ => throw new ParserException("ERROR") // TODO: please put normal text
-                }
-            }
-        } catch { case _: ControlThrowable => }
+//        while (true) { // TODO: NEED TO RECREATE
+//            if (moveAhead.`type` eq Token.Type.CLOSE_BRACKET)
+//                break
+//            else
+//                lexer.input = new StringBuilder(lexer.currentToken.value + lexer.input)
+//
+//            parseStmt() match {
+//                case expr: FunctionStmt => functions += expr
+//                case expr: StmtExpression => variables += expr
+//                case _ => throw new ParserException("ERROR") // TODO: please put normal text
+//            }
+//        }
 
         new ClassStmt(
             name,
@@ -198,8 +176,8 @@ class KayJamParser(val lexer: KayJamLexer) {
     @throws[LexerException]
     def requireTokenOrNull(`type`: Token.Type): Token = {
         val token = moveAhead(`type`)
-        if (token.`type` ne `type`)
-            return null
+        if(token.`type` ne `type`)
+            null
         lexer.currentToken
     }
 
@@ -222,7 +200,7 @@ class KayJamParser(val lexer: KayJamLexer) {
     @throws[LexerException]
     @throws[ParserException]
     def readPrimary(identifier: AccessType, annotations: ArrayList[Annotation]): Expression = {
-        val tokenType = currentTokenType
+        var tokenType = currentTokenType
         val line = lexer.getLine
         tokenType match {
             case Token.Type.IDENTIFIER|TK_NAMESPACE_DELIMITER =>

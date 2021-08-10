@@ -18,7 +18,7 @@ object Type {
   val RANGE = new Type("range", true)
 
   val ANY = new Type("any", false)
-  val NOTHING = new Type("nothing", false)
+  val NOTHING = new Type("nothing", true)
 
   val allTypes: mutable.MutableList[Type] = mutable.MutableList[Type](INTEGER, DOUBLE, LONG, STRING, BOOLEAN, OBJECT, ARRAY, VOID, FUNCTION_REF, RANGE, ANY, NOTHING)
 
