@@ -21,7 +21,7 @@ class KayJamParser(val lexer: KayJamLexer) {
     def parseStmt(): Stmt ={
         lexer.currentToken.`type` match {
             case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
-                case FUNCTION =>
+                case FUNCTION => {
                     val name = requireToken(Token.Type IDENTIFIER).value
                     requireToken(Token.Type TK_OPEN)
                     val arguments = parseArguments
@@ -38,6 +38,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                         case TK_ASSIGN => new ReturnExpression(readTopExpression, line)
                         case _ => throw new ParserException(this.lexer, "")
                     }, returnType, AccessType NONE, new ArrayList[Annotation])
+                }
                 case _ => new StmtExpression(readTopExpression)
             }
             case _ => new StmtExpression(readTopExpression)
