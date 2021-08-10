@@ -1,22 +1,16 @@
 plugins {
-    id "scala"
     id "java-library"
     id "maven-publish"
     id "signing"
 }
 
+
 group 'com.github.kayjamlang'
 archivesBaseName = "core"
 version '0.1.4-beta3'
 
-tasks.withType(ScalaCompile) {
-    scalaCompileOptions.additionalParameters = ["-feature", "-language:postfixOps", "-language:implicitConversions", "-language:higherKinds", "-language:existentials"]
-}
-
 dependencies {
-    implementation 'org.scala-lang:scala-library:2.11.12'
-    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
-    testImplementation group: 'org.scalatest', name: 'scalatest-all_2.11', version: '3.0.0-M11'
+    testCompile group: 'junit', name: 'junit', version: '4.13.2'
 }
 
 repositories {
@@ -89,7 +83,7 @@ publishing {
 }
 
 java {
-//    withJavadocJar()
+    withJavadocJar()
     withSourcesJar()
 }
 
