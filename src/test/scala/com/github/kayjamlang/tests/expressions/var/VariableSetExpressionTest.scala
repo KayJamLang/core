@@ -24,10 +24,10 @@ class VariableSetExpressionTest {
   def test(): Unit = {
     val expression = VariableSetExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[VariableSetExpression], expression getClass)
+    assertSame(classOf[VariableSetExpression], expression.getClass)
     val variable = expression.asInstanceOf[VariableSetExpression]
     assertEquals("test", variable.name)
-    assertSame(classOf[ValueExpression], variable.expression getClass)
+    assertSame(classOf[ValueExpression], variable.expression.getClass)
     val constant = variable.expression.asInstanceOf[ValueExpression]
     assertEquals(123, constant.value)
   }

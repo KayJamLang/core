@@ -20,12 +20,12 @@ class ClassImplementsContainerTest {
   def test(): Unit = {
     val expression = ClassImplementsContainerTest.parser.readTopExpression
     assertNotNull(expression)
-    assertSame(classOf[ClassContainer], expression getClass)
+    assertSame(classOf[ClassContainer], expression.getClass)
     val classContainer = expression.asInstanceOf[ClassContainer]
     assertEquals("Test", classContainer.name)
-    assertEquals(1, classContainer.implementsClass size)
-    assertEquals("ABC", classContainer.implementsClass head)
-    assertEquals(1, classContainer.variables size)
-    assertEquals(1, classContainer.functions size)
+    assertEquals(1, classContainer.implementsClass.size)
+    assertEquals("ABC", classContainer.implementsClass.apply(0))
+    assertEquals(1, classContainer.variables.size)
+    assertEquals(1, classContainer.functions.size)
   }
 }

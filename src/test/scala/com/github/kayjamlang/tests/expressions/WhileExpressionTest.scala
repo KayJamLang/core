@@ -20,10 +20,10 @@ class WhileExpressionTest {
   def test(): Unit = {
     val expression = WhileExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[WhileExpression], expression getClass)
+    assertSame(classOf[WhileExpression], expression.getClass)
     val whileExpression = expression.asInstanceOf[WhileExpression]
-    assertSame(classOf[ValueExpression], whileExpression.condition getClass)
-    assertSame(classOf[ValueExpression], whileExpression.expression getClass)
+    assertSame(classOf[ValueExpression], whileExpression.condition.getClass)
+    assertSame(classOf[ValueExpression], whileExpression.expression.getClass)
     val condition = whileExpression.condition.asInstanceOf[ValueExpression]
     assertEquals(false, condition.value)
     val cValue = whileExpression.expression.asInstanceOf[ValueExpression]

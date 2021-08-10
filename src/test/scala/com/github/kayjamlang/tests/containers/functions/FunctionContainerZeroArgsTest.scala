@@ -20,9 +20,9 @@ class FunctionContainerZeroArgsTest {
   def test(): Unit = {
     val expression = FunctionContainerZeroArgsTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[FunctionContainer], expression getClass)
+    assertSame(classOf[FunctionContainer], expression.getClass)
     val functionContainer = expression.asInstanceOf[FunctionContainer]
-    assertEquals(0, functionContainer.arguments size)
-    assertEquals(2, functionContainer.children size)
+    assertEquals(0, functionContainer.arguments.size)
+    assertEquals(2, functionContainer.children.size)
   }
 }

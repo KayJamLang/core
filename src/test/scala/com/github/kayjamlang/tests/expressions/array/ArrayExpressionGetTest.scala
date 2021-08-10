@@ -20,10 +20,10 @@ class ArrayExpressionGetTest {
   def test(): Unit = {
     val expression = ArrayExpressionGetTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[GetExpression], expression getClass)
+    assertSame(classOf[GetExpression], expression.getClass)
     val arrayGet = expression.asInstanceOf[GetExpression]
-    assertSame(classOf[VariableLinkExpression], arrayGet.root getClass)
-    assertSame(classOf[ValueExpression], arrayGet.value getClass)
+    assertSame(classOf[VariableLinkExpression], arrayGet.root.getClass)
+    assertSame(classOf[ValueExpression], arrayGet.value.getClass)
     val variableLinkExpression = arrayGet.root.asInstanceOf[VariableLinkExpression]
     assertEquals("test", variableLinkExpression.name)
     val constant = arrayGet.value.asInstanceOf[ValueExpression]

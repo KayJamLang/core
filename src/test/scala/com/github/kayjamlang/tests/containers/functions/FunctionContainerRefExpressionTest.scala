@@ -20,12 +20,12 @@ class FunctionContainerRefExpressionTest {
   def test(): Unit = {
     val expression = FunctionContainerRefExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[FunctionRefExpression], expression getClass)
+    assertSame(classOf[FunctionRefExpression], expression.getClass)
     val functionRefExpression = expression.asInstanceOf[FunctionRefExpression]
-    assertEquals(1, functionRefExpression.arguments size)
+    assertEquals(1, functionRefExpression.arguments.size)
     assertEquals("test", functionRefExpression.arguments.head.name)
-    assertEquals(Type ANY, functionRefExpression.arguments.head.`type`)
-    assertSame(classOf[ValueExpression], functionRefExpression.expression getClass)
+    assertEquals(Type.ANY, functionRefExpression.arguments.head.`type`)
+    assertSame(classOf[ValueExpression], functionRefExpression.expression.getClass)
     val constant = functionRefExpression.expression.asInstanceOf[ValueExpression]
     assertEquals(true, constant.value)
   }

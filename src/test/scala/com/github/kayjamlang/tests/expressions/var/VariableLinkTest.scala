@@ -23,7 +23,7 @@ class VariableLinkTest {
   def test(): Unit = {
     val expression = VariableLinkTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[VariableLinkExpression], expression getClass)
+    assertSame(classOf[VariableLinkExpression], expression.getClass)
     val variableLinkExpression = expression.asInstanceOf[VariableLinkExpression]
     assertEquals("test", variableLinkExpression.name)
   }

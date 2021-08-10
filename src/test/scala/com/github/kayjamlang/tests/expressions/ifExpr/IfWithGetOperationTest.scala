@@ -22,15 +22,15 @@ class IfWithGetOperationTest {
   def test(): Unit = {
     val expression = IfWithGetOperationTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[IfExpression], expression getClass)
+    assertSame(classOf[IfExpression], expression.getClass)
     val ifExpression = expression.asInstanceOf[IfExpression]
-    assertSame(classOf[OperationExpression], ifExpression.condition getClass)
+    assertSame(classOf[OperationExpression], ifExpression.condition.getClass)
     assertNotNull(ifExpression.ifTrue)
     assertNull(ifExpression.ifFalse)
-    assertSame(classOf[ValueExpression], ifExpression.ifTrue getClass)
+    assertSame(classOf[ValueExpression], ifExpression.ifTrue.getClass)
     val root = ifExpression.condition.asInstanceOf[OperationExpression]
-    assertSame(classOf[GetExpression], root.left getClass)
-    assertSame(classOf[ValueExpression], root.right getClass)
+    assertSame(classOf[GetExpression], root.left.getClass)
+    assertSame(classOf[ValueExpression], root.right.getClass)
     val ifTrue = ifExpression.ifTrue.asInstanceOf[ValueExpression]
     assertEquals(true, ifTrue.value)
   }

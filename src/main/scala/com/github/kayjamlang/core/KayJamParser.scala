@@ -15,11 +15,11 @@ import scala.util.control.ControlThrowable
 class KayJamParser(val lexer: KayJamLexer) {
   @throws[LexerException]
   @throws[ParserException]
-  def readExpression: Expression = readExpression(AccessType NONE, new AdvancedMutableList[Annotation])
+  def readExpression: Expression = readExpression(AccessType.NONE, new AdvancedMutableList[Annotation])
 
   @throws[LexerException]
   @throws[ParserException]
-  def readTopExpression: Expression = readTopExpression(AccessType NONE, new AdvancedMutableList[Annotation])
+  def readTopExpression: Expression = readTopExpression(AccessType.NONE, new AdvancedMutableList[Annotation])
 
   @throws[LexerException]
   @throws[ParserException]
@@ -31,11 +31,13 @@ class KayJamParser(val lexer: KayJamLexer) {
     expression = readEndExpression(expression)
     expression = parseBinOpRHS(identifier, annotations, 0, expression)
     moveAhead
-    while (currentTokenType eq Token.Type.TK_OPEN_SQUARE_BRACKET) {
+    while ( {
+      currentTokenType eq Token.Type.TK_OPEN_SQUARE_BRACKET
+    }) {
       val line = lexer.getLine
       moveAhead
       expression = new GetExpression(expression, readExpression, line)
-      requireToken(Token.Type TK_CLOSE_SQUARE_BRACKET)
+      requireToken(Token.Type.TK_CLOSE_SQUARE_BRACKET)
       moveAhead
       expression = readEndExpression(expression)
     }
@@ -56,31 +58,31 @@ class KayJamParser(val lexer: KayJamLexer) {
   def readEndExpression(root: Expression): Expression = currentTokenType match {
     case Token.Type.TK_NOT =>
       moveAhead
-      new AssertNullExpression(root, lexer getLine)
+      new AssertNullExpression(root, lexer.getLine)
     case Token.Type.TK_PLUS_ONE =>
       moveAhead
-      new OperationExpression(root, new ValueExpression(1), Operation PLUS, lexer getLine)
+      new OperationExpression(root, new ValueExpression(1), Operation.PLUS, lexer.getLine)
     case Token.Type.TK_MINUS_ONE =>
       moveAhead
-      new OperationExpression(root, new ValueExpression(1), Operation MINUS, lexer getLine)
+      new OperationExpression(root, new ValueExpression(1), Operation.MINUS, lexer.getLine)
     case _ =>
       root
   }
 
-  def currentTokenType: Token.Type = lexer.currentToken `type`
+  def currentTokenType: Token.Type = lexer.currentToken.`type`
 
   @throws[LexerException]
   def moveAhead: Token = {
-    lexer moveAhead()
-    if (!lexer.isSuccessful) throw new ParserException(lexer errorMessage)
-    lexer currentToken
+    lexer.moveAhead()
+    if (!lexer.isSuccessful) throw new ParserException(lexer.errorMessage)
+    lexer.currentToken
   }
 
   @throws[LexerException]
   @throws[ParserException]
   def requireToken(`type`: Token.Type): Token = {
     val token = moveAhead
-    if (token.`type` ne `type`) throw new ParserException(lexer, s"expected ${`type`.name.toLowerCase}")
+    if (token.`type` ne `type`) throw new ParserException(lexer, "expected " + `type`.name.toLowerCase)
     lexer.currentToken
   }
 
@@ -88,7 +90,7 @@ class KayJamParser(val lexer: KayJamLexer) {
   @throws[ParserException]
   def requireIdentifier(identifier: KayJamIdentifier): Unit = {
     val token = requireToken(Token.Type.IDENTIFIER)
-    if (KayJamIdentifier.find(token.value) ne identifier) throw new ParserException(lexer, s"expected ${identifier.name}")
+    if (KayJamIdentifier.find(token.value) ne identifier) throw new ParserException(lexer, "expected " + identifier.name)
   }
 
   @throws[LexerException]
@@ -98,41 +100,41 @@ class KayJamParser(val lexer: KayJamLexer) {
     val line = lexer.getLine
     `type` match {
       case Token.Type.IDENTIFIER =>
-        val keyword = KayJamIdentifier find lexer.currentToken.value
+        val keyword = KayJamIdentifier.find(lexer.currentToken.value)
         if (keyword != null) keyword match {
           case KayJamIdentifier.VAR =>
-            val name = requireToken(Token.Type IDENTIFIER).value
+            val name = requireToken(Token.Type.IDENTIFIER).value
             requireToken(Token.Type.TK_ASSIGN)
             moveAhead
             val expression = readExpression
             new VariableExpression(name, expression, identifier, line)
 
           case KayJamIdentifier.FUNCTION =>
-            val name = requireToken(Token.Type IDENTIFIER).value
-            requireToken(Token.Type TK_OPEN)
+            val name = requireToken(Token.Type.IDENTIFIER).value
+            requireToken(Token.Type.TK_OPEN)
             val arguments = parseArguments
             var returnType = Type.VOID
             if (moveAhead.`type` eq Token.Type.TK_COLON) {
-              requireToken(Token.Type IDENTIFIER)
+              requireToken(Token.Type.IDENTIFIER)
               returnType = parseType(true)
             }
             val body = parseExpressions
             new FunctionContainer(name, body, identifier, arguments, returnType, annotations, line)
 
           case KayJamIdentifier.NAMED =>
-            requireIdentifier(KayJamIdentifier FUNCTION)
-            val name = requireToken(Token.Type IDENTIFIER).value
+            requireIdentifier(KayJamIdentifier.FUNCTION)
+            val name = requireToken(Token.Type.IDENTIFIER).value
             moveAhead
             new NamedExpressionFunctionContainer(name, parseExpressions, identifier, line)
 
           case KayJamIdentifier.PRIVATE =>
             moveAhead
-            readExpression(AccessType PRIVATE, annotations)
+            readExpression(AccessType.PRIVATE, annotations)
           case KayJamIdentifier.PUBLIC =>
             moveAhead
-            readExpression(AccessType PUBLIC, annotations)
+            readExpression(AccessType.PUBLIC, annotations)
           case KayJamIdentifier.WHILE =>
-            requireToken(Token.Type TK_OPEN)
+            requireToken(Token.Type.TK_OPEN)
             moveAhead
             val condition = readExpression
             if (currentTokenType ne Token.Type.TK_CLOSE) throw new ParserException(lexer, "expected close \")\"")
@@ -141,9 +143,9 @@ class KayJamParser(val lexer: KayJamLexer) {
             new WhileExpression(condition, readExpression, line)
 
           case KayJamIdentifier.FOR =>
-            requireToken(Token.Type TK_OPEN)
-            val name = requireToken(Token.Type IDENTIFIER).value
-            requireIdentifier(KayJamIdentifier IN)
+            requireToken(Token.Type.TK_OPEN)
+            val name = requireToken(Token.Type.IDENTIFIER).value
+            requireIdentifier(KayJamIdentifier.IN)
             moveAhead
             val range = readExpression
             if (currentTokenType ne Token.Type.TK_CLOSE) throw new ParserException(lexer, "expected close \")\"")
@@ -153,8 +155,7 @@ class KayJamParser(val lexer: KayJamLexer) {
 
           case KayJamIdentifier.OBJECT =>
             val t = moveAhead
-            if (t.`type` eq Token.Type.OPEN_BRACKET)
-              new ObjectContainer(parseExpressions, identifier, line)
+            if (t.`type` eq Token.Type.OPEN_BRACKET) new ObjectContainer(parseExpressions, identifier, line)
             else if (t.`type` eq Token.Type.IDENTIFIER) {
               moveAhead
               new ObjectContainer(t.value, parseExpressions, identifier, line)
@@ -165,14 +166,14 @@ class KayJamParser(val lexer: KayJamLexer) {
             moveAhead
             `type` = lexer.currentToken.`type`
             if (`type` eq Token.Type.IDENTIFIER) {
-              val name = lexer.currentToken value
+              val name = lexer.currentToken.value
               var extendsClass: String = null
               val implementsClass = new AdvancedMutableList[String]
               while (moveAhead.`type` ne Token.Type.OPEN_BRACKET)
                 if (currentTokenType eq Token.Type.TK_COMPANION_ACCESS)
-                  implementsClass += requireToken(Token.Type IDENTIFIER).value
+                  implementsClass += requireToken(Token.Type.IDENTIFIER).value
                 else if ((currentTokenType eq Token.Type.TK_COLON) && extendsClass == null)
-                  extendsClass = requireToken(Token.Type IDENTIFIER).value
+                  extendsClass = requireToken(Token.Type.IDENTIFIER).value
                 else throw new ParserException(lexer, "expected open bracket or extends/implements token")
               new ClassContainer(name, extendsClass, implementsClass, parseExpressions, identifier, line)
             }
@@ -182,7 +183,7 @@ class KayJamParser(val lexer: KayJamLexer) {
             if (moveAhead.value == "void") return new ReturnExpression(null, line)
             new ReturnExpression(readExpression, line)
           case KayJamIdentifier.CONSTRUCTOR =>
-            requireToken(Token.Type TK_OPEN)
+            requireToken(Token.Type.TK_OPEN)
             val arguments = parseArguments
             moveAhead
             new ConstructorContainer(arguments, parseExpressions, identifier, line)
@@ -191,26 +192,26 @@ class KayJamParser(val lexer: KayJamLexer) {
             moveAhead
             val needed = parseRequiredUsages("")
             if (!(lexer.currentToken.value == "from")) throw new ParserException(lexer, "excepted keyword 'from'")
-            val from = requireToken(Token.Type STRING).value
+            val from = requireToken(Token.Type.STRING).value
             new UseExpression(needed, from.substring(1, from.length - 1), line)
 
           case KayJamIdentifier.COMPANION =>
             moveAhead
             readExpression(AccessType.COMPANION, annotations)
           case KayJamIdentifier.IF =>
-            requireToken(Token.Type TK_OPEN)
+            requireToken(Token.Type.TK_OPEN)
             moveAhead
             val condition = readExpression
-            requireToken(Token.Type TK_CLOSE)
+            requireToken(Token.Type.TK_CLOSE)
             moveAhead
             val ifTrue = readExpression
             var ifFalse: Expression = null
-            if (KayJamIdentifier find moveAhead.value eq KayJamIdentifier.ELSE) {
+            if (KayJamIdentifier.find(moveAhead.value) eq KayJamIdentifier.ELSE) {
               moveAhead
               ifFalse = readExpression
             }
             else {
-              lexer.input = new StringBuilder(s"}${lexer.currentToken.value + lexer.input}")
+              lexer.input = new StringBuilder("}" + lexer.currentToken.value + lexer.input)
               moveAhead
             }
             new IfExpression(condition, ifTrue, ifFalse, line)
@@ -221,17 +222,18 @@ class KayJamParser(val lexer: KayJamLexer) {
             if (lexer.currentToken.`type` ne Token.Type.OPEN_BRACKET)
               throw new ParserException(lexer, "Expected open bracket")
             val expressions = new AdvancedMutableList[Expression]
-            while (moveAhead.`type` ne Token.Type.CLOSE_BRACKET) {
+            while ( {
+              moveAhead.`type` ne Token.Type.CLOSE_BRACKET
+            }) {
               expressions += readTopExpression
               val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
-              if (!closeBracket && (moveAhead.`type` ne Token.Type.TK_SEMI))
-                throwSemicolon()
+              if (!closeBracket && (moveAhead.`type` ne Token.Type.TK_SEMI)) throwSemicolon()
             }
             new PackContainer(name, new Container(expressions, line), false)
 
           case KayJamIdentifier.CONSTANT =>
-            val name = requireToken(Token.Type IDENTIFIER).value
-            requireToken(Token.Type TK_ASSIGN)
+            val name = requireToken(Token.Type.IDENTIFIER).value
+            requireToken(Token.Type.TK_ASSIGN)
             moveAhead
             val expression = readExpression
             expression match {
@@ -239,7 +241,8 @@ class KayJamParser(val lexer: KayJamLexer) {
               case _ => throw new ParserException(expression.line, "Expression cannot be constant")
             }
 
-          case _ => throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
+          case _ =>
+            throw new ParserException(lexer, "\"" + lexer.currentToken.value + "\" is in the wrong place")
         }
         else {
           val name = lexer.currentToken.value
@@ -283,7 +286,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         }
 
       case Token.Type.TK_ANNOTATION =>
-        val name = requireToken(Token.Type IDENTIFIER).value
+        val name = requireToken(Token.Type.IDENTIFIER).value
         moveAhead
         if (currentTokenType eq Token.Type.TK_OPEN) {
           moveAhead
@@ -291,7 +294,7 @@ class KayJamParser(val lexer: KayJamLexer) {
           if (!value.isInstanceOf[ValueExpression])
             throw new ParserException(lexer, "Invalid value of annotation")
           annotations += new Annotation(name, value.asInstanceOf[ValueExpression])
-          requireToken(Token.Type TK_CLOSE)
+          requireToken(Token.Type.TK_CLOSE)
           moveAhead
         }
         else annotations += new Annotation(name)
@@ -300,7 +303,7 @@ class KayJamParser(val lexer: KayJamLexer) {
       case Token.Type.TK_OPEN =>
         moveAhead
         val expression = readExpression
-        requireToken(Token.Type TK_CLOSE)
+        requireToken(Token.Type.TK_CLOSE)
         expression
 
         case Token.Type.TK_REF =>
@@ -311,7 +314,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         }
         var returnType = Type.VOID
         if (moveAhead.`type` eq Token.Type.TK_COLON) {
-          requireToken(Token.Type IDENTIFIER)
+          requireToken(Token.Type.IDENTIFIER)
           returnType = parseType(true)
         }
         new FunctionRefExpression(arguments, readExpression, returnType, line)
@@ -320,7 +323,7 @@ class KayJamParser(val lexer: KayJamLexer) {
         moveAhead
         new NegationExpression(readExpression(identifier, annotations), line)
       case Token.Type.OPEN_BRACKET =>
-        new Container(parseExpressions, AccessType PUBLIC, line)
+        new Container(parseExpressions, AccessType.PUBLIC, line)
       case Token.Type.TK_OPEN_SQUARE_BRACKET =>
         val values = new AdvancedMutableList[Expression]
         try {
@@ -329,18 +332,17 @@ class KayJamParser(val lexer: KayJamLexer) {
             val token = moveAhead
             if (token.`type` eq Token.Type.TK_CLOSE_SQUARE_BRACKET)
               break
-            else if (token.`type` ne Token.Type.TK_COMMA)
-              throw new ParserException(line, "expected comma")
+            else if (token.`type` ne Token.Type.TK_COMMA) throw new ParserException(line, "expected comma")
           }
         } catch { case _: ControlThrowable => }
         new ArrayExpression(values, line)
 
       case Token.Type.STRING =>
-        new ValueExpression(lexer.currentToken.value substring(1, lexer.currentToken. value.length - 1))
+        new ValueExpression(lexer.currentToken.value substring(1, lexer.currentToken.value.length - 1))
       case Token.Type.NULL =>
         new ValueExpression(null)
       case Token.Type.LONG =>
-        new ValueExpression(lexer.currentToken.value substring(0, lexer.currentToken.value.length - 1) toLong)
+        new ValueExpression(lexer.currentToken.value.substring(0, lexer.currentToken.value.length - 1) toLong)
       case Token.Type.INTEGER =>
         new ValueExpression(lexer.currentToken.value toInt)
       case Token.Type.REAL =>
@@ -405,8 +407,7 @@ class KayJamParser(val lexer: KayJamLexer) {
       return -1
     }
     val tokPrec = binOperationPrecedence get lexer.currentToken.value
-    if (tokPrec.get < 0)
-      return -1
+    if (tokPrec.get < 0) return -1
     tokPrec.get
   }
 
@@ -457,11 +458,11 @@ class KayJamParser(val lexer: KayJamLexer) {
     while (true) {
       val tokPrec = getTokPrecedence
       if (tokPrec < exprPrec) {
-        lexer.input = new StringBuilder(s"${lexer.currentToken.value} ${lexer.input}")
+        lexer.input = new StringBuilder(lexer.currentToken.value + " " + lexer.input)
         return lhs
       }
       val binOp = lexer.currentToken
-      val kayJamIdentifier = KayJamIdentifier.find(binOp value)
+      val kayJamIdentifier = KayJamIdentifier.find(binOp.value)
       val line = lexer.getLine
       if (kayJamIdentifier eq KayJamIdentifier.CAST) {
         moveAhead
@@ -475,15 +476,12 @@ class KayJamParser(val lexer: KayJamLexer) {
         moveAhead
         var rhs = readPrimary(identifier, annotations)
         moveAhead
-        if (binOp.`type` eq Token.Type.TK_ACCESS)
-          lhs = new AccessExpression(lhs, rhs, line)
-        else if (binOp.`type` eq Token.Type.TK_RANGE)
-          lhs = new OperationExpression(lhs, rhs, Operation RANGE, line)
+        if (binOp.`type` eq Token.Type.TK_ACCESS) lhs = new AccessExpression(lhs, rhs, line)
+        else if (binOp.`type` eq Token.Type.TK_RANGE) lhs = new OperationExpression(lhs, rhs, Operation.RANGE, line)
         else {
           val nextPrec = getTokPrecedence
-          if (tokPrec < nextPrec)
-            rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs)
-          lhs = new OperationExpression(lhs, rhs, Operation.get(binOp `type`), line)
+          if (tokPrec < nextPrec) rhs = parseBinOpRHS(identifier, annotations, nextPrec, rhs)
+          lhs = new OperationExpression(lhs, rhs, Operation.get(binOp.`type`), line)
         }
       }
     }
@@ -497,8 +495,7 @@ class KayJamParser(val lexer: KayJamLexer) {
     while (!lexer.isFinished) {
       children += readTopExpression
       val closeBracket = lexer.currentToken.`type` eq Token.Type.CLOSE_BRACKET
-      if (!closeBracket && !lexer.isFinished && (moveAhead.`type` ne Token.Type.TK_SEMI))
-        throwSemicolon()
+      if (!closeBracket && !lexer.isFinished && (moveAhead.`type` ne Token.Type.TK_SEMI)) throwSemicolon()
       moveAhead
     }
     new Script(new Container(children.asInstanceOf, 0))

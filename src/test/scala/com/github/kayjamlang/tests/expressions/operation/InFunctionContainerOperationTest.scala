@@ -21,13 +21,13 @@ class InFunctionContainerOperationTest {
   def test(): Unit = {
     val expression = InFunctionContainerOperationTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[CallOrCreateExpression], expression getClass)
+    assertSame(classOf[CallOrCreateExpression], expression.getClass)
     val callOrCreateExpression = expression.asInstanceOf[CallOrCreateExpression]
-    assertEquals(1, callOrCreateExpression.arguments size)
-    assertSame(classOf[OperationExpression], callOrCreateExpression.arguments.head getClass)
+    assertEquals(1, callOrCreateExpression.arguments.size)
+    assertSame(classOf[OperationExpression], callOrCreateExpression.arguments.head.getClass)
     val operationExpression = callOrCreateExpression.arguments.head.asInstanceOf[OperationExpression]
     assertEquals(Operation.PLUS, operationExpression.operation)
-    assertSame(classOf[ValueExpression], operationExpression.left getClass)
-    assertSame(classOf[ValueExpression], operationExpression.right getClass)
+    assertSame(classOf[ValueExpression], operationExpression.left.getClass)
+    assertSame(classOf[ValueExpression], operationExpression.right.getClass)
   }
 }

@@ -23,7 +23,7 @@ class ValueExpressionLongTest {
   def test(): Unit = {
     val expression = ValueExpressionLongTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[ValueExpression], expression getClass)
+    assertSame(classOf[ValueExpression], expression.getClass)
     val constant = expression.asInstanceOf[ValueExpression]
     assertEquals(123L, constant.value)
   }

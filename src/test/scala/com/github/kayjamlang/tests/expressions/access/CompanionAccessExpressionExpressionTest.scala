@@ -24,10 +24,10 @@ class CompanionAccessExpressionExpressionTest {
   def test(): Unit = {
     val expression = CompanionAccessExpressionExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[CompanionAccessExpression], expression getClass)
+    assertSame(classOf[CompanionAccessExpression], expression.getClass)
     val companionAccessExpression = expression.asInstanceOf[CompanionAccessExpression]
     assertEquals("Test", companionAccessExpression.className)
-    assertSame(classOf[VariableLinkExpression], companionAccessExpression.child getClass)
+    assertSame(classOf[VariableLinkExpression], companionAccessExpression.child.getClass)
     val variableLinkExpression = companionAccessExpression.child.asInstanceOf[VariableLinkExpression]
     assertEquals("test", variableLinkExpression.name)
   }

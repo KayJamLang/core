@@ -21,11 +21,11 @@ class ShortOperationTest {
   def test(): Unit = {
     val expression = ShortOperationTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[OperationExpression], expression getClass)
+    assertSame(classOf[OperationExpression], expression.getClass)
     val operationExpression = expression.asInstanceOf[OperationExpression]
     assertEquals(Operation.PLUS, operationExpression.operation)
-    assertSame(classOf[ValueExpression], operationExpression.left getClass)
-    assertSame(classOf[ValueExpression], operationExpression.right getClass)
+    assertSame(classOf[ValueExpression], operationExpression.left.getClass)
+    assertSame(classOf[ValueExpression], operationExpression.right.getClass)
     val right = operationExpression.right.asInstanceOf[ValueExpression]
     assertEquals(right.value, 1)
   }

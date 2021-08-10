@@ -22,11 +22,11 @@ class VariableWithAccessExpressionTest {
   def test(): Unit = {
     val expression = VariableWithAccessExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[VariableExpression], expression getClass)
+    assertSame(classOf[VariableExpression], expression.getClass)
     val variable = expression.asInstanceOf[VariableExpression]
     assertEquals("test", variable.name)
-    assertSame(classOf[GetExpression], variable.expression getClass)
+    assertSame(classOf[GetExpression], variable.expression.getClass)
     val getExpression = variable.expression.asInstanceOf[GetExpression]
-    assertSame(classOf[AccessExpression], getExpression.root getClass)
+    assertSame(classOf[AccessExpression], getExpression.root.getClass)
   }
 }

@@ -22,16 +22,16 @@ class AccessExpressionWithOperationsTest {
   def test(): Unit = {
     val expression = AccessExpressionWithOperationsTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[OperationExpression], expression getClass)
+    assertSame(classOf[OperationExpression], expression.getClass)
     val operationExpression = expression.asInstanceOf[OperationExpression]
-    assertSame(classOf[AccessExpression], operationExpression.left getClass)
-    assertSame(classOf[ValueExpression], operationExpression.right getClass)
+    assertSame(classOf[AccessExpression], operationExpression.left.getClass)
+    assertSame(classOf[ValueExpression], operationExpression.right.getClass)
     val accessExpression = operationExpression.left.asInstanceOf[AccessExpression]
-    assertSame(classOf[CallOrCreateExpression], accessExpression.root getClass)
-    assertSame(classOf[VariableLinkExpression], accessExpression.child getClass)
+    assertSame(classOf[CallOrCreateExpression], accessExpression.root.getClass)
+    assertSame(classOf[VariableLinkExpression], accessExpression.child.getClass)
     val root = accessExpression.root.asInstanceOf[CallOrCreateExpression]
     assertEquals("getRoot", root.name)
-    assertEquals(0, root.arguments size)
+    assertEquals(0, root.arguments.size)
     val child = accessExpression.child.asInstanceOf[VariableLinkExpression]
     assertEquals("child", child.name)
   }

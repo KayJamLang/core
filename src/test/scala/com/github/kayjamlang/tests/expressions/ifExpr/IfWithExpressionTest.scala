@@ -20,13 +20,13 @@ class IfWithExpressionTest {
   def test(): Unit = {
     val expression = IfWithExpressionTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[IfExpression], expression getClass)
+    assertSame(classOf[IfExpression], expression.getClass)
     val ifExpression = expression.asInstanceOf[IfExpression]
-    assertSame(classOf[VariableLinkExpression], ifExpression.condition getClass)
+    assertSame(classOf[VariableLinkExpression], ifExpression.condition.getClass)
     assertNotNull(ifExpression.ifTrue)
     assertNotNull(ifExpression.ifFalse)
-    assertSame(classOf[ValueExpression], ifExpression.ifTrue getClass)
-    assertSame(classOf[ValueExpression], ifExpression.ifFalse getClass)
+    assertSame(classOf[ValueExpression], ifExpression.ifTrue.getClass)
+    assertSame(classOf[ValueExpression], ifExpression.ifFalse.getClass)
     val root = ifExpression.condition.asInstanceOf[VariableLinkExpression]
     assertEquals("putin", root.name)
     val ifTrue = ifExpression.ifTrue.asInstanceOf[ValueExpression]

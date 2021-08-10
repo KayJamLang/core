@@ -21,10 +21,10 @@ class TwoFunctionContainerOperationTest {
   def test(): Unit = {
     val expression = TwoFunctionContainerOperationTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[OperationExpression], expression getClass)
+    assertSame(classOf[OperationExpression], expression.getClass)
     val operationExpression = expression.asInstanceOf[OperationExpression]
     assertEquals(Operation.PLUS, operationExpression.operation)
-    assertSame(classOf[CallOrCreateExpression], operationExpression.left getClass)
-    assertSame(classOf[CallOrCreateExpression], operationExpression.right getClass)
+    assertSame(classOf[CallOrCreateExpression], operationExpression.left.getClass)
+    assertSame(classOf[CallOrCreateExpression], operationExpression.right.getClass)
   }
 }

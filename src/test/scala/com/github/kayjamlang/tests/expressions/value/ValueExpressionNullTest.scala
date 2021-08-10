@@ -23,7 +23,7 @@ class ValueExpressionNullTest {
   def test(): Unit = {
     val expression = ValueExpressionNullTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[ValueExpression], expression getClass)
+    assertSame(classOf[ValueExpression], expression.getClass)
     val constant = expression.asInstanceOf[ValueExpression]
     assertNull(constant.value)
   }

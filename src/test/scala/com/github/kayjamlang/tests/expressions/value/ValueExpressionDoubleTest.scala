@@ -20,7 +20,7 @@ class ValueExpressionDoubleTest {
   def test(): Unit = {
     val expression = ValueExpressionDoubleTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[ValueExpression], expression getClass)
+    assertSame(classOf[ValueExpression], expression.getClass)
     val constant = expression.asInstanceOf[ValueExpression]
     assertEquals(12.4, constant.value)
   }

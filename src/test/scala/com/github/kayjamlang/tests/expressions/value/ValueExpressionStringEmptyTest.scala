@@ -23,7 +23,7 @@ class ValueExpressionStringEmptyTest {
   def test(): Unit = {
     val expression = ValueExpressionStringEmptyTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[ValueExpression], expression getClass)
+    assertSame(classOf[ValueExpression], expression.getClass)
     val constant = expression.asInstanceOf[ValueExpression]
     assertEquals("", constant.value)
   }

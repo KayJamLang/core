@@ -20,15 +20,15 @@ class FunctionContainerTwoArgsTest {
   def test(): Unit = {
     val expression = FunctionContainerTwoArgsTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[FunctionContainer], expression getClass)
+    assertSame(classOf[FunctionContainer], expression.getClass)
     val functionContainer = expression.asInstanceOf[FunctionContainer]
-    assertEquals(2, functionContainer.arguments size)
-    assertEquals(2, functionContainer.children size)
+    assertEquals(2, functionContainer.arguments.size)
+    assertEquals(2, functionContainer.children.size)
     var argument = functionContainer.arguments.head
-    assertEquals(Type STRING, argument.`type`)
+    assertEquals(Type.STRING, argument.`type`)
     assertEquals("value", argument.name)
-    argument = functionContainer.arguments apply 1
-    assertEquals(Type INTEGER, argument.`type`)
+    argument = functionContainer.arguments.apply(1)
+    assertEquals(Type.INTEGER, argument.`type`)
     assertEquals("integer", argument.name)
   }
 }

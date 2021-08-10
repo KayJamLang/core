@@ -23,8 +23,8 @@ class NamedExpressionFunctionContainerTest {
   def test(): Unit = {
     val expression = NamedExpressionFunctionContainerTest.parser.readExpression
     assertNotNull(expression)
-    assertSame(classOf[NamedExpressionFunctionContainer], expression getClass)
+    assertSame(classOf[NamedExpressionFunctionContainer], expression.getClass)
     val namedExpressionFunction = expression.asInstanceOf[NamedExpressionFunctionContainer]
-    assertEquals(0, namedExpressionFunction.children size)
+    assertEquals(0, namedExpressionFunction.children.size)
   }
 }

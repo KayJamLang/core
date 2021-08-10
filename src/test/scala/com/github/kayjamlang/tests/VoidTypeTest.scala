@@ -17,7 +17,7 @@ object VoidTypeTest {
   @throws[LexerException]
   def prepare(): Unit = {
     parser = new KayJamParser(new KayJamLexer("void"))
-    parser moveAhead
+    parser.moveAhead
   }
 }
 
@@ -25,8 +25,8 @@ class VoidTypeTest {
   @Test
   @throws[Exception]
   def test(): Unit = {
-    val `type` = VoidTypeTest.parser parseType false
-    assertNotEquals(Type VOID, `type`)
+    val `type` = VoidTypeTest.parser.parseType(false)
+    assertNotEquals(Type.VOID, `type`)
     assertFalse(`type`.nullable)
   }
 }
