@@ -2,13 +2,12 @@ package com.github.kayjamlang.core.provider
 
 import com.github.kayjamlang.core.Type
 import com.github.kayjamlang.core.expressions.Expression
-import com.github.kayjamlang.core.opcodes.AccessType
 
 import java.lang.reflect.InvocationTargetException
 import scala.collection.JavaConversions.mapAsJavaMap
 import scala.collection.mutable
 
-class MainExpressionProvider[A, B, C](val defaultObject: A, accessType: AccessType) extends Expression(accessType, -1) {
+class MainExpressionProvider[A, B, C](val defaultObject: A) {
   val providers = new mutable.HashMap[Class[_ <: Expression], ExpressionProvider[_ <: Expression, A, B, C]]
 
   def addProvider[D <: Expression](expression: Class[D], expressionCompiler: ExpressionProvider[D, A, B, C]): Unit = providers put(expression, expressionCompiler)
