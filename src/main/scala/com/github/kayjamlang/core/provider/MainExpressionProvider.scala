@@ -20,7 +20,7 @@ class MainExpressionProvider[A, B, C](val defaultObject: A) {
       val expressionCompiler = providers get expression.getClass
       val method = expressionCompiler.getClass getMethod("provide", classOf[MainExpressionProvider[_, _, _]], classOf[Any], classOf[Any], classOf[Any])
       try
-        return method.invoke(expressionCompiler, this, context.asInstanceOf[Object], argsContext.asInstanceOf[Object], expression).asInstanceOf[A]
+        return method.invoke(expressionCompiler, this, context.asInstanceOf, argsContext.asInstanceOf, expression).asInstanceOf[A]
       catch {
         case ite: InvocationTargetException =>
           ite getCause match {
@@ -37,9 +37,11 @@ class MainExpressionProvider[A, B, C](val defaultObject: A) {
       val expressionCompiler = providers get expression.getClass
       try {
         val method = expressionCompiler.getClass getMethod("getType", classOf[MainExpressionProvider[_, _, _]], classOf[Any], classOf[Any], classOf[Any])
-        return method.invoke(expressionCompiler, this, context.asInstanceOf[Object], argsContext.asInstanceOf[Object], expression).asInstanceOf[Type]
-      } catch { case _: Throwable => }
+        return method.invoke(expressionCompiler, this, context.asInstanceOf, argsContext.asInstanceOf, expression).asInstanceOf[Type]
+      } catch {
+        case _: Throwable =>
+      }
     }
-    Type ANY
+    Type.ANY
   }
 }

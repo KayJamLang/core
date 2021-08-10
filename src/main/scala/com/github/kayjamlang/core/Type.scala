@@ -42,7 +42,7 @@ object Type {
   /**
    * @deprecated removed in newer versions
    */
-  @deprecated def getType(clazz: Class[_]): Type = Type ANY
+  @deprecated def getType(clazz: Class[_]): Type = Type.ANY
 
   /**
    * Type creator
@@ -54,10 +54,10 @@ object Type {
    */
   def getType(name: String, isFunction: Boolean, nullable: Boolean): Type = {
     for (t <- Type.allTypes) {
-      val `type` = t clone()
+      val `type` = t.clone()
       `type`.nullable = nullable
       `type`.onlyForFunction = isFunction
-      if (`type`.name == name || s"\\${`type`.name}" == name)
+      if (`type`.name == name || ("\\" + `type`.name) == name)
         return `type`
     }
 
@@ -76,7 +76,7 @@ object Type {
   def of(name: String, nullable: Boolean): Type = {
     val `type` = new Type(name)
     `type`.nullable = nullable
-    `type` clone()
+    `type`.clone().asInstanceOf[Type]
   }
 
   /**
