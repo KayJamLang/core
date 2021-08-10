@@ -1,4 +1,4 @@
-package com.github.kayjamlang.core.exceptions
+package com.github.kayjamlang.core.exception
 
 import com.github.kayjamlang.core.KayJamLexer
 

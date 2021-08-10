@@ -1,8 +1,8 @@
 package com.github.kayjamlang.core.provider
 
 import com.github.kayjamlang.core.Type
-import com.github.kayjamlang.core.exceptions.TypeException
-import com.github.kayjamlang.core.expressions.Expression
+import com.github.kayjamlang.core.exception.TypeException
+import com.github.kayjamlang.core.expression.Expression
 import com.github.kayjamlang.core.opcodes.AccessType
 
 class ExpressionProvider[A, B, C, D](accessType: AccessType) extends Expression(accessType, -1) {
