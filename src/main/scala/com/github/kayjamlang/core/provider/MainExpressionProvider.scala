@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.provider
 
 import com.github.kayjamlang.core.Type
-import com.github.kayjamlang.core.expression.Expression
+import com.github.kayjamlang.core.expressions.Expression
 import com.github.kayjamlang.core.opcodes.AccessType
 
 import java.lang.reflect.InvocationTargetException
