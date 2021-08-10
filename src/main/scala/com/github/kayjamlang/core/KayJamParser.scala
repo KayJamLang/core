@@ -1,32 +1,18 @@
 package com.github.kayjamlang.core
 
-import com.github.kayjamlang.core.KayJamIdentifier.CLASS
 import com.github.kayjamlang.core.KayJamParser.binOperationPrecedence
-import com.github.kayjamlang.core.Token.Type.IDENTIFIER
 import com.github.kayjamlang.core.containers._
 import com.github.kayjamlang.core.exceptions.{LexerException, ParserException}
 import com.github.kayjamlang.core.expressions.data.{Annotation, Argument, Operation}
 import com.github.kayjamlang.core.expressions.loops.{ForExpression, WhileExpression}
 import com.github.kayjamlang.core.expressions.{Expression, _}
 import com.github.kayjamlang.core.opcodes.AccessType
-import com.github.kayjamlang.core.stmts.{Stmt, StmtExpression}
 
 import scala.collection.mutable
 import scala.util.control.Breaks.break
 import scala.util.control.ControlThrowable
 
 class KayJamParser(val lexer: KayJamLexer) {
-
-    def parseStmt(): Stmt ={
-        lexer.currentToken.`type` match {
-            case IDENTIFIER => KayJamIdentifier.find(lexer.currentToken.value) match {
-                case CLASS =>
-                case _ => new StmtExpression(readTopExpression)
-            }
-            case _ => new StmtExpression(readTopExpression)
-        }
-    }
-
     @throws[LexerException]
     @throws[ParserException]
     def readExpression: Expression = readExpression(AccessType NONE, new ArrayList[Annotation])
@@ -108,7 +94,6 @@ class KayJamParser(val lexer: KayJamLexer) {
         val token = requireToken(Token.Type.IDENTIFIER)
         if(KayJamIdentifier.find(token.value) ne identifier) throw new ParserException(lexer, s"expected ${identifier.name}")
     }
-
 
     @throws[LexerException]
     @throws[ParserException]
