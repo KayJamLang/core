@@ -1,11 +1,12 @@
 package com.github.kayjamlang.core
 
-import scala.collection.generic.{CanBuildFrom, SeqFactory, Shrinkable}
+import scala.collection.generic.{CanBuildFrom, SeqFactory}
 import scala.collection.mutable
+import scala.collection.mutable.MutableList
 import scala.util.control.Breaks.break
 import scala.util.control.ControlThrowable
 
-class AdvancedMutableList[A] extends mutable.MutableList[A] with Shrinkable[A] {
+class AdvancedMutableList[A] extends mutable.MutableList[A] {
   override def +=(elem: A): AdvancedMutableList.this.type = {
     if (!contains(elem))
       super.+=(elem)
