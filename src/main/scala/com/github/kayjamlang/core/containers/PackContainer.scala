@@ -15,6 +15,7 @@ class PackContainer(val packName: String, container: Container, otherExpressionA
   val classes = new mutable.HashMap[String, ClassContainer]
   val usages = new mutable.MutableList[UseExpression]
 
+  functions.addAll(container.functions)
 
   var head = 0
 

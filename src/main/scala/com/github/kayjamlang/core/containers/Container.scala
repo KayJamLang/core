@@ -11,10 +11,15 @@ class Container(var children: ArrayList[Expression], identifier: AccessType, lin
   def this(children: ArrayList[Expression], identifier: AccessType, line: Int) = this(children, identifier, line, true)
   def this(children: ArrayList[Expression], line: Int, x: Boolean = true) = this(children, AccessType.NONE, line, x)
 
+  var functions = new mutable.HashMap[String, FunctionContainer]
 
   if (x)
     for (expression <- children) {
       expression match {
+        case container: FunctionContainer =>
+          if (functions.contains(container.desc))
+            throw new ParserException(line, s"Function ${container.name} already defined")
+          functions put(container.desc, container)
         case _ => children += expression
       }
     }
@@ -24,6 +29,7 @@ class Container(var children: ArrayList[Expression], identifier: AccessType, lin
   override def clone: Container = {
     val container = super.clone.asInstanceOf[Container]
     container.children = children.clone()
+    container.functions = functions.clone()
     container
   }
 }

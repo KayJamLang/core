@@ -22,6 +22,10 @@ class ClassContainer(val name: String, val extendsClass: String, val implementsC
         constructors += container
         children -= expression
       case expression1: VariableExpression => variables += expression1
+      case container: FunctionContainer =>
+        if(functions.contains(container.desc))
+          throw new ParserException(line, s"Function ${container.name} already defined")
+        functions put(container.desc, container)
       case _ => throw new ParserException(line, "The class can only contain variables and functions")
     }
   }
