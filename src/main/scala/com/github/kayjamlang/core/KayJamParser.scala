@@ -50,7 +50,7 @@ class KayJamParser(val lexer: KayJamLexer) {
                     new StmtExpression(new VariableExpression (name.value, value, `type`, AccessType PUBLIC, lexer line))
                 case _ =>
                     val stmt = new StmtExpression(readTopExpression)
-                    tryTokenOrNull(TK_SEMI)
+                    requireToken(TK_SEMI)
                     stmt
             }
             case TK_NEW_LINE =>
@@ -219,12 +219,6 @@ class KayJamParser(val lexer: KayJamLexer) {
 
     @throws[LexerException]
     def moveAhead: Token = moveAhead(null)
-
-    @throws[LexerException]
-    def tryTokenOrNull(`type`: Token.Type): Token = {
-        moveAhead(`type`)
-        lexer.currentToken
-    }
 
     @throws[LexerException]
     def requireTokenOrNull(`type`: Token.Type): Token = {
