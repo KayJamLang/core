@@ -64,6 +64,8 @@ object Type {
       Type ANY
   }
 
+  def getType[T]: Type = getType(classOf[T])
+
   /**
    * Type creator
    *
