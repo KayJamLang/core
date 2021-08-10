@@ -33,9 +33,6 @@
 //  case object FROM        extends KayJamIdentifier("from")
 //
 //  def find(str: String): KayJamIdentifier = {
-//    values.foreach(f => {
-//      println(f.outerEnum)
-//    })
 //    if (VAR endOfMatch str)
 //      return VAR
 //    if (FUNCTION endOfMatch str)
