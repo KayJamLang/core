@@ -9,7 +9,7 @@ public abstract class ExpressionProvider<A, B, C, D> {
         return mainProvider.defaultObject;
     }
 
-    public Type getType(MainExpressionProvider<B, C, D> mainProvider, C context, C argsContext, A expression) throws TypeException {
+    public Type getType(MainExpressionProvider<B, C, D> mainProvider, C context, C argsContext, A expression) throws Exception {
         return Type.ANY;
     }
 }

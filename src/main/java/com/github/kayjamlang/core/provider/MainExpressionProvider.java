@@ -2,8 +2,6 @@ package com.github.kayjamlang.core.provider;
 
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.Type;
-import com.github.kayjamlang.core.exceptions.TypeException;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -59,7 +57,7 @@ public class MainExpressionProvider<A, B, C> {
     }
 
     public Type getType(Expression expression, B context,
-                                B argsContext) {
+                                B argsContext) throws Exception {
         if(providers.containsKey(expression.getClass())){
             ExpressionProvider<? extends Expression, A, B, C> expressionCompiler =
                     providers.get(expression.getClass());
@@ -72,7 +70,11 @@ public class MainExpressionProvider<A, B, C> {
                 return (Type)
                         method.invoke(expressionCompiler,
                                 this, context, argsContext, expression);
-            } catch (Throwable ignored){}
+            } catch (InvocationTargetException ite) {
+                if(ite.getCause() instanceof Exception)
+                    throw (Exception) ite.getCause();
+                else ite.getCause().printStackTrace();
+            }
         }
 
         return Type.ANY;

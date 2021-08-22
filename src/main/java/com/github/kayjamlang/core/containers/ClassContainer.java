@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.exceptions.ParserException;
+import com.github.kayjamlang.core.exceptions.KayJamParserException;
 import com.github.kayjamlang.core.expressions.VariableExpression;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
@@ -49,10 +49,10 @@ public class ClassContainer extends Container {
      * @param children Code in class (Only functions, constructors, properties and companion)
      * @param accessType Access of class
      * @param line Line of start class
-     * @throws ParserException throws on unexpected expression in code
+     * @throws KayJamParserException throws on unexpected expression in code
      */
     public ClassContainer(String name, String extendsClass, List<String> implementsClass,
-                          List<Expression> children, AccessType accessType, int line) throws ParserException {
+                          List<Expression> children, AccessType accessType, int line) throws KayJamParserException {
         super(new ArrayList<>(), accessType, line);
         this.name = name;
         this.extendsClass = extendsClass;
@@ -62,7 +62,7 @@ public class ClassContainer extends Container {
             if (expression instanceof ObjectContainer
                     && expression.accessType == AccessType.COMPANION) {
                 if (companion != null)
-                    throw new ParserException(expression.line, "companion already exists");
+                    throw new KayJamParserException(expression.line, "companion already exists");
 
                 companion = (ObjectContainer) expression;
                 this.children.remove(expression);
@@ -73,7 +73,7 @@ public class ClassContainer extends Container {
                 variables.add((VariableExpression) expression);
             else if(expression instanceof FunctionContainer){
                 functions.add((FunctionContainer) expression);
-            }else throw new ParserException(line,
+            }else throw new KayJamParserException(line,
                         "The class can only contain variables and functions");
         }
     }

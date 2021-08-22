@@ -1,7 +1,6 @@
 package com.github.kayjamlang.core.provider;
 
 import com.github.kayjamlang.core.Type;
-import com.github.kayjamlang.core.exceptions.TypeException;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 
 public class ValueExpressionProvider<A, B, C> extends ExpressionProvider<ValueExpression,
@@ -11,9 +10,9 @@ public class ValueExpressionProvider<A, B, C> extends ExpressionProvider<ValueEx
     public final Type getType(MainExpressionProvider<A, B, C> mainProvider,
                         B context,
                         B argsContext,
-                        ValueExpression expression) throws TypeException {
+                        ValueExpression expression) {
         if(expression.value == null) {
-            Type any = Type.NULL.clone();
+            Type any = Type.NOTHING.clone();
             any.nullable = true;
 
             return any;

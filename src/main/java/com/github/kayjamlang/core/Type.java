@@ -17,7 +17,7 @@ public class Type implements Cloneable {
     public static final Type RANGE = new Type("range", true);
 
     public static final Type ANY = new Type("any", false);
-    public static final Type NULL = new Type("null", true);
+    public static final Type NOTHING = new Type("nothing", true);
 
     //Class
     public final String name;
@@ -68,7 +68,7 @@ public class Type implements Cloneable {
      * @return Returns whether a type supports another type
      */
     public boolean isAccept(Type type) {
-        if(type.equals(NULL) && (type.nullable || nullable))
+        if(type.equals(NOTHING) && (type.nullable || nullable))
             return true;
 
         return this.equals(type);

@@ -1,7 +1,7 @@
 package com.github.kayjamlang.core.containers;
 
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.exceptions.ParserException;
+import com.github.kayjamlang.core.exceptions.KayJamParserException;
 import com.github.kayjamlang.core.opcodes.AccessType;
 
 import java.util.Collections;
@@ -18,11 +18,11 @@ public class ObjectContainer extends ClassContainer {
      * @param children Code in object
      * @param accessType Type of access
      * @param line Line of object
-     * @throws ParserException Unknown expression in code
+     * @throws KayJamParserException Unknown expression in code
      */
     public ObjectContainer(List<Expression> children,
                            AccessType accessType,
-                           int line) throws ParserException {
+                           int line) throws KayJamParserException {
         super("anonymous@class", null,
                 Collections.emptyList(),
                 children, accessType, line);
@@ -37,12 +37,12 @@ public class ObjectContainer extends ClassContainer {
      * @param children Code in object
      * @param accessType Type of access
      * @param line Line of object
-     * @throws ParserException Unknown expression in code
+     * @throws KayJamParserException Unknown expression in code
      */
     public ObjectContainer(String name,
                            List<Expression> children,
                            AccessType accessType,
-                           int line) throws ParserException {
+                           int line) throws KayJamParserException {
         super(name, null, Collections.emptyList(),
                 children, accessType, line);
         anonymous = false;
@@ -58,15 +58,15 @@ public class ObjectContainer extends ClassContainer {
 
     /**
      * Checks data of object
-     * @throws ParserException Unknown expression in code
+     * @throws KayJamParserException Unknown expression in code
      */
-    private void verify() throws ParserException {
+    private void verify() throws KayJamParserException {
         if(companion!=null)
-            throw new ParserException(companion.line,
+            throw new KayJamParserException(companion.line,
                     "Objects cannot have companions");
 
         if(constructors.size()!=0)
-            throw new ParserException(constructors.get(0).line,
+            throw new KayJamParserException(constructors.get(0).line,
                     "Objects cannot have constructors");
     }
 }

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class KayJamLexer {
+    public KayJamFile source;
     public StringBuilder input;
     private Token token;
     private int line = 1;
