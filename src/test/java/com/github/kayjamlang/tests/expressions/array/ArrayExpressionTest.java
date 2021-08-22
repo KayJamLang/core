@@ -5,6 +5,7 @@ import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.expressions.ArrayExpression;
 import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,16 +14,9 @@ import static org.junit.Assert.*;
 
 public class ArrayExpressionTest {
 
-    private static KayJamParser parser;
-
-    @BeforeClass
-    public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("[1,2,3,4,5]"));
-    }
-
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = TestsUtils.parse("[1,2,3,4,5]");
 
         assertNotNull(expression);
         assertSame(ArrayExpression.class, expression.getClass());

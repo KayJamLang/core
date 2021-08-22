@@ -6,6 +6,7 @@ import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.IsExpression;
+import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,16 +14,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class IsExpressionTest {
-    private static KayJamParser parser;
-
-    @BeforeClass
-    public static void prepare() {
-        parser = new KayJamParser(new KayJamLexer("123 is int"));
-    }
 
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = TestsUtils.parse("123 is int");
         assertNotNull(expression);
         assertEquals(IsExpression.class, expression.getClass());
 

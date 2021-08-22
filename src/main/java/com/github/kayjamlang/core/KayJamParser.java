@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class KayJamParser {
-
+    private final KayJamFile file;
     private final KayJamLexer lexer;
     private static final Map<String, Integer> binOperationPrecedence;
 
@@ -41,7 +41,8 @@ public class KayJamParser {
         binOperationPrecedence.put("||", 70);
     }
 
-    public KayJamParser(KayJamLexer lexer) {
+    public KayJamParser(KayJamFile file, KayJamLexer lexer) {
+        this.file = file;
         this.lexer = lexer;
     }
 
@@ -82,8 +83,6 @@ public class KayJamParser {
     public Expression readExpression(AccessType identifier, List<Annotation> annotations) throws LexerException, ParserException {
         Expression expression = readTopExpression(identifier, annotations);
         if(expression instanceof ClassContainer||
-                expression instanceof UseExpression||
-                expression instanceof PackContainer||
                 expression instanceof ConstantValueExpression)
             throw new ParserException(lexer, "This expression is not allowed to be used in this place.");
 
@@ -103,8 +102,7 @@ public class KayJamParser {
                 moveAhead();
                 return new OperationExpression(root,
                         new ValueExpression(1), Operation.MINUS, lexer.getLine());
-            default:
-                return root;
+            default: return root;
         }
     }
 
@@ -128,9 +126,9 @@ public class KayJamParser {
         return lexer.currentToken();
     }
 
-    public void requireIdentifier(KayJamIdentifier identifier) throws LexerException, ParserException {
+    public void requireIdentifier(KayJamParserKeywords identifier) throws LexerException, ParserException {
         Token token = requireToken(Token.Type.IDENTIFIER);
-        if(KayJamIdentifier.find(token.value)!=identifier)
+        if(KayJamParserKeywords.find(token.value)!=identifier)
             throw new ParserException(lexer, "expected "+identifier.name());
 
     }
@@ -142,7 +140,7 @@ public class KayJamParser {
 
         switch (type) {
             case IDENTIFIER: {
-                KayJamIdentifier keyword = KayJamIdentifier.find(lexer.currentToken().value);
+                KayJamParserKeywords keyword = KayJamParserKeywords.find(lexer.currentToken().value);
                 if (keyword != null) {
                     switch (keyword) {
                         case VAR: {
@@ -173,7 +171,7 @@ public class KayJamParser {
                             return new FunctionContainer(name, body, identifier, arguments, returnType, annotations, line);
                         }
                         case NAMED: {
-                            requireIdentifier(KayJamIdentifier.FUNCTION);
+                            requireIdentifier(KayJamParserKeywords.FUNCTION);
                             String name = requireToken(Token.Type.IDENTIFIER).value;
 
                             moveAhead();
@@ -202,7 +200,7 @@ public class KayJamParser {
                             requireToken(Token.Type.TK_OPEN);
 
                             String name = requireToken(Token.Type.IDENTIFIER).value;
-                            requireIdentifier(KayJamIdentifier.IN);
+                            requireIdentifier(KayJamParserKeywords.IN);
 
                             moveAhead();
                             Expression range = readExpression();
@@ -257,16 +255,6 @@ public class KayJamParser {
                             moveAhead();
                             return new ConstructorContainer(arguments, parseExpressions(), identifier, line);
                         }
-                        case USE: {
-                            moveAhead();
-                            List<String> needed = parseRequiredUsages("");
-                            if (!lexer.currentToken().value.equals("from"))
-                                throw new ParserException(lexer, "excepted keyword 'from'");
-
-                            String from = requireToken(Token.Type.STRING).value;
-                            return new UseExpression(needed,
-                                    from.substring(1, from.length() - 1), line);
-                        }
                         case COMPANION:
                             moveAhead();
                             return readExpression(AccessType.COMPANION, annotations);
@@ -282,7 +270,7 @@ public class KayJamParser {
                             Expression ifTrue = readExpression();
                             Expression ifFalse = null;
 
-                            if (KayJamIdentifier.find(moveAhead().value) == KayJamIdentifier.ELSE) {
+                            if (KayJamParserKeywords.find(moveAhead().value) == KayJamParserKeywords.ELSE) {
                                 moveAhead();
                                 ifFalse = readExpression();
                             } else {
@@ -292,26 +280,7 @@ public class KayJamParser {
 
                             return new IfExpression(condition, ifTrue, ifFalse, line);
                         }
-                        case PACK: {
-                            moveAhead();
-                            String name = parseName();
-                            if (lexer.currentToken().type != Token.Type.OPEN_BRACKET)
-                                throw new ParserException(lexer, "Expected open bracket");
 
-                            List<Expression> expressions = new ArrayList<>();
-
-                            while (moveAhead().type != Token.Type.CLOSE_BRACKET) {
-                                expressions.add(readTopExpression());
-
-                                boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
-
-                                if (!closeBracket && moveAhead().type != Token.Type.TK_SEMI)
-                                    throwSemicolon();
-                            }
-
-                            return new PackContainer(name, new Container(expressions, line),
-                                    false);
-                        }
                         case CONSTANT: {
                             String name = requireToken(Token.Type.IDENTIFIER).value;
                             requireToken(Token.Type.TK_ASSIGN);
@@ -557,13 +526,13 @@ public class KayJamParser {
 
             Token binOp = lexer.currentToken();
 
-            KayJamIdentifier kayJamIdentifier = KayJamIdentifier.find(binOp.value);
+            KayJamParserKeywords kayJamIdentifier = KayJamParserKeywords.find(binOp.value);
             int line = lexer.getLine();
 
-            if(kayJamIdentifier==KayJamIdentifier.CAST) {
+            if(kayJamIdentifier== KayJamParserKeywords.CAST) {
                 moveAhead();
                 lhs = new CastExpression(lhs, parseType(false), line);
-            }else if(kayJamIdentifier==KayJamIdentifier.IS) {
+            }else if(kayJamIdentifier== KayJamParserKeywords.IS) {
                 moveAhead();
                 lhs = new IsExpression(lhs, parseType(false), line);
             }else{
@@ -586,11 +555,32 @@ public class KayJamParser {
         }
     }
 
-    public Script parseScript() throws ParserException, LexerException {
-        List<Expression> children = new ArrayList<>();
+    public void fillFile() throws ParserException, LexerException {
+        if (KayJamParserKeywords.find(lexer.currentToken().value)
+                ==KayJamParserKeywords.NAMESPACE) {
+            moveAhead();
+
+            file.namespace = parseName();
+            moveAhead();
+        }
+
+        while(KayJamParserKeywords.find(lexer.currentToken().value)
+                ==KayJamParserKeywords.NAMESPACE){
+            int line = lexer.getLine();
+            moveAhead();
+            List<String> needed = parseRequiredUsages("");
+            if (!lexer.currentToken().value.equals("from"))
+                throw new ParserException(lexer, "excepted keyword 'from'");
+
+            String from = requireToken(Token.Type.STRING).value;
+            file.usages.add(new KayJamFile.Usage(needed,
+                    from.substring(1, from.length() - 1), line));
+
+            moveAhead();
+        }
 
         while (!lexer.isFinished()) {
-            children.add(readTopExpression());
+            file.children.add(readTopExpression());
 
             boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
             if (!closeBracket&&!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
@@ -598,8 +588,6 @@ public class KayJamParser {
 
             moveAhead();
         }
-
-        return new Script(new Container(children, 0));
     }
 
     public List<Expression> parseExpressions() throws ParserException, LexerException {

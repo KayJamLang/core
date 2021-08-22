@@ -5,10 +5,16 @@ import com.github.kayjamlang.core.exceptions.LexerException;
 import com.github.kayjamlang.core.exceptions.ParserException;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 public class TypeTests {
+
+    @Test
+    public void nullable() throws Exception {
+        Type type = TestsUtils.getParser("string?").parseType(false);
+        assertEquals(Type.STRING, type);
+        assertTrue(type.nullable);
+    }
 
     @Test
     public void primitiveTypeParse() throws ParserException, LexerException {

@@ -1,28 +1,19 @@
 package com.github.kayjamlang.tests.expressions.ifExpr;
 
-import com.github.kayjamlang.core.expressions.Expression;
+import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.ValueExpression;
-import com.github.kayjamlang.core.expressions.IfExpression;
-import com.github.kayjamlang.core.expressions.VariableLinkExpression;
+import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class IfWithExpressionTest {
-
-    private static KayJamParser parser;
-
-    @BeforeClass
-    public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("if(putin) true else false"));
-    }
+public class IfExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = TestsUtils.parse("if(putin) true else false");
 
         assertNotNull(expression);
         assertSame(IfExpression.class, expression.getClass());
@@ -45,4 +36,29 @@ public class IfWithExpressionTest {
         ValueExpression ifFalse = (ValueExpression) ifExpression.ifFalse;
         assertEquals(false, ifFalse.value);
     }
+
+    @Test
+    public void withOperations() throws Exception {
+        Expression expression = TestsUtils.parse("if(test[1]==123) true");
+
+        assertNotNull(expression);
+        assertSame(IfExpression.class, expression.getClass());
+
+        IfExpression ifExpression = (IfExpression) expression;
+        assertSame(OperationExpression.class, ifExpression.condition.getClass());
+
+        assertNotNull(ifExpression.ifTrue);
+        assertNull(ifExpression.ifFalse);
+
+        assertSame(ValueExpression.class, ifExpression.ifTrue.getClass());
+
+        OperationExpression root = (OperationExpression) ifExpression.condition;
+        assertSame(GetExpression.class, root.left.getClass());
+        assertSame(ValueExpression.class, root.right.getClass());
+
+        ValueExpression ifTrue = (ValueExpression) ifExpression.ifTrue;
+        assertEquals(true, ifTrue.value);
+    }
+
+
 }

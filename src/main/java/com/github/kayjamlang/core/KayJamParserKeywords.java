@@ -2,7 +2,7 @@ package com.github.kayjamlang.core;
 
 import java.util.regex.Pattern;
 
-public enum KayJamIdentifier {
+public enum KayJamParserKeywords {
     VAR("var"),
     FUNCTION("function|fun"),
     NAMED("named"),
@@ -30,7 +30,7 @@ public enum KayJamIdentifier {
 
     private final Pattern pattern;
 
-    KayJamIdentifier(String regex) {
+    KayJamParserKeywords(String regex) {
         pattern = Pattern.compile("^" + regex + "$");
     }
 
@@ -38,8 +38,8 @@ public enum KayJamIdentifier {
         return pattern.matcher(s).find();
     }
 
-    public static KayJamIdentifier find(String str) {
-        for(KayJamIdentifier t : KayJamIdentifier.values()) {
+    public static KayJamParserKeywords find(String str) {
+        for(KayJamParserKeywords t : KayJamParserKeywords.values()) {
             if(t.endOfMatch(str))
                 return t;
         }

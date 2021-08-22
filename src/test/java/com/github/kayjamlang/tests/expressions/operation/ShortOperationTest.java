@@ -6,6 +6,7 @@ import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.expressions.data.Operation;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.OperationExpression;
+import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,16 +14,9 @@ import static org.junit.Assert.*;
 
 public class ShortOperationTest {
 
-    private static KayJamParser parser;
-
-    @BeforeClass
-    public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("2++"));
-    }
-
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = TestsUtils.parse("2++");
 
         assertNotNull(expression);
         assertSame(OperationExpression.class, expression.getClass());

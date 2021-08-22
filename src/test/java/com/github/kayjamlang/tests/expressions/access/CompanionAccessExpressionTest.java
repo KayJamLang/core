@@ -5,23 +5,17 @@ import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.expressions.CompanionAccessExpression;
 import com.github.kayjamlang.core.expressions.VariableLinkExpression;
+import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class CompanionAccessExpressionExpressionTest {
-
-    private static KayJamParser parser;
-
-    @BeforeClass
-    public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("Test::test"));
-    }
+public class CompanionAccessExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = TestsUtils.parse("Test::test");
 
         assertNotNull(expression);
         assertSame(CompanionAccessExpression.class, expression.getClass());

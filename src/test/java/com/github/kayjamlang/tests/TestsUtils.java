@@ -1,5 +1,6 @@
 package com.github.kayjamlang.tests;
 
+import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.KayJamLexer;
 import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.exceptions.LexerException;
@@ -13,6 +14,6 @@ public class TestsUtils {
     }
 
     public static KayJamParser getParser(String code) {
-        return new KayJamParser(new KayJamLexer(code));
+        return new KayJamParser(new KayJamFile("test"), new KayJamLexer(code));
     }
 }

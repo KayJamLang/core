@@ -7,6 +7,7 @@ import com.github.kayjamlang.core.expressions.data.Operation;
 import com.github.kayjamlang.core.expressions.CallOrCreateExpression;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.OperationExpression;
+import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,16 +15,9 @@ import static org.junit.Assert.*;
 
 public class RangeOperationTest {
 
-    private static KayJamParser parser;
-
-    @BeforeClass
-    public static void prepare(){
-        parser = new KayJamParser(new KayJamLexer("equals(2..10)"));
-    }
-
     @Test
     public void test() throws Exception {
-        Expression expression = parser.readExpression();
+        Expression expression = TestsUtils.parse("equals(2..10)");
 
         assertNotNull(expression);
         assertSame(CallOrCreateExpression.class, expression.getClass());
