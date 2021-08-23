@@ -56,14 +56,6 @@ publishing {
 
     repositories {
         maven {
-            url 'https://repo.levkopo.ru/repository/maven/'
-            credentials {
-                username = project.findProperty('levkopoRepoUsername') ?: System.getenv('levkopoRepoUsername')
-                password = project.findProperty('levkopoRepoPassword') ?: System.getenv('levkopoRepoPassword')
-            }
-        }
-
-        maven {
             url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
             credentials {
                 username = project.findProperty('sonatypeUsername') ?: System.getenv('sonatypeUsername')
