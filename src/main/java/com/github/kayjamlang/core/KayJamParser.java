@@ -121,7 +121,7 @@ public class KayJamParser {
     public Token requireToken(Token.Type type) throws KayJamLexerException, KayJamParserException {
         Token token = moveAhead();
         if(token.type!=type)
-            throw new KayJamParserException(lexer, "expected "+type.name().toLowerCase());
+            throw new KayJamParserException(lexer, "expected "+type.name().toLowerCase()+", not "+token.value);
 
         return lexer.currentToken();
     }
@@ -211,37 +211,6 @@ public class KayJamParser {
 
                             moveAhead();
                             return new ForExpression(name, range, readExpression(), line);
-                        }
-                        case OBJECT: {
-                            Token t = moveAhead();
-                            if (t.type == Token.Type.OPEN_BRACKET)
-                                return new ObjectContainer(parseExpressions(), identifier, line);
-                            else if (t.type == Token.Type.IDENTIFIER) {
-                                moveAhead();
-                                return new ObjectContainer(t.value,
-                                        parseExpressions(), identifier, line);
-                            } else throw new KayJamParserException(lexer, "expected name of object or open bracket");
-                        }
-                        case CLASS: {
-                            moveAhead();
-                            type = lexer.currentToken().type;
-                            if (type == Token.Type.IDENTIFIER) {
-                                String name = lexer.currentToken().value;
-                                String extendsClass = null;
-                                List<String> implementsClass = new ArrayList<>();
-
-                                while (moveAhead().type != Token.Type.OPEN_BRACKET) {
-                                    if (currentTokenType() == Token.Type.TK_COMPANION_ACCESS)
-                                        implementsClass.add(requireToken(Token.Type.IDENTIFIER).value);
-                                    else if (currentTokenType() == Token.Type.TK_COLON && extendsClass == null)
-                                        extendsClass = requireToken(Token.Type.IDENTIFIER).value;
-                                    else
-                                        throw new KayJamParserException(lexer, "expected open bracket or extends/implements token");
-                                }
-
-                                return new ClassContainer(name, extendsClass, implementsClass,
-                                        parseExpressions(), identifier, line);
-                            } else throw new KayJamParserException(lexer, "expected identifier of class");
                         }
                         case RETURN:
                             if(moveAhead().value.equals("void"))
@@ -558,7 +527,7 @@ public class KayJamParser {
         }
     }
 
-    public void fillFile() throws KayJamParserException, KayJamLexerException {
+    public KayJamFile fillFile() throws KayJamParserException, KayJamLexerException {
         if (KayJamParserKeywords.find(lexer.currentToken().value)
                 ==KayJamParserKeywords.NAMESPACE) {
             moveAhead();
@@ -597,15 +566,64 @@ public class KayJamParser {
             requireToken(Token.Type.TK_SEMI);
         }
 
+        AccessType type = AccessType.PUBLIC;
         while (!lexer.isFinished()) {
-            file.children.add(readTopExpression());
+            int line = lexer.getLine();
+            KayJamParserKeywords keyword = KayJamParserKeywords.find(lexer.currentToken().value);
+            if(keyword == null){
+                file.children.add(readTopExpression());
 
-            boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
-            if (!closeBracket&&!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
-                throwSemicolon();
+                boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
+                if (!closeBracket&&!lexer.isFinished()&&moveAhead().type!=Token.Type.TK_SEMI)
+                    throwSemicolon();
 
-            moveAhead();
+                moveAhead();
+            }else{
+                switch (keyword){
+                    case PUBLIC:
+                        moveAhead();
+                        type = AccessType.PUBLIC;
+                    break;
+
+                    case PRIVATE:
+                        moveAhead();
+                        type = AccessType.PRIVATE;
+                    break;
+
+                    case CLASS:
+                        String name = file.namespace+requireToken(Token.Type.IDENTIFIER).value;
+                        String extendsClass = null;
+                        List<String> implementsClass = new ArrayList<>();
+
+                        while (moveAhead().type != Token.Type.OPEN_BRACKET) {
+                            if (currentTokenType() == Token.Type.TK_COMPANION_ACCESS)
+                                implementsClass.add(requireToken(Token.Type.IDENTIFIER).value);
+                            else if (currentTokenType() == Token.Type.TK_COLON && extendsClass == null)
+                                extendsClass = requireToken(Token.Type.IDENTIFIER).value;
+                            else
+                                throw new KayJamParserException(lexer, "expected open bracket or extends/implements token");
+                        }
+
+                        file.classes.put(name, new ClassContainer(name, extendsClass, implementsClass,
+                                parseExpressions(), type, line));
+
+                        moveAhead();
+                        break;
+
+                    case OBJECT:
+                        name = file.namespace+requireToken(Token.Type.IDENTIFIER).value;
+                        moveAhead();
+
+                        file.classes.put(name, new ObjectContainer(name,
+                                parseExpressions(), type, line));
+
+                        moveAhead();
+                        break;
+                }
+            }
         }
+
+        return file;
     }
 
     public List<Expression> parseExpressions() throws KayJamParserException, KayJamLexerException {

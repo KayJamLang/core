@@ -1,5 +1,7 @@
 package com.github.kayjamlang.tests.containers;
 
+import com.github.kayjamlang.core.KayJamFile;
+import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.containers.ClassContainer;
 import com.github.kayjamlang.core.containers.ObjectContainer;
 import com.github.kayjamlang.core.expressions.Expression;
@@ -12,28 +14,13 @@ import static org.junit.Assert.assertEquals;
 public class ClassesTests {
 
     @Test
-    public void anonymousObject() throws Exception {
-        Expression expression = TestsUtils.getParser("object{var test = 123;fun test(){return test}}")
-                .readTopExpression();
-
-        assertNotNull(expression);
-        assertSame(ObjectContainer.class, expression.getClass());
-
-        ObjectContainer objectContainer = (ObjectContainer) expression;
-        assertEquals(1, objectContainer.variables.size());
-        assertEquals(1, objectContainer.functions.size());
-    }
-
-    @Test
     public void class_() throws Exception {
-        Expression expression = TestsUtils.getParser("class Test {var test = 123;fun test(){return test}}")
-                .readTopExpression();
+        KayJamFile file = TestsUtils.getParser("class Test {var test = 123;fun test(){return test}}")
+                        .fillFile();
+        assertEquals(1, file.classes.size());
 
-        assertNotNull(expression);
-        assertSame(ClassContainer.class, expression.getClass());
-
-        ClassContainer classContainer = (ClassContainer) expression;
-        assertEquals("Test", classContainer.name);
+        ClassContainer classContainer = file.classes.get("\\Test");
+        assertEquals("\\Test", classContainer.name);
         assertNull(classContainer.extendsClass);
         assertEquals(0, classContainer.implementsClass.size());
         assertEquals(1, classContainer.variables.size());
@@ -42,14 +29,13 @@ public class ClassesTests {
 
     @Test
     public void classExtends() throws Exception {
-        Expression expression = TestsUtils.getParser("class Test: ABC {var test = 123;fun test(){return test}}")
-                .readTopExpression();
+        KayJamFile file = TestsUtils.getParser("class Test: ABC {var test = 123;fun test(){return test}}")
+                .fillFile();
 
-        assertNotNull(expression);
-        assertSame(ClassContainer.class, expression.getClass());
+        assertEquals(1, file.classes.size());
 
-        ClassContainer classContainer = (ClassContainer) expression;
-        assertEquals("Test", classContainer.name);
+        ClassContainer classContainer = file.classes.get("\\Test");
+        assertEquals("\\Test", classContainer.name);
         assertEquals("ABC", classContainer.extendsClass);
         assertEquals(0, classContainer.implementsClass.size());
         assertEquals(1, classContainer.variables.size());
@@ -58,14 +44,13 @@ public class ClassesTests {
 
     @Test
     public void classImplements() throws Exception {
-        Expression expression = TestsUtils.getParser("class Test:: ABC {var test = 123;fun test(){return test}}")
-                .readTopExpression();
+        KayJamFile file = TestsUtils.getParser("class Test:: ABC {var test = 123;fun test(){return test}}")
+                .fillFile();
 
-        assertNotNull(expression);
-        assertSame(ClassContainer.class, expression.getClass());
+        assertEquals(1, file.classes.size());
 
-        ClassContainer classContainer = (ClassContainer) expression;
-        assertEquals("Test", classContainer.name);
+        ClassContainer classContainer = file.classes.get("\\Test");
+        assertEquals("\\Test", classContainer.name);
         assertEquals(1, classContainer.implementsClass.size());
         assertEquals("ABC", classContainer.implementsClass.get(0));
         assertEquals(1, classContainer.variables.size());
@@ -74,14 +59,13 @@ public class ClassesTests {
 
     @Test
     public void object() throws Exception {
-        Expression expression = TestsUtils.getParser("object Test{var test = 123;fun test(){return test}}")
-                .readTopExpression();
+        KayJamFile file = TestsUtils.getParser("object Test{var test = 123;fun test(){return test}}")
+                .fillFile();
 
-        assertNotNull(expression);
-        assertSame(ObjectContainer.class, expression.getClass());
+        assertEquals(1, file.classes.size());
 
-        ObjectContainer objectContainer = (ObjectContainer) expression;
-        assertEquals("Test", objectContainer.name);
+        ObjectContainer objectContainer = (ObjectContainer) file.classes.get("\\Test");
+        assertEquals("\\Test", objectContainer.name);
         assertEquals(0, objectContainer.variables.size());
         assertEquals(0, objectContainer.functions.size());
 

@@ -1,5 +1,6 @@
 package com.github.kayjamlang.core;
 
+import com.github.kayjamlang.core.containers.ClassContainer;
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.opcodes.AccessType;
@@ -15,6 +16,7 @@ public class KayJamFile {
     public Map<String, Expression> constants = new HashMap<>();
     public List<Usage> usages = new ArrayList<>();
     public List<Expression> children = new ArrayList<>();
+    public Map<String, ClassContainer> classes = new HashMap<>();
 
     public KayJamFile(String path){
         this.path = path;
