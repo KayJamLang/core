@@ -1,4 +1,4 @@
-![CircleCI](https://github.com/KayJamLang/core/raw/main/Frame%203%20(3).png)
+![LOGOTYPE](https://github.com/KayJamLang/core/raw/main/LOGO.png)
 
 # KayJam core
 [![CircleCI](https://circleci.com/gh/KayJamLang/core.svg?style=svg)](https://circleci.com/gh/KayJamLang/core)
