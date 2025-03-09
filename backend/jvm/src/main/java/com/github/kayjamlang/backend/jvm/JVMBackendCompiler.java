@@ -7,9 +7,6 @@ import com.github.kayjamlang.backend.tree.KayJamFileTree;
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
 import com.github.kayjamlang.core.exceptions.KayJamParserException;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
 import org.objectweb.asm.ClassWriter;
 
 import java.io.File;
@@ -22,13 +19,8 @@ public class JVMBackendCompiler implements IBackendCompiler {
     public static final JVMBackendCompiler INSTANCE = new JVMBackendCompiler();
 
     @Override
-    public void addOptions(Options options) {
-
-    }
-
-    @Override
-    public IBackendOptions parseOptions(CommandLine data) {
-        return null;
+    public IBackendOptions createOptionsClass() {
+        return new JVMBackendOptions();
     }
 
     @Override

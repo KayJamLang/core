@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-java -jar /usr/share/kayjam/kayjam-cli.jar "$*"
+java -jar /usr/share/kayjam/kayjam-cli.jar $*

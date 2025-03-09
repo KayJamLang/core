@@ -7,27 +7,18 @@ import com.github.kayjamlang.backend.tree.KayJamFileTree;
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
 import com.github.kayjamlang.core.exceptions.KayJamParserException;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class TSBackendCompiler implements IBackendCompiler {
     public static final TSBackendCompiler INSTANCE = new TSBackendCompiler();
 
     @Override
-    public void addOptions(Options options) {
-
-    }
-
-    @Override
-    public IBackendOptions parseOptions(CommandLine data) {
-        return null;
+    public IBackendOptions createOptionsClass() {
+        return new TSBackendOptions();
     }
 
     @Override
