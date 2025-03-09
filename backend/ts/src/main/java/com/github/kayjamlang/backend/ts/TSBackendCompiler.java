@@ -24,23 +24,26 @@ public class TSBackendCompiler implements IBackendCompiler {
     @Override
     public void compile(IOptions options) throws KayJamLexerException, KayJamParserException, IOException {
         List<KayJamFile> files = KayJamFileTree.loadFilesFromPath(options.getInputDir().toPath());
+        File jsOutputFile = getFile(options, "index.js");
+        File dtsOutputFile = getFile(options, "index.d.ts");
+
+        StringBuilder jsOutput = new StringBuilder();
+        StringBuilder dtsOutput = new StringBuilder();
         for (KayJamFile file : files) {
             JSKayJamExpressionVisitor jsVisitor = new JSKayJamExpressionVisitor();
             DTSKayJamExpressionVisitor dtsVisitor = new DTSKayJamExpressionVisitor();
-            File jsOutputFile = getFile(options, "index.js");
-            File dtsOutputFile = getFile(options, "index.d.ts");
 
-            String jsOutput = jsVisitor.visitKayJamFile(file);
-            String dtsOutput = dtsVisitor.visitKayJamFile(file);
-
-            FileOutputStream fos = new FileOutputStream(jsOutputFile);
-            fos.write(jsOutput.getBytes());
-            fos.close();
-
-            fos = new FileOutputStream(dtsOutputFile);
-            fos.write(dtsOutput.getBytes());
-            fos.close();
+            jsOutput.append(jsVisitor.visitKayJamFile(file));
+            dtsOutput.append(dtsVisitor.visitKayJamFile(file));
         }
+
+        FileOutputStream fos = new FileOutputStream(jsOutputFile);
+        fos.write(jsOutput.toString().getBytes());
+        fos.close();
+
+        fos = new FileOutputStream(dtsOutputFile);
+        fos.write(dtsOutput.toString().getBytes());
+        fos.close();
     }
 
     private static File getFile(IOptions options, String file) throws IOException {
