@@ -9,6 +9,18 @@ group 'com.github.kayjamlang'
 archivesBaseName = "backend-ts"
 version '0.1.4-beta4'
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.github.kayjamlang.cli.MainCli'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
 dependencies {
     implementation project(":core")
     implementation project(":backend:common")

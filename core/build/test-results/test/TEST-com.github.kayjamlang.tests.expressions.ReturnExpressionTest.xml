@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.kayjamlang.tests.expressions.ReturnExpressionTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-09T10:07:28" hostname="pc.home.levkopo.ru" time="0.0">
-  <properties/>
-  <testcase name="test" classname="com.github.kayjamlang.tests.expressions.ReturnExpressionTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

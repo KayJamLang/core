@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.kayjamlang.backend.ts.VisitorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-03-09T13:31:46" hostname="pc.home.levkopo.ru" time="0.052">
-  <properties/>
-  <testcase name="kjFileExpressionTest" classname="com.github.kayjamlang.backend.ts.VisitorTest" time="0.052"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

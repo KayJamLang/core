@@ -365,7 +365,10 @@ public class KayJamParser {
                 return new ArrayExpression(values, line);
             }
 
-
+            case TK_SEMI:
+                moveAhead();
+                System.out.println(lexer.getLine());
+                return readPrimary(identifier, annotations);
 
             default:
                 Expression expression = parseValue();
@@ -661,9 +664,9 @@ public class KayJamParser {
         while (lexer.currentToken().type != Token.Type.CLOSE_BRACKET) {
             expressions.add(readExpression());
 
-            boolean closeBracket = lexer.currentToken().type == Token.Type.CLOSE_BRACKET;
-            if (!closeBracket&&moveAhead().type!=Token.Type.TK_SEMI)
-                throwSemicolon();
+            if(moveAhead().type == Token.Type.TK_SEMI) {
+                moveAhead();
+            }
         }
 
         return expressions;

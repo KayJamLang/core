@@ -19,8 +19,8 @@ public class ClassesTests {
                         .fillFile();
         assertEquals(1, file.classes.size());
 
-        ClassContainer classContainer = file.classes.get("\\Test");
-        assertEquals("\\Test", classContainer.name);
+        ClassContainer classContainer = file.classes.get("Test");
+        assertEquals("Test", classContainer.name);
         assertNull(classContainer.extendsClass);
         assertEquals(0, classContainer.implementsClass.size());
         assertEquals(1, classContainer.variables.size());
@@ -34,8 +34,8 @@ public class ClassesTests {
 
         assertEquals(1, file.classes.size());
 
-        ClassContainer classContainer = file.classes.get("\\Test");
-        assertEquals("\\Test", classContainer.name);
+        ClassContainer classContainer = file.classes.get("Test");
+        assertEquals("Test", classContainer.name);
         assertEquals("ABC", classContainer.extendsClass);
         assertEquals(0, classContainer.implementsClass.size());
         assertEquals(1, classContainer.variables.size());
@@ -49,8 +49,8 @@ public class ClassesTests {
 
         assertEquals(1, file.classes.size());
 
-        ClassContainer classContainer = file.classes.get("\\Test");
-        assertEquals("\\Test", classContainer.name);
+        ClassContainer classContainer = file.classes.get("Test");
+        assertEquals("Test", classContainer.name);
         assertEquals(1, classContainer.implementsClass.size());
         assertEquals("ABC", classContainer.implementsClass.get(0));
         assertEquals(1, classContainer.variables.size());
@@ -64,8 +64,8 @@ public class ClassesTests {
 
         assertEquals(1, file.classes.size());
 
-        ObjectContainer objectContainer = (ObjectContainer) file.classes.get("\\Test");
-        assertEquals("\\Test", objectContainer.name);
+        ObjectContainer objectContainer = (ObjectContainer) file.classes.get("Test");
+        assertEquals("Test", objectContainer.name);
         assertEquals(0, objectContainer.variables.size());
         assertEquals(0, objectContainer.functions.size());
 

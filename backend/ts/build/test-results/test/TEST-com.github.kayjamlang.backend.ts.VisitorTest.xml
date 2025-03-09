@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.github.kayjamlang.backend.ts.VisitorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-03-09T11:47:30" hostname="pc.home.levkopo.ru" time="0.044">
+<testsuite name="com.github.kayjamlang.backend.ts.VisitorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-03-09T15:13:17" hostname="pc.home.levkopo.ru" time="0.044">
   <properties/>
   <testcase name="variableLinkExpressionTest" classname="com.github.kayjamlang.backend.ts.VisitorTest" time="0.005"/>
   <testcase name="kjFileExpressionTest" classname="com.github.kayjamlang.backend.ts.VisitorTest" time="0.039"/>
   <testcase name="accessExpressionTest" classname="com.github.kayjamlang.backend.ts.VisitorTest" time="0.0"/>
   <system-out><![CDATA[test
-var Zation=Zation||{};(()=>{Zation.ZationThreadRoles=function ZationThreadRoles(){};Zation.ZationThreadRoles.ROLE_CAN_DELETE_POSTS=16;Zation.ZationThreadRoles.ROLE_CAN_MANAGE_ROLES=2;Zation.ZationThreadRoles.ROLE_CAN_MANAGE_INVITES=32;Zation.ZationThreadRoles.ROLE_CAN_EDIT_THREAD=4;Zation.ZationThreadRoles.ROLE_CAN_CHANGE_AVATAR=8;})();
+var Zation=Zation||{};(()=>{Zation.ThreadRoles=function ThreadRoles(){};Zation.ThreadRoles.ROLE_CAN_DELETE_POSTS=1<<4;Zation.ThreadRoles.ROLE_CAN_MANAGE_ROLES=1<<1;Zation.ThreadRoles.ROLE_CAN_MANAGE_INVITES=1<<5;Zation.ThreadRoles.ROLE_CAN_EDIT_THREAD=1<<2;Zation.ThreadRoles.ROLE_CAN_CHANGE_AVATAR=1<<3;})();export {Zation};
 test.test
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
