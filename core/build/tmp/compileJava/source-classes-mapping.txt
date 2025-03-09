@@ -1,0 +1,95 @@
+com/github/kayjamlang/core/expressions/CompanionAccessExpression.java
+ com.github.kayjamlang.core.expressions.CompanionAccessExpression
+com/github/kayjamlang/core/expressions/VariableLinkExpression.java
+ com.github.kayjamlang.core.expressions.VariableLinkExpression
+com/github/kayjamlang/core/containers/Container.java
+ com.github.kayjamlang.core.containers.Container
+com/github/kayjamlang/core/provider/ValueExpressionProvider.java
+ com.github.kayjamlang.core.provider.ValueExpressionProvider
+com/github/kayjamlang/core/expressions/GetExpression.java
+ com.github.kayjamlang.core.expressions.GetExpression
+com/github/kayjamlang/core/containers/FunctionContainer.java
+ com.github.kayjamlang.core.containers.FunctionContainer
+com/github/kayjamlang/core/expressions/IfExpression.java
+ com.github.kayjamlang.core.expressions.IfExpression
+com/github/kayjamlang/core/expressions/AssertNullExpression.java
+ com.github.kayjamlang.core.expressions.AssertNullExpression
+com/github/kayjamlang/core/expressions/data/Range.java
+ com.github.kayjamlang.core.expressions.data.Range
+com/github/kayjamlang/core/expressions/VariableExpression.java
+ com.github.kayjamlang.core.expressions.VariableExpression
+com/github/kayjamlang/core/expressions/FunctionRefExpression.java
+ com.github.kayjamlang.core.expressions.FunctionRefExpression
+com/github/kayjamlang/core/containers/ObjectContainer.java
+ com.github.kayjamlang.core.containers.ObjectContainer
+com/github/kayjamlang/core/expressions/data/Annotation.java
+ com.github.kayjamlang.core.expressions.data.Annotation
+com/github/kayjamlang/core/expressions/loops/WhileExpression.java
+ com.github.kayjamlang.core.expressions.loops.WhileExpression
+com/github/kayjamlang/core/expressions/NamedExpression.java
+ com.github.kayjamlang.core.expressions.NamedExpression
+com/github/kayjamlang/core/expressions/Expression.java
+ com.github.kayjamlang.core.expressions.Expression
+com/github/kayjamlang/core/expressions/loops/ForExpression.java
+ com.github.kayjamlang.core.expressions.loops.ForExpression
+com/github/kayjamlang/core/containers/ClassContainer.java
+ com.github.kayjamlang.core.containers.ClassContainer
+com/github/kayjamlang/core/expressions/data/Argument.java
+ com.github.kayjamlang.core.expressions.data.Argument
+com/github/kayjamlang/core/expressions/CallOrCreateExpression.java
+ com.github.kayjamlang.core.expressions.CallOrCreateExpression
+com/github/kayjamlang/core/expressions/CastExpression.java
+ com.github.kayjamlang.core.expressions.CastExpression
+com/github/kayjamlang/core/provider/ExpressionProvider.java
+ com.github.kayjamlang.core.provider.ExpressionProvider
+com/github/kayjamlang/core/expressions/ValueExpression.java
+ com.github.kayjamlang.core.expressions.ValueExpression
+com/github/kayjamlang/core/KayJamParserKeywords.java
+ com.github.kayjamlang.core.KayJamParserKeywords
+com/github/kayjamlang/core/expressions/IsExpression.java
+ com.github.kayjamlang.core.expressions.IsExpression
+com/github/kayjamlang/core/expressions/ArrayExpression.java
+ com.github.kayjamlang.core.expressions.ArrayExpression
+com/github/kayjamlang/core/provider/MainExpressionProvider.java
+ com.github.kayjamlang.core.provider.MainExpressionProvider
+com/github/kayjamlang/core/opcodes/AccessType.java
+ com.github.kayjamlang.core.opcodes.AccessType
+com/github/kayjamlang/core/expressions/NegationExpression.java
+ com.github.kayjamlang.core.expressions.NegationExpression
+com/github/kayjamlang/core/containers/NamedExpressionFunctionContainer.java
+ com.github.kayjamlang.core.containers.NamedExpressionFunctionContainer
+com/github/kayjamlang/core/expressions/VariableSetExpression.java
+ com.github.kayjamlang.core.expressions.VariableSetExpression
+com/github/kayjamlang/core/Type.java
+ com.github.kayjamlang.core.Type
+com/github/kayjamlang/core/expressions/ReturnExpression.java
+ com.github.kayjamlang.core.expressions.ReturnExpression
+com/github/kayjamlang/core/expressions/AccessExpression.java
+ com.github.kayjamlang.core.expressions.AccessExpression
+com/github/kayjamlang/core/KayJamVersion.java
+ com.github.kayjamlang.core.KayJamVersion
+com/github/kayjamlang/core/exceptions/TypeException.java
+ com.github.kayjamlang.core.exceptions.TypeException
+com/github/kayjamlang/core/expressions/BitwiseComplementExpression.java
+ com.github.kayjamlang.core.expressions.BitwiseComplementExpression
+com/github/kayjamlang/core/expressions/OperationExpression.java
+ com.github.kayjamlang.core.expressions.OperationExpression
+com/github/kayjamlang/core/containers/ConstructorContainer.java
+ com.github.kayjamlang.core.containers.ConstructorContainer
+com/github/kayjamlang/core/Token.java
+ com.github.kayjamlang.core.Token
+ com.github.kayjamlang.core.Token$Type
+com/github/kayjamlang/core/expressions/data/Operation.java
+ com.github.kayjamlang.core.expressions.data.Operation
+com/github/kayjamlang/core/KayJamFile.java
+ com.github.kayjamlang.core.KayJamFile
+ com.github.kayjamlang.core.KayJamFile$Usage
+com/github/kayjamlang/core/exceptions/KayJamParserException.java
+ com.github.kayjamlang.core.exceptions.KayJamParserException
+com/github/kayjamlang/core/KayJamLexer.java
+ com.github.kayjamlang.core.KayJamLexer
+com/github/kayjamlang/core/exceptions/KayJamLexerException.java
+ com.github.kayjamlang.core.exceptions.KayJamLexerException
+com/github/kayjamlang/core/KayJamParser.java
+ com.github.kayjamlang.core.KayJamParser
+ com.github.kayjamlang.core.KayJamParser$1

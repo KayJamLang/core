@@ -1,9 +1,8 @@
-![LOGOTYPE](https://github.com/KayJamLang/core/raw/main/LOGO.png)
+![LOGOTYPE](https://github.com/KayJamLang/core/raw/main/resources/Banner.png)
 
-# KayJam core
-[![CircleCI](https://circleci.com/gh/KayJamLang/core.svg?style=svg)](https://circleci.com/gh/KayJamLang/core)
+# KayJam
 
-Core of KayJam language
+Unified Business Logic Programming Language
 
 - [Documentation in English](https://github.com/KayJamLang/core/blob/main/docs/en/docs.md)
 - [Документация на русском](https://github.com/KayJamLang/core/blob/main/docs/ru/docs.md)

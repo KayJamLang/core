@@ -1,0 +1,22 @@
+plugins {
+    id "java-library"
+    id "maven-publish"
+    id "signing"
+}
+
+
+group 'com.github.kayjamlang'
+archivesBaseName = "backend-jvm"
+version '0.1.4-beta4'
+
+dependencies {
+    implementation project(":core")
+    implementation project(":backend:common")
+    implementation 'org.ow2.asm:asm:9.7.1'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation project(':core')
+}
+
+repositories {
+    mavenCentral()
+}

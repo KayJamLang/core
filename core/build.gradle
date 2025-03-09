@@ -1,0 +1,95 @@
+plugins {
+    id "java-library"
+    id "maven-publish"
+    id "signing"
+}
+
+
+group 'com.github.kayjamlang'
+archivesBaseName = "core"
+version '0.1.4-beta4'
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+}
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'com.github.kayjamlang'
+            artifactId = project.archivesBaseName
+            version = project.version
+
+            pom {
+                name = 'KayJam Core'
+                description = 'Provides lexer, ast parser and tools for compiling KayJam code'
+                url = 'https://github.com/KayJamLang/core'
+                licenses {
+                    license {
+                        name = 'GNU General Public License v3.0'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'levkopo'
+                        name = 'Lev Koporushkin'
+                        email = 'levkopoag@gmail.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/KayJamLang/core.git'
+                    developerConnection = 'scm:git:ssh://github.com/KayJamLang/core.git'
+                    url = 'https://github.com/KayJamLang/core'
+                }
+            }
+
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username = project.findProperty('sonatypeUsername') ?: System.getenv('sonatypeUsername')
+                password = project.findProperty('sonatypePassword') ?: System.getenv('sonatypePassword')
+            }
+        }
+
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/KayJamLang/"+project.archivesBaseName)
+            credentials {
+                username = project.findProperty('githubUsername') ?: System.getenv('githubUsername')
+                password = project.findProperty('githubKey') ?: System.getenv('githubKey')
+            }
+        }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+test {
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+        showExceptions = true
+        showCauses = true
+    }
+}
+
+

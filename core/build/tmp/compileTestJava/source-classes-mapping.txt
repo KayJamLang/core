@@ -1,0 +1,66 @@
+com/github/kayjamlang/tests/expressions/NamedExpressionTest.java
+ com.github.kayjamlang.tests.expressions.NamedExpressionTest
+com/github/kayjamlang/tests/expressions/IsExpressionTest.java
+ com.github.kayjamlang.tests.expressions.IsExpressionTest
+com/github/kayjamlang/tests/FileParseTest.java
+ com.github.kayjamlang.tests.FileParseTest
+com/github/kayjamlang/tests/expressions/AssertNullExpressionTest.java
+ com.github.kayjamlang.tests.expressions.AssertNullExpressionTest
+com/github/kayjamlang/tests/expressions/array/ArrayExpressionGetTest.java
+ com.github.kayjamlang.tests.expressions.array.ArrayExpressionGetTest
+com/github/kayjamlang/tests/expressions/operation/InFunctionContainerOperationTest.java
+ com.github.kayjamlang.tests.expressions.operation.InFunctionContainerOperationTest
+com/github/kayjamlang/tests/expressions/CallOrCreateExpressionTest.java
+ com.github.kayjamlang.tests.expressions.CallOrCreateExpressionTest
+com/github/kayjamlang/tests/containers/NamedExpressionFunctionContainerTest.java
+ com.github.kayjamlang.tests.containers.NamedExpressionFunctionContainerTest
+com/github/kayjamlang/tests/expressions/operation/LongOperationTest.java
+ com.github.kayjamlang.tests.expressions.operation.LongOperationTest
+com/github/kayjamlang/tests/expressions/operation/RangeOperationTest.java
+ com.github.kayjamlang.tests.expressions.operation.RangeOperationTest
+com/github/kayjamlang/tests/expressions/var/VariableTest.java
+ com.github.kayjamlang.tests.expressions.var.VariableTest
+com/github/kayjamlang/tests/containers/ContainerTests.java
+ com.github.kayjamlang.tests.containers.ContainerTests
+com/github/kayjamlang/tests/expressions/WhileExpressionTest.java
+ com.github.kayjamlang.tests.expressions.WhileExpressionTest
+com/github/kayjamlang/tests/expressions/var/VariableSetExpressionTest.java
+ com.github.kayjamlang.tests.expressions.var.VariableSetExpressionTest
+com/github/kayjamlang/tests/containers/ClassesTests.java
+ com.github.kayjamlang.tests.containers.ClassesTests
+com/github/kayjamlang/tests/expressions/access/AccessExpressionTest.java
+ com.github.kayjamlang.tests.expressions.access.AccessExpressionTest
+com/github/kayjamlang/tests/expressions/array/ArrayExpressionTest.java
+ com.github.kayjamlang.tests.expressions.array.ArrayExpressionTest
+com/github/kayjamlang/tests/expressions/var/VariableWithAccessExpressionTest.java
+ com.github.kayjamlang.tests.expressions.var.VariableWithAccessExpressionTest
+com/github/kayjamlang/tests/TypeTests.java
+ com.github.kayjamlang.tests.TypeTests
+com/github/kayjamlang/tests/expressions/ifExpr/IfExpressionTest.java
+ com.github.kayjamlang.tests.expressions.ifExpr.IfExpressionTest
+com/github/kayjamlang/tests/containers/FunctionTests.java
+ com.github.kayjamlang.tests.containers.FunctionTests
+com/github/kayjamlang/tests/expressions/operation/ManyOperationInCallOrCreate.java
+ com.github.kayjamlang.tests.expressions.operation.ManyOperationInCallOrCreate
+com/github/kayjamlang/tests/expressions/NotExpressionTest.java
+ com.github.kayjamlang.tests.expressions.NotExpressionTest
+com/github/kayjamlang/tests/expressions/ValueExpressionTest.java
+ com.github.kayjamlang.tests.expressions.ValueExpressionTest
+com/github/kayjamlang/tests/expressions/ReturnExpressionTest.java
+ com.github.kayjamlang.tests.expressions.ReturnExpressionTest
+com/github/kayjamlang/tests/expressions/var/VariableLinkTest.java
+ com.github.kayjamlang.tests.expressions.var.VariableLinkTest
+com/github/kayjamlang/tests/expressions/access/CompanionAccessExpressionTest.java
+ com.github.kayjamlang.tests.expressions.access.CompanionAccessExpressionTest
+com/github/kayjamlang/tests/expressions/CastExpressionTest.java
+ com.github.kayjamlang.tests.expressions.CastExpressionTest
+com/github/kayjamlang/tests/expressions/ForExpressionTest.java
+ com.github.kayjamlang.tests.expressions.ForExpressionTest
+com/github/kayjamlang/tests/expressions/NamedSingleExpressionTest.java
+ com.github.kayjamlang.tests.expressions.NamedSingleExpressionTest
+com/github/kayjamlang/tests/expressions/operation/ShortOperationTest.java
+ com.github.kayjamlang.tests.expressions.operation.ShortOperationTest
+com/github/kayjamlang/tests/TestsUtils.java
+ com.github.kayjamlang.tests.TestsUtils
+com/github/kayjamlang/tests/containers/FunctionRefTest.java
+ com.github.kayjamlang.tests.containers.FunctionRefTest

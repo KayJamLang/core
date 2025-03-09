@@ -1,0 +1,4 @@
+test
+Óvar Zation=Zation||{};(()=>{Zation.ZationThreadRoles=function ZationThreadRoles(){};Zation.ZationThreadRoles.ROLE_CAN_DELETE_POSTS=16;Zation.ZationThreadRoles.ROLE_CAN_MANAGE_ROLES=2;Zation.ZationThreadRoles.ROLE_CAN_MANAGE_INVITES=32;Zation.ZationThreadRoles.ROLE_CAN_EDIT_THREAD=4;Zation.ZationThreadRoles.ROLE_CAN_CHANGE_AVATAR=8;})();
+
+test.test
