@@ -1,21 +1,12 @@
 plugins {
-    id "java-library"
+    id 'java-library'
     id "maven-publish"
     id "signing"
 }
-
-
-group 'com.github.kayjamlang'
-archivesBaseName = "backend-ts"
-version '0.1.4-beta4'
 
 dependencies {
     implementation project(":core")
     implementation project(":backend:common")
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
     testImplementation project(':core')
-}
-
-repositories {
-    mavenCentral()
 }

@@ -1,4 +1,0 @@
-test
-Ævar Zation=Zation||{};(()=>{Zation.ThreadRoles=function ThreadRoles(){};Zation.ThreadRoles.ROLE_CAN_DELETE_POSTS=1<<4;Zation.ThreadRoles.ROLE_CAN_MANAGE_ROLES=1<<1;Zation.ThreadRoles.ROLE_CAN_MANAGE_INVITES=1<<5;Zation.ThreadRoles.ROLE_CAN_EDIT_THREAD=1<<2;Zation.ThreadRoles.ROLE_CAN_CHANGE_AVATAR=1<<3;})();export {Zation};
-
-test.test
