@@ -13,6 +13,7 @@ jar {
 }
 
 tasks.register('fatJar', Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest.from jar.manifest
     from compileJava.outputs.files
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }

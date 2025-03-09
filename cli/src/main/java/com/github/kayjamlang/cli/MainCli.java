@@ -20,13 +20,13 @@ public class MainCli {
 
     public static void main(String[] args) {
         Option typeOption = new Option("t", "type", true, "Backend type: " + compilers.keySet());
-        typeOption.setArgs(1);
+        typeOption.setRequired(true);
 
         Option outputOption = new Option("o", "output", true, "Output folder");
-        outputOption.setArgs(1);
+        outputOption.setRequired(true);
 
         Option inputOption = new Option("i", "input", true, "Input folder");
-        inputOption.setArgs(1);
+        inputOption.setRequired(true);
 
         Options options = new Options();
         options.addOption(typeOption);
@@ -36,7 +36,9 @@ public class MainCli {
         CommandLineParser cmdLinePosixParser = new DefaultParser();
         try {
             CommandLine commandLine = cmdLinePosixParser.parse(options, args);
-            String type = commandLine.getOptionValue(typeOption);
+            String type = commandLine.getOptionValue(typeOption).replace(" ", "");
+            System.out.println(compilers.get(type));
+            System.out.println("\'"+type+"\'");
             if (compilers.containsKey(type)) {
                 IBackendCompiler backendCompiler = compilers.get(type);
                 backendCompiler.addOptions(options);
