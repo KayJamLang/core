@@ -63,6 +63,8 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
     private final ArrayDeque<ClassWriter> classWriters = new ArrayDeque<>();
     private final HashMap<String, ClassWriter> finalClassWriters = new HashMap<>();
     private MethodVisitor currentMethodVisitor = null;
+    private int currentStack = 0;
+    private int maxStack = 0;
 
     @Override
     public Object visitKayJamFile(KayJamFile file) {
@@ -117,19 +119,35 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
 
                 staticVisitor.visitCode();
                 staticVisitor.visitTypeInsn(NEW, className);
+                pushToStack();
+
                 staticVisitor.visitInsn(DUP);
+                pushToStack();
+
                 staticVisitor.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
                 staticVisitor.visitFieldInsn(PUTSTATIC, className, "INSTANCE", "L"+className+";");
+                popStack(1);
 
                 currentMethodVisitor = staticVisitor;
                 for (Map.Entry<String, Expression> constant: objectContainer.constants.entrySet()){
                     JVMType fieldType = typeVisitor.visit(constant.getValue());
                     visit(constant.getValue());
                     staticVisitor.visitFieldInsn(PUTSTATIC, className, constant.getKey(), fieldType.getDescriptor());
+                    popStack(1);
                 }
 
+                staticVisitor.visitMaxs(maxStack, 0);
                 staticVisitor.visitEnd();
+                clearStack();
             }
+
+//            MethodVisitor constructorVisitor = classWriter.visitMethod(
+//                    ACC_STATIC, "<init>", "()V", null, null
+//            );
+//
+//            constructorVisitor.visitMaxs(maxStack, 0);
+//            constructorVisitor.visitEnd();
+//            clearStack();
 
             finalClassWriters.put(className, classWriter);
         }
@@ -206,8 +224,10 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
         }else {
             visit(expression.left);
             visit(expression.right);
+            popStack(2);
             typeVisitor.visit(expression.left)
                     .visitOperation(currentMethodVisitor, expression.operation, typeVisitor.visit(expression.right));
+            pushToStack();
         }
 
         return null;
@@ -220,6 +240,7 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
 
     @Override
     public Object visitValueExpression(ValueExpression expression) {
+        pushToStack();
         if (expression.value instanceof String) {
             currentMethodVisitor.visitLdcInsn(expression.value.toString());
         } else if (expression.value instanceof Integer) {
@@ -281,5 +302,22 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
 
     public HashMap<String, ClassWriter> getClasses() {
         return finalClassWriters;
+    }
+
+    private void pushToStack() {
+        currentStack += 1;
+
+        if(maxStack < currentStack) {
+            maxStack = currentStack;
+        }
+    }
+
+    private void popStack(int stackSize) {
+        currentStack -= stackSize;
+    }
+
+    private void clearStack() {
+        currentStack = 0;
+        maxStack = 0;
     }
 }
