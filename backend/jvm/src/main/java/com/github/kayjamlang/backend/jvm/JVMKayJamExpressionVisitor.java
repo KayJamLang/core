@@ -137,6 +137,7 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
                     staticVisitor.visitFieldInsn(PUTSTATIC, className, constant.getKey(), fieldType.getDescriptor());
                     popStack(1);
                 }
+                staticVisitor.visitInsn(RETURN);
 
                 staticVisitor.visitMaxs(maxStack, 0);
                 staticVisitor.visitEnd();
