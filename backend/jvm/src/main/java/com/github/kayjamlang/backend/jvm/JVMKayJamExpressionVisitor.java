@@ -72,24 +72,26 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
         ClassWriter fileClassWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
         String fileName = packageName + "/" + normalizeClassName(file.getFileName()) + "KJ";
+        String fileSuperClass = "java/lang/Object";
         fileClassWriter.visit(V1_8,
                 ACC_PUBLIC,
                 fileName,
                 null,
-                "java/lang/Object",
+                fileSuperClass,
                 new String[]{}
         );
 
         for (Map.Entry<String, ClassContainer> entry : file.classes.entrySet()) {
             ClassContainer classContainer = entry.getValue();
             String className = packageName + "/" + normalizeClassName(classContainer.name);
+            String superClass = "java/lang/Object";
             ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             classWriter.visit(
                     V1_8,
                     ACC_PUBLIC,
                     className,
                     null,
-                    "java/lang/Object",
+                    superClass,
                     new String[]{}
             );
 
@@ -106,7 +108,7 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
                 for (Map.Entry<String, Expression> constant: objectContainer.constants.entrySet()){
                     JVMType fieldType = typeVisitor.visit(constant.getValue());
                     classWriter.visitField(
-                            ACC_STATIC + ACC_FINAL + ACC_PUBLIC,
+                            ACC_STATIC | ACC_FINAL | ACC_PUBLIC,
                             constant.getKey(),
                             fieldType.getDescriptor(),
                             null,
@@ -141,16 +143,34 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
                 clearStack();
             }
 
-//            MethodVisitor constructorVisitor = classWriter.visitMethod(
-//                    ACC_STATIC, "<init>", "()V", null, null
-//            );
-//
-//            constructorVisitor.visitMaxs(maxStack, 0);
-//            constructorVisitor.visitEnd();
-//            clearStack();
+            MethodVisitor constructorVisitor = classWriter.visitMethod(
+                    ACC_PUBLIC, "<init>", "()V", null, null
+            );
+
+            constructorVisitor.visitCode();
+            constructorVisitor.visitVarInsn(ALOAD, 0);
+            constructorVisitor.visitMethodInsn(INVOKESPECIAL, superClass, "<init>", "()V", false);
+            constructorVisitor.visitInsn(RETURN);
+
+            constructorVisitor.visitMaxs(maxStack, 1);
+            constructorVisitor.visitEnd();
+            clearStack();
 
             finalClassWriters.put(className, classWriter);
         }
+
+        MethodVisitor constructorVisitor = fileClassWriter.visitMethod(
+                ACC_PUBLIC, "<init>", "()V", null, null
+        );
+
+        constructorVisitor.visitCode();
+        constructorVisitor.visitVarInsn(ALOAD, 0);
+        constructorVisitor.visitMethodInsn(INVOKESPECIAL, fileSuperClass, "<init>", "()V", false);
+        constructorVisitor.visitInsn(RETURN);
+
+        constructorVisitor.visitMaxs(maxStack, 1);
+        constructorVisitor.visitEnd();
+        clearStack();
 
         finalClassWriters.put(fileName, fileClassWriter);
         return null;
@@ -307,7 +327,7 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
     private void pushToStack() {
         currentStack += 1;
 
-        if(maxStack < currentStack) {
+        if(currentStack > maxStack) {
             maxStack = currentStack;
         }
     }
