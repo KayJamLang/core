@@ -67,7 +67,22 @@ public class TypeKayJamExpressionVisitor extends KayJamExpressionVisitor<JVMType
 
     @Override
     public JVMType visitIfExpression(IfExpression expression) {
-        return null;
+        JVMType conditionType = visit(expression.condition);
+        if (!(conditionType instanceof BooleanJVMType)) {
+            throw new RuntimeException("If expression condition must be boolean, got " + conditionType);
+        }
+
+        JVMType trueBranchType = visit(expression.ifTrue);
+
+        if (expression.ifFalse != null) {
+            JVMType falseBranchType = visit(expression.ifFalse);
+            if (!trueBranchType.equals(falseBranchType)) {
+                throw new RuntimeException("If expression branches must have the same type, got " + trueBranchType + " and " + falseBranchType);
+            }
+            return trueBranchType;
+        } else {
+            return trueBranchType;
+        }
     }
 
     @Override

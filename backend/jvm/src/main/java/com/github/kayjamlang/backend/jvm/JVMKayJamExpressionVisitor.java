@@ -12,6 +12,7 @@ import com.github.kayjamlang.core.expressions.loops.ForExpression;
 import com.github.kayjamlang.core.expressions.loops.WhileExpression;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
 import java.util.ArrayDeque;
@@ -219,6 +220,33 @@ public class JVMKayJamExpressionVisitor extends KayJamExpressionVisitor<Object> 
 
     @Override
     public Object visitIfExpression(IfExpression expression) {
+        MethodVisitor mv = currentMethodVisitor;
+        Label elseLabel = new Label();
+        Label endIfLabel = new Label();
+
+        // 1. Visit condition
+        visit(expression.condition); // Leaves boolean on stack
+        mv.visitJumpInsn(IFEQ, elseLabel); // Jumps if condition is false (0)
+        popStack(1); // IFEQ consumes the boolean from the stack
+
+        // 2. True branch
+        visit(expression.ifTrue);
+        if (expression.ifFalse != null) {
+            mv.visitJumpInsn(GOTO, endIfLabel); // Skip false branch
+        }
+        // If expression.ifFalse is null, execution naturally falls through to endIfLabel if condition was true.
+
+        // 3. False branch
+        mv.visitLabel(elseLabel);
+        if (expression.ifFalse != null) {
+            visit(expression.ifFalse);
+        }
+        // If ifFalse is null, and condition was false, we jump to elseLabel,
+        // execute nothing here, and then proceed to endIfLabel.
+
+        // 4. End-if
+        mv.visitLabel(endIfLabel);
+
         return null;
     }
 
