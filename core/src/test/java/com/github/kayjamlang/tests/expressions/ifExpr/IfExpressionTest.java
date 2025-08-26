@@ -1,10 +1,7 @@
 package com.github.kayjamlang.tests.expressions.ifExpr;
 
 import com.github.kayjamlang.core.expressions.*;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,7 +10,7 @@ public class IfExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("if(putin) true else false");
+        Expression expression = TestsUtils.parseExpression("if(putin) true else false");
 
         assertNotNull(expression);
         assertSame(IfExpression.class, expression.getClass());
@@ -39,7 +36,7 @@ public class IfExpressionTest {
 
     @Test
     public void withOperations() throws Exception {
-        Expression expression = TestsUtils.parse("if(test[1]==123) true");
+        Expression expression = TestsUtils.parseExpression("if(test[1]==123) true");
 
         assertNotNull(expression);
         assertSame(IfExpression.class, expression.getClass());

@@ -13,7 +13,7 @@ public class BitwiseComplementExpression extends Expression {
      * @param line Start line
      */
     public BitwiseComplementExpression(Expression expression, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.expression = expression;
     }
 

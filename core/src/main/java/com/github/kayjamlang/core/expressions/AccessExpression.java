@@ -19,7 +19,7 @@ public class AccessExpression extends Expression {
      * @param line Start line
      */
     public AccessExpression(Expression root, Expression child, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.root = root;
         this.child = child;
     }

@@ -1,7 +1,7 @@
 package com.github.kayjamlang.tests;
 
 import com.github.kayjamlang.core.KayJamFile;
-import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.core.parser.KayJamParser;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
 import com.github.kayjamlang.core.exceptions.KayJamParserException;
 import com.github.kayjamlang.core.expressions.ValueExpression;
@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class FileParseTest {
 
-    @Test
+    @Test(timeout = 5000)
     public void parse() throws KayJamLexerException, KayJamParserException {
         KayJamParser parser = TestsUtils.getParser("namespace \\test\\y;" +
                 "use Test\\Test from \"file\";" +
@@ -29,6 +29,7 @@ public class FileParseTest {
         assertEquals("\\Test\\Test", file.usages.get(0).required.get(0));
 
         assertEquals(1, file.constants.size());
-        assertEquals(ValueExpression.class, file.constants.get("test").getClass());
+        assertEquals("test", file.constants.getFirst().name);
+        assertEquals(ValueExpression.class, file.constants.getFirst().value.getClass());
     }
 }

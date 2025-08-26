@@ -22,7 +22,7 @@ public class WhileExpression extends Expression {
      * @param line Line of start
      */
     public WhileExpression(Expression condition, Expression expression, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.condition = condition;
         this.expression = expression;
     }

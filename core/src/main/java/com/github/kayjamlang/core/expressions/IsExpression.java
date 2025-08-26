@@ -20,7 +20,7 @@ public class IsExpression extends Expression {
      * @param line Start line
      */
     public IsExpression(Expression expression, Type verifyType, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.expression = expression;
         this.verifyType = verifyType;
     }

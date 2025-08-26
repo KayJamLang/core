@@ -1,13 +1,14 @@
-package com.github.kayjamlang.core;
+package com.github.kayjamlang.core.parser;
 
 import java.util.regex.Pattern;
 
 public enum KayJamParserKeywords {
     VAR("var"),
-    FUNCTION("function|fun"),
+    FUNCTION("fun"),
     NAMED("named"),
     PUBLIC("public"),
     PRIVATE("private"),
+    INTERNAL("internal"),
     WHILE("while"),
     FOR("for"),
     CLASS("class"),
@@ -24,6 +25,7 @@ public enum KayJamParserKeywords {
     ELSE("else"),
     PACK("pack"),
     CONSTANT("const"),
+    PROPERTY("prop"),
     FROM("from"),
 
     ;

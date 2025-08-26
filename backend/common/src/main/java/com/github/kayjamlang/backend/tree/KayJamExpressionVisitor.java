@@ -1,7 +1,7 @@
 package com.github.kayjamlang.backend.tree;
 
 import com.github.kayjamlang.core.KayJamFile;
-import com.github.kayjamlang.core.containers.FunctionContainer;
+import com.github.kayjamlang.core.statements.FunctionStatement;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.expressions.loops.*;
 
@@ -45,15 +45,12 @@ public abstract class KayJamExpressionVisitor<T> {
             return visitForExpression((ForExpression) expression);
         }else if(expression instanceof WhileExpression) {
             return visitWhileExpression((WhileExpression) expression);
-        }else if(expression instanceof FunctionContainer) {
-            return visitFunctionContainer((FunctionContainer) expression);
         }
 
 
         throw new IllegalStateException("Not implemented yet: "+expression.getClass().getSimpleName());
     }
 
-    public abstract T visitKayJamFile(KayJamFile file);
     public abstract T visitAccessExpression(AccessExpression expression);
     public abstract T visitArrayExpression(ArrayExpression expression);
     public abstract T visitAssertNullExpression(AssertNullExpression expression);
@@ -73,6 +70,4 @@ public abstract class KayJamExpressionVisitor<T> {
     public abstract T visitVariableLinkExpression(VariableLinkExpression expression);
     public abstract T visitForExpression(ForExpression expression);
     public abstract T visitWhileExpression(WhileExpression expression);
-
-    public abstract T visitFunctionContainer(FunctionContainer expression);
 }

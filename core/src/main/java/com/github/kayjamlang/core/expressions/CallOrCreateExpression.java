@@ -28,7 +28,7 @@ public class CallOrCreateExpression extends Expression {
      * @param line Start line
      */
     public CallOrCreateExpression(String name, List<Expression> arguments, int line){
-        super(AccessType.NONE, line);
+        super(line);
         this.name = name;
         this.arguments = arguments;
     }

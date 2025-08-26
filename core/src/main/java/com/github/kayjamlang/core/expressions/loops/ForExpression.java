@@ -30,7 +30,7 @@ public class ForExpression extends Expression {
      * @param line Line for start
      */
     public ForExpression(String variableName, Expression range, Expression body, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.variableName = variableName;
         this.range = range;
         this.body = body;

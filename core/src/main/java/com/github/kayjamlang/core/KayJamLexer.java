@@ -29,7 +29,7 @@ public class KayJamLexer {
             return;
         }
 
-        if (input.length() == 0) {
+        if (input.isEmpty()) {
             finished = true;
             return;
         }
@@ -37,11 +37,11 @@ public class KayJamLexer {
         fixNewLine();
         ignoreWhiteSpaces();
 
-        if (findNextToken()) {
-            while (token.type==Token.Type.TK_NEW_LINE||token.type==Token.Type.COMMENT){
+        if (findNextToken() && token.type != Token.Type.EOF) {
+            while (token.type == Token.Type.TK_NEW_LINE || token.type == Token.Type.COMMENT) {
                 line++;
 
-                if (input.length() == 0) {
+                if (input.isEmpty()) {
                     finished = true;
                     return;
                 }
@@ -49,12 +49,14 @@ public class KayJamLexer {
                 ignoreWhiteSpaces();
                 findNextToken();
             }
+
             return;
         }
 
         finished = true;
+        token = new Token(Token.Type.EOF, "");
 
-        if (input.length() > 0) {
+        if (!input.isEmpty()) {
             errorMessage = "Unexpected symbol: '" + input.charAt(0) + "'";
         }
     }
@@ -64,7 +66,7 @@ public class KayJamLexer {
 
         while (blankChars.contains(input.charAt(charsToDelete))) {
             charsToDelete++;
-            if(input.toString().length()==charsToDelete)
+            if (input.toString().length() == charsToDelete)
                 break;
         }
 
@@ -77,7 +79,7 @@ public class KayJamLexer {
         input = new StringBuilder(input.toString().replace('\r', ' '));
     }
 
-    public int getLine(){
+    public int getLine() {
         return line;
     }
 

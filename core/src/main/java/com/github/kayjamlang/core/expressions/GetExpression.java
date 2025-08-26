@@ -18,7 +18,7 @@ public class GetExpression extends Expression {
      * @param line Start line
      */
     public GetExpression(Expression root, Expression value, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.root = root;
         this.value = value;
     }

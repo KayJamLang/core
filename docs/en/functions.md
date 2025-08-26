@@ -69,7 +69,7 @@ Can you use KayJam?
 > ``String::charAt(string source, int position): string``
 
 #### Description
-The functionContainer returns the character at the specified position.
+The functionStatement returns the character at the specified position.
 
 #### Parameters
 `source` - any string
@@ -90,7 +90,7 @@ J
 > ``String::replace(string source, any search, any replaceValue): string``
 
 #### Description
-The functionContainer returns a string with the replaced value.
+The functionStatement returns a string with the replaced value.
 
 #### Parameters
 `source` - any string

@@ -13,7 +13,7 @@ public class AssertNullExpression extends Expression {
      * @param line Start line
      */
     public AssertNullExpression(Expression expression, int line) {
-        super(AccessType.NONE, line);
+        super(line);
 
         this.expression = expression;
     }

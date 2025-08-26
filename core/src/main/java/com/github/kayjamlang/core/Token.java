@@ -72,7 +72,8 @@ public class Token {
 
         TK_NOT ("!"),
         TK_ASSIGN ("="),
-        TK_ACCESS ("\\.");
+        TK_ACCESS ("\\."),
+        EOF ("$");
 
         private final Pattern pattern;
 

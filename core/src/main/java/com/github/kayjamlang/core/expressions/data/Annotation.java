@@ -14,11 +14,17 @@ public class Annotation {
     public final ValueExpression value;
 
     /**
+     * Line in code
+     */
+    public final int line;
+
+    /**
      * Creates annotation without value
      * @param name Name of annotation
      */
-    public Annotation(String name) {
+    public Annotation(String name, int line) {
         this.name = name;
+        this.line = line;
         this.value = null;
     }
 
@@ -27,8 +33,9 @@ public class Annotation {
      * @param name Name of annotation
      * @param value Value in annotation
      */
-    public Annotation(String name, ValueExpression value) {
+    public Annotation(String name, ValueExpression value, int line) {
         this.name = name;
         this.value = value;
+        this.line = line;
     }
 }

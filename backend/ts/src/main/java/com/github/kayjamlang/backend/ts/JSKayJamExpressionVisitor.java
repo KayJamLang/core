@@ -2,9 +2,9 @@ package com.github.kayjamlang.backend.ts;
 
 import com.github.kayjamlang.backend.tree.KayJamExpressionVisitor;
 import com.github.kayjamlang.core.KayJamFile;
-import com.github.kayjamlang.core.containers.ClassContainer;
-import com.github.kayjamlang.core.containers.FunctionContainer;
-import com.github.kayjamlang.core.containers.ObjectContainer;
+import com.github.kayjamlang.core.statements.ClassStatement;
+import com.github.kayjamlang.core.statements.FunctionStatement;
+import com.github.kayjamlang.core.statements.ObjectStatement;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.expressions.loops.ForExpression;
 import com.github.kayjamlang.core.expressions.loops.WhileExpression;
@@ -61,11 +61,11 @@ public class JSKayJamExpressionVisitor extends KayJamExpressionVisitor<String> {
 //            result.append("}=").append().append(";");
 //        }
 
-        for (Map.Entry<String, ClassContainer> entry : file.classes.entrySet()) {
-            ClassContainer classContainer = entry.getValue();
+        for (Map.Entry<String, ClassStatement> entry : file.classes.entrySet()) {
+            ClassStatement classStatement = entry.getValue();
             result.append(jsNamespace)
                     .append(".")
-                    .append(normalizeNamespace(classContainer.name))
+                    .append(normalizeNamespace(classStatement.name))
                     .append("=function ")
                     .append(normalizeNamespace(entry.getKey()));
 
@@ -77,12 +77,12 @@ public class JSKayJamExpressionVisitor extends KayJamExpressionVisitor<String> {
 
             result.append("};");
 
-            if(classContainer instanceof ObjectContainer) {
-                ObjectContainer objectContainer = (ObjectContainer) classContainer;
+            if(classStatement instanceof ObjectStatement) {
+                ObjectStatement objectContainer = (ObjectStatement) classStatement;
                 for (Map.Entry<String, Expression> constant: objectContainer.constants.entrySet()){
                     result.append(jsNamespace)
                             .append(".")
-                            .append(normalizeNamespace(classContainer.name))
+                            .append(normalizeNamespace(classStatement.name))
                             .append(".")
                             .append(constant.getKey())
                             .append("=")
@@ -276,7 +276,7 @@ public class JSKayJamExpressionVisitor extends KayJamExpressionVisitor<String> {
     }
 
     @Override
-    public String visitFunctionContainer(FunctionContainer expression) {
+    public String visitFunctionContainer(FunctionStatement expression) {
         StringBuilder result = new StringBuilder("const " + expression.name + " = () => {");
         for (Expression child : expression.children) {
             result.append(visit(child)).append(";");

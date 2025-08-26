@@ -11,7 +11,7 @@ public class VariableLinkTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("test");
+        Expression expression = TestsUtils.parseExpression("test");
 
         assertNotNull(expression);
         assertSame(VariableLinkExpression.class, expression.getClass());

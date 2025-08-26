@@ -1,10 +1,7 @@
 package com.github.kayjamlang.tests.expressions.access;
 
 import com.github.kayjamlang.core.expressions.*;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,7 +10,7 @@ public class AccessExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("getRoot().child");
+        Expression expression = TestsUtils.parseExpression("getRoot().child");
 
         assertNotNull(expression);
         assertSame(AccessExpression.class, expression.getClass());
@@ -33,7 +30,7 @@ public class AccessExpressionTest {
 
     @Test
     public void withOperations() throws Exception {
-        Expression expression = TestsUtils.parse("getRoot().child+123");
+        Expression expression = TestsUtils.parseExpression("getRoot().child+123");
 
         assertNotNull(expression);
         assertSame(OperationExpression.class, expression.getClass());
@@ -56,7 +53,7 @@ public class AccessExpressionTest {
 
     @Test
     public void big() throws Exception {
-        Expression expression = TestsUtils.parse("print(a()\n" +
+        Expression expression = TestsUtils.parseExpression("print(a()\n" +
                 ".b(c().d(\"test\")).e())");
 
         assertNotNull(expression);

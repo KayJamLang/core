@@ -1,12 +1,9 @@
 package com.github.kayjamlang.tests.expressions;
 
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.loops.WhileExpression;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,7 +12,7 @@ public class WhileExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("while(false) true");
+        Expression expression = TestsUtils.parseExpression("while(false) true");
 
         assertNotNull(expression);
         assertSame(WhileExpression.class, expression.getClass());

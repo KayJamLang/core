@@ -3,6 +3,7 @@ package com.github.kayjamlang.backend.jvm;
 import com.github.kayjamlang.backend.IBackendOptions;
 import com.github.kayjamlang.backend.IBackendCompiler;
 import com.github.kayjamlang.backend.IOptions;
+import com.github.kayjamlang.backend.jvm.generators.JVMCodeGenerator;
 import com.github.kayjamlang.backend.tree.KayJamFileTree;
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
@@ -25,23 +26,22 @@ public class JVMBackendCompiler implements IBackendCompiler {
 
     @Override
     public void compile(IOptions options) throws KayJamLexerException, KayJamParserException, IOException {
+        JVMCodeGenerator codeGenerator = new JVMCodeGenerator();
         List<KayJamFile> files = KayJamFileTree.loadFilesFromPath(options.getInputDir().toPath());
         for (KayJamFile file : files) {
-            JVMKayJamExpressionVisitor visitor = new JVMKayJamExpressionVisitor();
-            visitor.visitKayJamFile(file);
-            for (Map.Entry<String, ClassWriter> entry : visitor.getClasses().entrySet()) {
+            for (Map.Entry<String, byte[]> entry : codeGenerator.generate(file).entrySet()) {
                 File outputFile = getFile(options, entry);
 
                 if (outputFile.createNewFile()) {
                     FileOutputStream fos = new FileOutputStream(outputFile);
-                    fos.write(entry.getValue().toByteArray());
+                    fos.write(entry.getValue());
                     fos.close();
                 }
             }
         }
     }
 
-    private static File getFile(IOptions options, Map.Entry<String, ClassWriter> entry) throws IOException {
+    private static File getFile(IOptions options, Map.Entry<String, byte[]> entry) throws IOException {
         File outputFile = new File(options.getOutputDir(), "./" + entry.getKey() + ".class");
         if (outputFile.exists()) {
             if (!outputFile.delete()) {

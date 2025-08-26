@@ -3,7 +3,7 @@ package com.github.kayjamlang.backend.tree;
 import com.github.kayjamlang.backend.utils.FileUtils;
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.core.parser.KayJamParser;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
 import com.github.kayjamlang.core.exceptions.KayJamParserException;
 

@@ -13,7 +13,7 @@ public class VariableLinkExpression extends Expression {
      * @param line Start line
      */
     public VariableLinkExpression(String name, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.name = name;
     }
 

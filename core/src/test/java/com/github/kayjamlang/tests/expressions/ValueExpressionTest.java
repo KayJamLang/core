@@ -1,12 +1,9 @@
 package com.github.kayjamlang.tests.expressions;
 
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.expressions.OperationExpression;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,7 +12,7 @@ public class ValueExpressionTest {
 
     @Test
     public void doubleValue() throws Exception {
-        Expression expression = TestsUtils.parse("12.4");
+        Expression expression = TestsUtils.parseExpression("12.4");
 
         assertNotNull(expression);
         assertSame(ValueExpression.class, expression.getClass());
@@ -26,7 +23,7 @@ public class ValueExpressionTest {
 
     @Test
     public void intValue() throws Exception {
-        Expression expression = TestsUtils.parse("12345");
+        Expression expression = TestsUtils.parseExpression("12345");
 
         assertNotNull(expression);
         assertSame(ValueExpression.class, expression.getClass());
@@ -37,7 +34,7 @@ public class ValueExpressionTest {
 
     @Test
     public void longValue() throws Exception {
-        Expression expression = TestsUtils.parse("123L");
+        Expression expression = TestsUtils.parseExpression("123L");
 
         assertNotNull(expression);
         assertSame(ValueExpression.class, expression.getClass());
@@ -48,7 +45,7 @@ public class ValueExpressionTest {
 
     @Test
     public void negativeNumberValue() throws Exception {
-        Expression expression = TestsUtils.parse("-12345");
+        Expression expression = TestsUtils.parseExpression("-12345");
 
         assertNotNull(expression);
         assertSame(OperationExpression.class, expression.getClass());
@@ -66,7 +63,7 @@ public class ValueExpressionTest {
 
     @Test
     public void stringValue() throws Exception {
-        Expression expression = TestsUtils.parse("\"test\"");
+        Expression expression = TestsUtils.parseExpression("\"test\"");
 
         assertNotNull(expression);
         assertSame(ValueExpression.class, expression.getClass());
@@ -77,7 +74,7 @@ public class ValueExpressionTest {
 
     @Test
     public void nullValue() throws Exception {
-        Expression expression = TestsUtils.parse("null");
+        Expression expression = TestsUtils.parseExpression("null");
 
         assertNotNull(expression);
         assertSame(ValueExpression.class, expression.getClass());

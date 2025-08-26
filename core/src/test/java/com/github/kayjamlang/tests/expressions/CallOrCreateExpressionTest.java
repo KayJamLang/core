@@ -1,12 +1,8 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
-import com.github.kayjamlang.core.expressions.CallOrCreateExpression;
-import com.github.kayjamlang.core.expressions.ValueExpression;
+import com.github.kayjamlang.core.containers.ContainerExpression;
+import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,7 +11,7 @@ public class CallOrCreateExpressionTest {
 
     @Test
     public void oneArgument() throws Exception {
-        Expression expression = TestsUtils.parse("concat(2021)");
+        Expression expression = TestsUtils.parseExpression("concat(2021)");
 
         assertNotNull(expression);
         assertSame(CallOrCreateExpression.class, expression.getClass());
@@ -33,7 +29,7 @@ public class CallOrCreateExpressionTest {
 
     @Test
     public void twoArgs() throws Exception {
-        Expression expression = TestsUtils.parse("concat(2021,\"year\")");
+        Expression expression = TestsUtils.parseExpression("concat(2021,\"year\")");
 
         assertNotNull(expression);
         assertSame(CallOrCreateExpression.class, expression.getClass());
@@ -58,7 +54,7 @@ public class CallOrCreateExpressionTest {
 
     @Test
     public void noArguments() throws Exception {
-        Expression expression = TestsUtils.parse("concat()");
+        Expression expression = TestsUtils.parseExpression("concat()");
 
         assertNotNull(expression);
         assertSame(CallOrCreateExpression.class, expression.getClass());
@@ -66,5 +62,45 @@ public class CallOrCreateExpressionTest {
         CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) expression;
         assertEquals("concat", callOrCreateExpression.name);
         assertEquals(0, callOrCreateExpression.arguments.size());
+    }
+
+    @Test
+    public void lambdaArgument() throws Exception {
+        Expression expression = TestsUtils.parseExpression("thread -> 1");
+
+        assertNotNull(expression);
+        assertSame(CallOrCreateExpression.class, expression.getClass());
+
+        CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) expression;
+        assertEquals("thread", callOrCreateExpression.name);
+        assertEquals(1, callOrCreateExpression.arguments.size());
+
+        Expression firstArgument = callOrCreateExpression.arguments.get(0);
+        assertSame(FunctionRefExpression.class, firstArgument.getClass());
+
+        FunctionRefExpression ref = (FunctionRefExpression) firstArgument;
+        assertEquals(ValueExpression.class, ref.expression.getClass());
+    }
+
+    @Test
+    public void inAccessShortLambdaArgument() throws Exception {
+        Expression expression = TestsUtils.parseExpression("threading.thread {}");
+
+        assertNotNull(expression);
+        assertSame(AccessExpression.class, expression.getClass());
+
+        AccessExpression accessExpression = (AccessExpression) expression;
+        assertSame(VariableLinkExpression.class, accessExpression.root.getClass());
+        assertSame(CallOrCreateExpression.class, accessExpression.child.getClass());
+
+        CallOrCreateExpression callOrCreateExpression = (CallOrCreateExpression) accessExpression.child;
+        assertEquals("thread", callOrCreateExpression.name);
+        assertEquals(1, callOrCreateExpression.arguments.size());
+
+        Expression firstArgument = callOrCreateExpression.arguments.get(0);
+        assertSame(FunctionRefExpression.class, firstArgument.getClass());
+
+        FunctionRefExpression ref = (FunctionRefExpression) firstArgument;
+        assertEquals(ContainerExpression.class, ref.expression.getClass());
     }
 }

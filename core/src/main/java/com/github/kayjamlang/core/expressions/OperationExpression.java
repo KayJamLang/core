@@ -26,7 +26,7 @@ public class OperationExpression extends Expression {
      * @param line Start line
      */
     public OperationExpression(Expression left, Expression right, Operation operation, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.left = left;
         this.right = right;
         this.operation = operation;

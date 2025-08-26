@@ -34,7 +34,7 @@ public class FunctionRefExpression extends Expression {
      */
     public FunctionRefExpression(List<Argument> arguments, Expression expression, Type typeOfReturn,
                                  int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.expression = expression;
         this.typeOfReturn = typeOfReturn;
         this.arguments = arguments;

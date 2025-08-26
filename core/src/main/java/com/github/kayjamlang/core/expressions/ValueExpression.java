@@ -12,7 +12,7 @@ public class ValueExpression extends Expression {
      * @param value Value
      */
     public ValueExpression(Object value) {
-        super(AccessType.NONE, -1);
+        super(-1);
         this.value = value;
     }
 

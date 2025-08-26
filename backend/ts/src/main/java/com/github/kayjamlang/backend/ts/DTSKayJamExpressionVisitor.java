@@ -2,9 +2,9 @@ package com.github.kayjamlang.backend.ts;
 
 import com.github.kayjamlang.backend.tree.KayJamExpressionVisitor;
 import com.github.kayjamlang.core.KayJamFile;
-import com.github.kayjamlang.core.containers.ClassContainer;
-import com.github.kayjamlang.core.containers.FunctionContainer;
-import com.github.kayjamlang.core.containers.ObjectContainer;
+import com.github.kayjamlang.core.statements.FunctionStatement;
+import com.github.kayjamlang.core.statements.ClassStatement;
+import com.github.kayjamlang.core.statements.ObjectStatement;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.expressions.data.Operation;
 import com.github.kayjamlang.core.expressions.loops.ForExpression;
@@ -42,13 +42,13 @@ public class DTSKayJamExpressionVisitor extends KayJamExpressionVisitor<String> 
             result.append(constant.getKey()).append(":").append(visit(constant.getValue())).append(";");
         }
 
-        for (Map.Entry<String, ClassContainer> entry : file.classes.entrySet()) {
-            ClassContainer classContainer = entry.getValue();
-            result.append(normalizeNamespace(classContainer.name))
+        for (Map.Entry<String, ClassStatement> entry : file.classes.entrySet()) {
+            ClassStatement classStatement = entry.getValue();
+            result.append(normalizeNamespace(classStatement.name))
                     .append(": {");
 
-            if (classContainer instanceof ObjectContainer) {
-                ObjectContainer objectContainer = (ObjectContainer) classContainer;
+            if (classStatement instanceof ObjectStatement) {
+                ObjectStatement objectContainer = (ObjectStatement) classStatement;
                 for (Map.Entry<String, Expression> constant : objectContainer.constants.entrySet()) {
                     result.append(constant.getKey()).append(":").append(visit(constant.getValue())).append(";");
                 }
@@ -194,7 +194,7 @@ public class DTSKayJamExpressionVisitor extends KayJamExpressionVisitor<String> 
     }
 
     @Override
-    public String visitFunctionContainer(FunctionContainer expression) {
+    public String visitFunctionContainer(FunctionStatement expression) {
         StringBuilder result = new StringBuilder("const " + expression.name + " = () => {");
         for (Expression child : expression.children) {
             result.append(visit(child)).append(";");

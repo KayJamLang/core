@@ -13,7 +13,7 @@ public class ArrayExpressionGetTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("test[2005]");
+        Expression expression = TestsUtils.parseExpression("test[2005]");
 
         assertNotNull(expression);
         assertSame(GetExpression.class, expression.getClass());
@@ -31,7 +31,7 @@ public class ArrayExpressionGetTest {
 
     @Test
     public void more() throws Exception {
-        Expression expression = TestsUtils.parse("test[2005][2006]");
+        Expression expression = TestsUtils.parseExpression("test[2005][2006]");
 
         assertNotNull(expression);
         assertSame(GetExpression.class, expression.getClass());

@@ -14,7 +14,7 @@ public class LongOperationTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("2 + 4 * 8");
+        Expression expression = TestsUtils.parseExpression("2 + 4 * 8");
 
         assertNotNull(expression);
         assertSame(OperationExpression.class, expression.getClass());

@@ -25,7 +25,7 @@ public class IfExpression extends Expression {
      * @param line      Start line
      */
     public IfExpression(Expression condition, Expression ifTrue, Expression ifFalse, int line) {
-        super(AccessType.NONE, line);
+        super(line);
 
         this.condition = condition;
         this.ifTrue = ifTrue;

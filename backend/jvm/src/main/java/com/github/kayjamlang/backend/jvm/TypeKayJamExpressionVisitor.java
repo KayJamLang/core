@@ -3,27 +3,12 @@ package com.github.kayjamlang.backend.jvm;
 import com.github.kayjamlang.backend.jvm.types.*;
 import com.github.kayjamlang.backend.tree.KayJamExpressionVisitor;
 import com.github.kayjamlang.core.KayJamFile;
-import com.github.kayjamlang.core.containers.ClassContainer;
-import com.github.kayjamlang.core.containers.FunctionContainer;
-import com.github.kayjamlang.core.containers.ObjectContainer;
+import com.github.kayjamlang.core.statements.FunctionStatement;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.expressions.loops.ForExpression;
 import com.github.kayjamlang.core.expressions.loops.WhileExpression;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.objectweb.asm.Opcodes.*;
 
 public class TypeKayJamExpressionVisitor extends KayJamExpressionVisitor<JVMType> {
-    @Override
-    public JVMType visitKayJamFile(KayJamFile file) {
-        return null;
-    }
 
     @Override
     public JVMType visitAccessExpression(AccessExpression expression) {
@@ -129,11 +114,6 @@ public class TypeKayJamExpressionVisitor extends KayJamExpressionVisitor<JVMType
 
     @Override
     public JVMType visitWhileExpression(WhileExpression expression) {
-        return null;
-    }
-
-    @Override
-    public JVMType visitFunctionContainer(FunctionContainer expression) {
         return null;
     }
 }

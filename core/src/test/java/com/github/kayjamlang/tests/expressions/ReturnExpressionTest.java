@@ -12,7 +12,7 @@ public class ReturnExpressionTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("return 2005");
+        Expression expression = TestsUtils.parseExpression("return 2005");
 
         assertNotNull(expression);
         assertSame(ReturnExpression.class, expression.getClass());

@@ -13,7 +13,7 @@ public class NegationExpression extends Expression {
      * @param line Start line
      */
     public NegationExpression(Expression expression, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.expression = expression;
     }
 

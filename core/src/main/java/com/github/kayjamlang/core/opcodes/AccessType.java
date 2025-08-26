@@ -4,5 +4,5 @@ public enum AccessType {
     NONE,
     PUBLIC,
     PRIVATE,
-    COMPANION,
+    INTERNAL,
 }

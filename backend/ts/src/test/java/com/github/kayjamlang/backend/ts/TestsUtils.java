@@ -2,7 +2,7 @@ package com.github.kayjamlang.backend.ts;
 
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.core.parser.KayJamParser;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
 import com.github.kayjamlang.core.exceptions.KayJamParserException;
 import com.github.kayjamlang.core.expressions.Expression;

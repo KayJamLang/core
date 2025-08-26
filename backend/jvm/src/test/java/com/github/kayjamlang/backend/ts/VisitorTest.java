@@ -1,16 +1,12 @@
 package com.github.kayjamlang.backend.ts;
 
-import com.github.kayjamlang.backend.jvm.JVMKayJamExpressionVisitor;
-import com.github.kayjamlang.core.KayJamParser;
+import com.github.kayjamlang.backend.jvm.generators.JVMCodeGenerator;
+import com.github.kayjamlang.core.parser.KayJamParser;
 import com.github.kayjamlang.core.exceptions.KayJamLexerException;
 import com.github.kayjamlang.core.exceptions.KayJamParserException;
-import com.github.kayjamlang.core.expressions.AccessExpression;
-import com.github.kayjamlang.core.expressions.VariableLinkExpression;
 import org.junit.Test;
-import org.objectweb.asm.ClassWriter;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -27,15 +23,24 @@ public class VisitorTest {
                 "    const ROLE_CAN_EDIT_THREAD = 1 << 2;\n" +
                 "    const ROLE_CAN_CHANGE_AVATAR = 1 << 3;\n" +
                 "    const ROLE_CAN_DELETE_POSTS = 1 << 4;\n" +
-                "    const ROLE_CAN_MANAGE_INVITES = 1 << 5;\n" +
+                "    private const ROLE_CAN_MANAGE_INVITES = 1 << 5;\n" +
+                "       " +
+                "    prop someVariable = 1;" +
+                "    private prop somePrivateVariable = 2;" +
+                "    internal prop someInternalVariable = 2;" +
+                "}" +
+                "class Test {" +
+                " const Test = 1;" +
+                " prop tt = 2;" +
+                " fun helloWorld(): void {" +
+                "   return 123;" +
+                " }" +
                 "}");
 
         parser.fillFile();
 
-        JVMKayJamExpressionVisitor visitor = new JVMKayJamExpressionVisitor();
-        visitor.visitKayJamFile(parser.file);
-
-        for (Map.Entry<String, ClassWriter> entry : visitor.getClasses().entrySet()) {
+        JVMCodeGenerator codeGenerator = new JVMCodeGenerator();
+        for (Map.Entry<String, byte[]> entry : codeGenerator.generate(parser.file).entrySet()) {
             File file = new File("out/"+entry.getKey()+".class");
             file.getParentFile().mkdirs();
             if(file.exists()) {
@@ -44,7 +49,7 @@ public class VisitorTest {
 
             if (file.createNewFile()) {
                 FileOutputStream fos = new FileOutputStream(file);
-                fos.write(entry.getValue().toByteArray());
+                fos.write(entry.getValue());
                 fos.close();
             }
         }

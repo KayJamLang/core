@@ -1,15 +1,12 @@
 package com.github.kayjamlang.core.expressions;
 
 import com.github.kayjamlang.core.opcodes.AccessType;
+import com.github.kayjamlang.core.statements.Statement;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Expression implements Cloneable {
-    /**
-     * Type of access
-     */
-    public final AccessType accessType;
+public abstract class Expression extends Statement {
 
     /**
      * Specific data for provider
@@ -17,18 +14,11 @@ public abstract class Expression implements Cloneable {
     public Map<String, Object> data = new HashMap<>();
 
     /**
-     * Expression line
-     */
-    public final int line;
-
-    /**
      * Creates Expression
-     * @param accessType Type of access
      * @param line Expression line
      */
-    protected Expression(AccessType accessType, int line) {
-        this.accessType = accessType;
-        this.line = line;
+    protected Expression(int line) {
+        super(line);
     }
 
     @Override

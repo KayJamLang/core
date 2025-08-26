@@ -42,7 +42,7 @@ var test = "Hello world!";
 var test = 123; // Will throw an error
 
 fun test() {
-    var test = 123; // There will be no error, but the value will not change, it will remain in the functionContainer
+    var test = 123; // There will be no error, but the value will not change, it will remain in the functionStatement
 }
 ```
 
@@ -95,12 +95,12 @@ For example, `!false` will output `true`, and `!true` will output `false`.
 With functions, you don't have to write the same code multiple times.
 You can take out some code and call it when you need it.
 
-To write a functionContainer, write ``fun`` or ``functionContainer`` and the name of the functionContainer.
+To write a functionStatement, write ``fun`` or ``functionStatement`` and the name of the functionStatement.
 Next, open the parenthesis, list the arguments (``type name``) and close the parenthesis.
 Write, by opening the wavy bracket `{`, the code itself.
 
 ```
-functionContainer test(string str) {
+functionStatement test(string str) {
     println(str);
 }
 
@@ -312,7 +312,7 @@ which can be contained in variables.
 
 To write it, you need to write `->` and, opening a parenthesis,
 list the arguments. Then you can write any construction,
-or open the container and write the code in it.
+or open the containerExpression and write the code in it.
 
 ```
 var lambdaFun = -> (test): any {

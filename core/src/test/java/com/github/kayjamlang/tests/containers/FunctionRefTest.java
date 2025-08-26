@@ -1,13 +1,10 @@
 package com.github.kayjamlang.tests.containers;
 
 import com.github.kayjamlang.core.expressions.Expression;
-import com.github.kayjamlang.core.KayJamLexer;
-import com.github.kayjamlang.core.KayJamParser;
 import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.ValueExpression;
 import com.github.kayjamlang.core.expressions.FunctionRefExpression;
 import com.github.kayjamlang.tests.TestsUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,7 +13,7 @@ public class FunctionRefTest {
 
     @Test
     public void test() throws Exception {
-        Expression expression = TestsUtils.parse("-> (test) true");
+        Expression expression = TestsUtils.parseExpression("-> (test) true");
 
         assertNotNull(expression);
         assertSame(FunctionRefExpression.class, expression.getClass());
@@ -33,7 +30,7 @@ public class FunctionRefTest {
 
     @Test
     public void zeroArguments() throws Exception {
-        Expression expression = TestsUtils.parse("-> true");
+        Expression expression = TestsUtils.parseExpression("-> true");
 
         assertNotNull(expression);
         assertSame(FunctionRefExpression.class, expression.getClass());

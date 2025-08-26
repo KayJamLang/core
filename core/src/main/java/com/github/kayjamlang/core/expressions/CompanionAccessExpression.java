@@ -19,7 +19,7 @@ public class CompanionAccessExpression extends Expression {
      * @param line Start line
      */
     public CompanionAccessExpression(String className, Expression child, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.className = className;
         this.child = child;
     }

@@ -16,7 +16,7 @@ public class ArrayExpression extends Expression {
      * @param line   Start line
      */
     public ArrayExpression(List<Expression> values, int line) {
-        super(AccessType.NONE, line);
+        super(line);
         this.values = values;
     }
 
