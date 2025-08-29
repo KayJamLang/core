@@ -22,12 +22,6 @@ public class Type implements Cloneable {
     //Class
     public final String name;
 
-    /**
-     * @deprecated removed in newer versions
-     */
-    @Deprecated
-    public final Class<?> typeClass = null;
-
     public final boolean primitive;
     public final boolean onlyForFunction;
     public boolean nullable = false;

@@ -1,14 +1,22 @@
 package com.github.kayjamlang.backend.jvm;
 
 import com.github.kayjamlang.backend.jvm.types.*;
-import com.github.kayjamlang.backend.tree.KayJamExpressionVisitor;
-import com.github.kayjamlang.core.KayJamFile;
-import com.github.kayjamlang.core.statements.FunctionStatement;
+import com.github.kayjamlang.backend.tree.KayJamStatementVisitor;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.core.expressions.loops.ForExpression;
 import com.github.kayjamlang.core.expressions.loops.WhileExpression;
 
-public class TypeKayJamExpressionVisitor extends KayJamExpressionVisitor<JVMType> {
+public class TypeKayJamStatementVisitor extends KayJamStatementVisitor<JVMType> {
+    private final SymbolRegistry symbolRegistry;
+    private final ClassJVMType currentSignature;
+
+    public TypeKayJamStatementVisitor(
+            SymbolRegistry symbolRegistry,
+            ClassJVMType currentSignature
+    ) {
+        this.symbolRegistry = symbolRegistry;
+        this.currentSignature = currentSignature;
+    }
 
     @Override
     public JVMType visitAccessExpression(AccessExpression expression) {
@@ -85,12 +93,12 @@ public class TypeKayJamExpressionVisitor extends KayJamExpressionVisitor<JVMType
         if (expression.value instanceof String) {
             return StringJVMType.INSTANCE;
         } else if (expression.value instanceof Integer) {
-            return IntJVMType.INT;
+            return IntJVMType.INSTANCE;
         } else if (expression.value instanceof Long) {
             return LongJVMType.INSTANCE;
         } else if (expression.value instanceof Double) {
             return DoubleJVMType.INSTANCE;
-        }else if (expression.value instanceof BooleanJVMType) {
+        } else if (expression.value instanceof Boolean) {
             return BooleanJVMType.INSTANCE;
         }
 

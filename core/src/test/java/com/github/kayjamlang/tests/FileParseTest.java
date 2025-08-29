@@ -14,7 +14,7 @@ public class FileParseTest {
     @Test(timeout = 5000)
     public void parse() throws KayJamLexerException, KayJamParserException {
         KayJamParser parser = TestsUtils.getParser("namespace \\test\\y;" +
-                "use Test\\Test from \"file\";" +
+                "use Test\\Test;" +
                 "const test = 1;" +
                 "println(123);");
 
@@ -24,9 +24,7 @@ public class FileParseTest {
         assertEquals("\\test\\y", file.namespace);
 
         assertEquals(1, file.usages.size());
-        assertEquals("file", file.usages.get(0).from);
-        assertEquals(1, file.usages.get(0).required.size());
-        assertEquals("\\Test\\Test", file.usages.get(0).required.get(0));
+        assertEquals("\\Test\\Test", file.usages.getFirst().usedImport.name);
 
         assertEquals(1, file.constants.size());
         assertEquals("test", file.constants.getFirst().name);

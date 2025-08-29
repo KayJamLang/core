@@ -4,5 +4,6 @@ public enum AccessType {
     NONE,
     PUBLIC,
     PRIVATE,
+    PROTECTED,
     INTERNAL,
 }

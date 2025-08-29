@@ -4,7 +4,7 @@ import com.github.kayjamlang.core.expressions.data.Operation;
 import org.objectweb.asm.Opcodes;
 
 public class IntJVMType extends NumberJVMType {
-    public static final IntJVMType INT = new IntJVMType();
+    public static final IntJVMType INSTANCE = new IntJVMType();
 
     @Override
     public String getDescriptor() {

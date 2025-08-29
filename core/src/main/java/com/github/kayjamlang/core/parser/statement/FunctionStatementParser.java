@@ -34,8 +34,6 @@ public class FunctionStatementParser {
         }
 
         List<Statement> body = parser.parseStatements();
-        parser.requireToken(Token.Type.CLOSE_BRACKET);
-
         return new FunctionStatement(name, body, accessType, arguments, returnType, annotations, line);
     }
 }

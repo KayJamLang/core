@@ -17,4 +17,3 @@
 Теперь вы знакомы с основными типами KayJam.
 Также вы можете ознакомиться с синтаксисом KayJam на 
 [этой](https://github.com/KayJamLang/core/blob/main/docs/ru/syntax.md) странице.
-странице.

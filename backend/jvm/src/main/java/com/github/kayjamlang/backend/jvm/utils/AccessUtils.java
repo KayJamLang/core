@@ -8,6 +8,7 @@ public class AccessUtils {
         return switch (accessType) {
             case INTERNAL -> 0;
             case PRIVATE -> Opcodes.ACC_PRIVATE;
+            case PROTECTED -> Opcodes.ACC_PROTECTED;
             case PUBLIC, NONE -> Opcodes.ACC_PUBLIC;
         };
     }

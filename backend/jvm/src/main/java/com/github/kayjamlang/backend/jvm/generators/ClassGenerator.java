@@ -1,33 +1,52 @@
 package com.github.kayjamlang.backend.jvm.generators;
 
-import com.github.kayjamlang.backend.jvm.TypeKayJamExpressionVisitor;
+import com.github.kayjamlang.backend.jvm.SymbolRegistry;
+import com.github.kayjamlang.backend.jvm.TypeKayJamStatementVisitor;
+import com.github.kayjamlang.backend.jvm.types.ClassJVMType;
 import com.github.kayjamlang.backend.jvm.types.JVMType;
 import com.github.kayjamlang.backend.jvm.utils.AccessUtils;
-import com.github.kayjamlang.backend.jvm.utils.JVMNameUtils;
+import com.github.kayjamlang.backend.jvm.utils.NamesUtils;
+import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.expressions.data.Constant;
 import com.github.kayjamlang.core.expressions.data.Property;
 import com.github.kayjamlang.core.statements.ClassStatement;
 import com.github.kayjamlang.core.statements.FunctionStatement;
 import com.github.kayjamlang.core.statements.ObjectStatement;
+import com.github.kayjamlang.core.statements.Statement;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 
-// Новый класс
 public class ClassGenerator {
+    private final KayJamFile contextFile;
     private final ClassStatement classStatement;
     private final String packageName;
-    private final TypeKayJamExpressionVisitor typeVisitor = new TypeKayJamExpressionVisitor();
+    private final SymbolRegistry symbolRegistry;
+    private final TypeKayJamStatementVisitor typeVisitor;
+    private final String classFQN;
+    private final ClassJVMType signatureType;
 
-    public ClassGenerator(ClassStatement classStatement, String packageName) {
+    public ClassGenerator(
+            KayJamFile contextFile,
+            ClassStatement classStatement,
+            String packageName,
+            SymbolRegistry symbolRegistry
+    ) {
+        this.contextFile = contextFile;
         this.classStatement = classStatement;
         this.packageName = packageName;
+        this.symbolRegistry = symbolRegistry;
+        this.classFQN = NamesUtils.getFQNFromNamespaceAndSimpleName(contextFile.namespace, classStatement.name);
+        this.signatureType = symbolRegistry.findClass(classFQN);
+        this.typeVisitor = new TypeKayJamStatementVisitor(symbolRegistry, signatureType);
     }
 
     public ClassWriter generate() {
-        String className = packageName + "/" + JVMNameUtils.normalizeClassName(classStatement.name);
-        String superClass = "java/lang/Object"; // или из classStatement.extendsClass
+
+
+        String className = packageName + "/" + classStatement.name;
+        String superClass = signatureType.superType == null ? "java/lang/Object" : signatureType.superType.getDescriptor();
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         cw.visit(V1_8, AccessUtils.accessIntByAccessType(classStatement.accessType),
                 className, null, superClass, null);
@@ -55,7 +74,7 @@ public class ClassGenerator {
                     null).visitEnd();
         }
 
-        if(!classStatement.constants.isEmpty() || (isStatic && !classStatement.properties.isEmpty())) {
+        if (!classStatement.constants.isEmpty() || (isStatic && !classStatement.properties.isEmpty())) {
             MethodVisitor clinitVisitor = cw.visitMethod(ACC_STATIC, "<clinit>", "()V",
                     null, null);
             clinitVisitor.visitCode();
@@ -68,7 +87,7 @@ public class ClassGenerator {
                 bodyGenerator.popStack(1);
             }
 
-            if(isStatic) {
+            if (isStatic) {
                 for (Property property : classStatement.properties) {
                     JVMType fieldType = typeVisitor.visit(property.value);
                     bodyGenerator.visit(property.value);
@@ -95,13 +114,15 @@ public class ClassGenerator {
             MethodVisitor clinitVisitor = cw.visitMethod(
                     (isStatic ? ACC_STATIC : 0) | AccessUtils.accessIntByAccessType(func.accessType),
                     func.name,
-                    "()V",
+                    "()" + symbolRegistry.resolveType(func.returnType, contextFile).getDescriptor(),
                     null, null);
             clinitVisitor.visitCode();
 
             MethodBodyGenerator bodyGenerator = new MethodBodyGenerator(clinitVisitor, typeVisitor);
+            for (Statement statement : func.children) {
+                bodyGenerator.visit(statement);
+            }
 
-            clinitVisitor.visitInsn(RETURN);
             clinitVisitor.visitMaxs(bodyGenerator.getMaxStack(), 0);
             clinitVisitor.visitEnd();
         }

@@ -1,4 +1,4 @@
-package com.github.kayjamlang.backend.ts;
+package com.github.kayjamlang.backend.jvm;
 
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.KayJamLexer;

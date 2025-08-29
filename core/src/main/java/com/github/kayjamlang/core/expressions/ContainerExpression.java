@@ -1,6 +1,5 @@
-package com.github.kayjamlang.core.containers;
+package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.statements.FunctionStatement;
 import com.github.kayjamlang.core.statements.Statement;
 

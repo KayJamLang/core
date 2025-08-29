@@ -1,9 +1,19 @@
 package com.github.kayjamlang.backend.jvm.types;
 
+import com.github.kayjamlang.backend.jvm.types.data.ConstInfo;
+import com.github.kayjamlang.backend.jvm.types.data.FunctionInfo;
+import com.github.kayjamlang.backend.jvm.types.data.PropertyInfo;
 import com.github.kayjamlang.core.expressions.data.Operation;
 import org.objectweb.asm.MethodVisitor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class JVMType {
+    public final Map<String, ConstInfo> constants = new HashMap<>();
+    public final Map<String, PropertyInfo> properties = new HashMap<>();
+    public final Map<String, FunctionInfo> functions = new HashMap<>();
+
     public abstract String getDescriptor();
 
     protected abstract JVMType operation(Operation operation, JVMType rightValue);

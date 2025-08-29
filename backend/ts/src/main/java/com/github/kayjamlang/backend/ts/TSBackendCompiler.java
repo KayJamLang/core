@@ -30,8 +30,8 @@ public class TSBackendCompiler implements IBackendCompiler {
         StringBuilder jsOutput = new StringBuilder();
         StringBuilder dtsOutput = new StringBuilder();
         for (KayJamFile file : files) {
-            JSKayJamExpressionVisitor jsVisitor = new JSKayJamExpressionVisitor();
-            DTSKayJamExpressionVisitor dtsVisitor = new DTSKayJamExpressionVisitor();
+            JSKayJamStatementVisitor jsVisitor = new JSKayJamStatementVisitor();
+            DTSKayJamStatementVisitor dtsVisitor = new DTSKayJamStatementVisitor();
 
             jsOutput.append(jsVisitor.visitKayJamFile(file));
             dtsOutput.append(dtsVisitor.visitKayJamFile(file));

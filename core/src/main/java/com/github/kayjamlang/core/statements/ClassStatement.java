@@ -1,6 +1,6 @@
 package com.github.kayjamlang.core.statements;
 
-import com.github.kayjamlang.core.exceptions.KayJamParserException;
+import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.data.Annotation;
 import com.github.kayjamlang.core.expressions.data.Constant;
 import com.github.kayjamlang.core.expressions.data.Property;
@@ -29,14 +29,9 @@ public class ClassStatement extends Statement {
     public final String name;
 
     /**
-     * Name of class parent
+     * Class parents
      */
-    public final String extendsClass;
-
-    /**
-     * Classes implements
-     */
-    public final List<String> implementsClass;
+    public final List<Type> parentClasses;
 
     /**
      * Class constructors
@@ -60,17 +55,14 @@ public class ClassStatement extends Statement {
 
     /**
      * @param name Name of class
-     * @param extendsClass Name of class parent
-     * @param implementsClass Classes implements
+     * @param parentClasses Parents of class
      * @param properties Properties in class
      * @param accessType Access of class
      * @param line Line of start class
-     * @throws KayJamParserException throws on unexpected expression in code
      */
     public ClassStatement(
             String name,
-            String extendsClass,
-            List<String> implementsClass,
+            List<Type> parentClasses,
             List<ConstructorStatement> constructors,
             List<Constant> constants,
             List<Property> properties,
@@ -81,8 +73,7 @@ public class ClassStatement extends Statement {
     )  {
         super(line);
         this.name = name;
-        this.extendsClass = extendsClass;
-        this.implementsClass = implementsClass;
+        this.parentClasses = parentClasses;
         this.accessType = accessType;
         this.functions = functions;
         this.constructors = constructors;

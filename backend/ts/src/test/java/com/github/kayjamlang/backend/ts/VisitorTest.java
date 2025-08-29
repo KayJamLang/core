@@ -24,7 +24,7 @@ public class VisitorTest {
 
         parser.fillFile();
 
-        JSKayJamExpressionVisitor visitor = new JSKayJamExpressionVisitor();
+        JSKayJamStatementVisitor visitor = new JSKayJamStatementVisitor();
         String result = visitor.visitKayJamFile(parser.file);
 
         System.out.println(result);
@@ -32,7 +32,7 @@ public class VisitorTest {
 
     @Test
     public void accessExpressionTest() {
-        JSKayJamExpressionVisitor visitor = new JSKayJamExpressionVisitor();
+        JSKayJamStatementVisitor visitor = new JSKayJamStatementVisitor();
         String result = visitor.visit(
                 new AccessExpression(
                         new VariableLinkExpression("test", 0),
@@ -47,7 +47,7 @@ public class VisitorTest {
 
     @Test
     public void variableLinkExpressionTest() {
-        JSKayJamExpressionVisitor visitor = new JSKayJamExpressionVisitor();
+        JSKayJamStatementVisitor visitor = new JSKayJamStatementVisitor();
         String result = visitor.visit(
                 new VariableLinkExpression("test", 0)
         );

@@ -1,7 +1,5 @@
 package com.github.kayjamlang.core.expressions;
 
-import com.github.kayjamlang.core.opcodes.AccessType;
-
 public class CompanionAccessExpression extends Expression {
     /**
      * Class name with companion

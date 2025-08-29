@@ -1,6 +1,6 @@
 package com.github.kayjamlang.backend.ts;
 
-import com.github.kayjamlang.backend.tree.KayJamExpressionVisitor;
+import com.github.kayjamlang.backend.tree.KayJamStatementVisitor;
 import com.github.kayjamlang.core.KayJamFile;
 import com.github.kayjamlang.core.statements.FunctionStatement;
 import com.github.kayjamlang.core.statements.ClassStatement;
@@ -12,7 +12,7 @@ import com.github.kayjamlang.core.expressions.loops.WhileExpression;
 
 import java.util.Map;
 
-public class DTSKayJamExpressionVisitor extends KayJamExpressionVisitor<String> {
+public class DTSKayJamStatementVisitor extends KayJamStatementVisitor<String> {
     private static String snakeToCamel(String str) {
         str = str.substring(0, 1).toUpperCase() + str.substring(1);
         StringBuilder builder = new StringBuilder(str);

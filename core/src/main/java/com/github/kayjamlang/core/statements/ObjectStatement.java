@@ -1,5 +1,6 @@
 package com.github.kayjamlang.core.statements;
 
+import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.data.Annotation;
 import com.github.kayjamlang.core.expressions.data.Constant;
 import com.github.kayjamlang.core.expressions.data.Property;
@@ -20,8 +21,7 @@ public class ObjectStatement extends ClassStatement {
      */
     public ObjectStatement(
             String name,
-            String extendsClass,
-            List<String> implementsClass,
+            List<Type> parentClasses,
             List<Constant> constants,
             List<Property> properties,
             List<FunctionStatement> functions,
@@ -31,7 +31,7 @@ public class ObjectStatement extends ClassStatement {
     ) {
         super(
                 name,
-                extendsClass, implementsClass,
+                parentClasses,
                 List.of(),
                 constants,
                 properties,

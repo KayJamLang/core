@@ -7,6 +7,7 @@ public enum KayJamParserKeywords {
     FUNCTION("fun"),
     NAMED("named"),
     PUBLIC("public"),
+    PROTECTED("protected"),
     PRIVATE("private"),
     INTERNAL("internal"),
     WHILE("while"),
@@ -27,6 +28,7 @@ public enum KayJamParserKeywords {
     CONSTANT("const"),
     PROPERTY("prop"),
     FROM("from"),
+    TYPEALIAS("typealias"),
 
     ;
 

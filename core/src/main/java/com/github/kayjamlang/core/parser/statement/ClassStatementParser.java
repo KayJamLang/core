@@ -1,6 +1,7 @@
 package com.github.kayjamlang.core.parser.statement;
 
 import com.github.kayjamlang.core.Token;
+import com.github.kayjamlang.core.Type;
 import com.github.kayjamlang.core.expressions.data.Property;
 import com.github.kayjamlang.core.parser.data.PropertyParser;
 import com.github.kayjamlang.core.statements.ConstructorStatement;
@@ -26,18 +27,17 @@ public class ClassStatementParser {
     ) throws KayJamLexerException, KayJamParserException {
         int line = parser.lexer.getLine();
         String name = parser.requireToken(Token.Type.IDENTIFIER).value;
-        String extendsClass = null;
-        List<String> implementsClass = new ArrayList<>();
+        parser.moveAhead();
 
-        while (parser.moveAhead().type != Token.Type.OPEN_BRACKET) {
-            if (parser.currentTokenType() == Token.Type.TK_COMPANION_ACCESS)
-                implementsClass.add(parser.requireToken(Token.Type.IDENTIFIER).value);
-            else if (parser.currentTokenType() == Token.Type.TK_COLON && extendsClass == null)
-                extendsClass = parser.requireToken(Token.Type.IDENTIFIER).value;
-            else
-                throw new KayJamParserException(parser.lexer, "expected open bracket or extends/implements token");
+        List<Type> parentClasses = new ArrayList<>();
+        if (parser.currentTokenType() == Token.Type.TK_COLON) {
+            do {
+                parser.moveAhead();
+                parentClasses.add(parser.parseType(false));
+            } while (parser.currentTokenType() == Token.Type.TK_COMMA);
         }
 
+        parser.requireToken(Token.Type.OPEN_BRACKET, false);
         parser.moveAhead();
 
         List<Constant> constants = new ArrayList<>();
@@ -70,9 +70,10 @@ public class ClassStatementParser {
             }
         }
 
+        parser.moveAhead();
         return new ClassStatement(
                 name,
-                extendsClass, implementsClass,
+                parentClasses,
                 constructors,
                 constants, properties,
                 functions,

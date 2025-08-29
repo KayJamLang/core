@@ -117,7 +117,7 @@ fun test(string str): any {
 }
 
 fun test(string str): int {
-    return str; //Выведет ошибку
+    return str; // Выведет ошибку
 }
 ```
 

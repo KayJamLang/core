@@ -1,6 +1,6 @@
 package com.github.kayjamlang.tests.expressions;
 
-import com.github.kayjamlang.core.containers.ContainerExpression;
+import com.github.kayjamlang.core.expressions.ContainerExpression;
 import com.github.kayjamlang.core.expressions.*;
 import com.github.kayjamlang.tests.TestsUtils;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.github.kayjamlang.tests.containers;
+package com.github.kayjamlang.tests.expressions;
 
 import com.github.kayjamlang.core.expressions.Expression;
 import com.github.kayjamlang.core.Type;
